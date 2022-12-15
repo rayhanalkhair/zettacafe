@@ -1,0 +1,139 @@
+<div class="container">
+  <mat-dialog-content [formGroup]="menuForm">
+    <div class="header">
+      <h1>{{ "menu-management.dialog-title" | translate }}</h1>
+      <a (click)="onClose()"><mat-icon>close</mat-icon></a>
+    </div>
+    <div class="input-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "menu-management.dialog-name" | translate }}</mat-label>
+        <input
+          matInput
+          placeholder="Name"
+          formControlName="recipe_name"
+          placeholder="Ex: Fried Rice"
+        />
+        <mat-error *ngIf="menuForm.controls['recipe_name'].invalid"
+          >Please input the field with correct name!</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="input-wrapper price-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "menu-management.dialog-price" | translate }}</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Ex: 20000"
+          formControlName="price"
+        />
+        <mat-error *ngIf="menuForm.controls['price'].invalid"
+          >Please input the field with correct price!</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{
+          "menu-management.dialog-discount" | translate
+        }}</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Ex: 10"
+          formControlName="discount"
+        />
+        <mat-error *ngIf="menuForm.controls['discount'].invalid"
+          >Please input the field with correct discount!</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="input-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "menu-management.dialog-img" | translate }}</mat-label>
+        <input
+          type="url"
+          matInput
+          placeholder="Ex: https://www.instagram.com/logo.png"
+          formControlName="link_recipe"
+        />
+        <mat-error *ngIf="menuForm.controls['link_recipe'].invalid"
+          >Please input the field with correct image link!</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div formArrayName="ingredients" class="input-wrapper">
+      <div
+        class="ingredient-wrapper"
+        *ngFor="let ingredient of ingredients.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>{{
+            "menu-management.dialog-ingredient" | translate
+          }}</mat-label>
+          <mat-select formControlName="ingredient_id" placeholder="Ex: Salmon">
+            <mat-option
+              *ngFor="let ingredient of allIngredients"
+              [value]="ingredient._id"
+            >
+              {{ ingredient.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="ingredients.controls[i].get('ingredient_id').invalid"
+            >Please select correct ingredient!</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{
+            "menu-management.dialog-stock" | translate
+          }}</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="stock_used"
+            placeholder="Ex: 2"
+          />
+          <mat-error *ngIf="ingredients.controls[i].get('stock_used').invalid"
+            >Please input the field with correct amount!</mat-error
+          >
+        </mat-form-field>
+        <div class="btn-wrapper">
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            *ngIf="ingredients.length > 1"
+            (click)="
+              removeIngredient(i, ingredients.controls[i].value.ingredient_id)
+            "
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addIngredient()"
+      >
+        {{ "menu-management.dialog-add" | translate }}
+      </button>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="onClose()">
+      {{ "menu-management.btn-cancel" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!menuForm.valid"
+      (click)="onSubmit()"
+    >
+      {{ "menu-management.btn-submit" | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,15 @@
+.input-wrapper {
+  margin-bottom: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header a {
+  text-decoration: none;
+  color: #f52112;
+  padding: 5px;
+}

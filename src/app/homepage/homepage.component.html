@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="first-container">
+    <div class="wrapper">
+      <div class="title-wrapper">
+        <p class="title">{{ "home.title" | translate }}</p>
+      </div>
+      <div class="btn-wrapper">
+        <button mat-raised-button color="warn" (click)="onMenu()">
+          {{ "home.btn-menu" | translate }}
+        </button>
+        <button mat-raised-button (click)="onOrder()">
+          {{ "home.btn-order" | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="wrapper">
+      <div class="img-wrapper">
+        <img [src]="oneMenuHighligth?.link_recipe" alt="Menu highligth" />
+      </div>
+    </div>
+  </div>
+  <div class="second-container">
+    <div class="wrapper">
+      <div class="offer-wrapper">
+        <div class="card" *ngFor="let recipe of specialOffer">
+          <div class="img-wrapper">
+            <div class="cart-wrapper">
+              <button
+                (click)="onAddToCart(recipe)"
+                matTooltip="{{ 'home.btn-add' | translate }}"
+              >
+                <mat-icon>add_shopping_cart</mat-icon>
+              </button>
+            </div>
+            <div class="disc-wrapper">
+              <p>{{ recipe.discount }}%</p>
+            </div>
+            <img
+              [src]="recipe.link_recipe"
+              alt="menu {{ recipe.recipe_name }}"
+            />
+          </div>
+          <div class="main-wrapper">
+            <div class="desc-wrapper">
+              <div class="first-desc">
+                {{ recipe.recipe_name }}
+              </div>
+              <div class="second-desc line-through">
+                {{ recipe.price | currency : "Rp. " }}
+              </div>
+            </div>
+            <div class="subdesc-wrapper">
+              {{ recipe.discount_price | currency : "Rp. " }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="button-wrapper">
+        <a (click)="onMenu()">{{ "home.btn-see" | translate }} &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>

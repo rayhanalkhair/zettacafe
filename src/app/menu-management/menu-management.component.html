@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="btn-container">
+      <mat-icon
+        matTooltip="{{ 'menu-management.add-new' | translate }}"
+        (click)="onAdd()"
+        >add_box</mat-icon
+      >
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="name-field">
+          {{ "menu-management.table-name" | translate }}
+          <input
+            matInput
+            [formControl]="filtername"
+            [(ngModel)]="defaultFilter"
+            placeholder="Input name ..."
+          />
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.recipe_name }}
+        </td>
+      </ng-container>
+      <!-- Stock Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "menu-management.table-price" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.price | currency : "Rp. " }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="discount">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "menu-management.table-disc" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.discount }}%</td>
+      </ng-container>
+
+      <!-- Publisher Column -->
+      <ng-container matColumnDef="publisher">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-label>{{ "menu-management.publisher" | translate }}</mat-label>
+            <mat-select
+              (valueChange)="onFilterPublished($event)"
+              name="published"
+            >
+              <mat-option
+                *ngFor="let published of publisheds"
+                [value]="published.value"
+              >
+                {{ published.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-slide-toggle
+            matTooltip="{{ 'menu-management.slide' | translate }}"
+            [checked]="element.published"
+            (change)="onPublish($event, element)"
+            color="primary"
+          >
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+      <!-- Action Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "menu-management.table-actions" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element" class="actions">
+          <button
+            matTooltip="{{ 'menu-management.edit' | translate }}"
+            mat-raised-button
+            color="primary"
+            [disabled]="element.published"
+            (click)="onUpdate(element)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            matTooltip="{{ 'menu-management.delete' | translate }}"
+            mat-raised-button
+            color="warn"
+            [disabled]="element.published"
+            (click)="onDelete(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button
+            matTooltip="{{ 'menu-management.details' | translate }}"
+            mat-raised-button
+            (click)="onDetail(element)"
+          >
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [length]="recipesLength"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[1, 5, 10, 25, 100]"
+      aria-label="Select page"
+      (page)="pageEvent = indexingPage($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

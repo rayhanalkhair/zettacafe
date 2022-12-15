@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Stock Management",
+    "view": false,
+    "slug": "stock-management"
+  },
+  {
+    "name": "Menu Management",
+    "view": false,
+    "slug": "menu-management"
+  },
+  {
+    "name": "Cart",
+    "view": false,
+    "slug": "cart"
+  }
+]

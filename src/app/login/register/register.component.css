@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.btn-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-actions {
+  display: flex;
+  gap: 1rem;
+}

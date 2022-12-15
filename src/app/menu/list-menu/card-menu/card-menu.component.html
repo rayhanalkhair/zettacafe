@@ -1,0 +1,37 @@
+<div
+  class="container"
+  matTooltip="{{ 'menu.remain' | translate }}: {{ recipe.remain_stock }}"
+>
+  <div class="img-wrapper">
+    <div class="icon-wrapper">
+      <button
+        (click)="onAddToCart(recipe)"
+        [disabled]="isNotAvailableStock || isStockUsed"
+      >
+        <mat-icon matTooltip="{{ 'menu.btn' | translate }}"
+          >add_shopping_cart</mat-icon
+        >
+      </button>
+    </div>
+    <img [src]="recipe.link_recipe" alt="menu {{ recipe.recipe_name }}" />
+  </div>
+  <div class="main-wrapper">
+    <div class="desc-wrapper">
+      <div class="first-desc">
+        {{ recipe.recipe_name }}
+      </div>
+      <div class="second-desc" *ngIf="recipe.discount > 0">
+        <span class="line-through">
+          {{ recipe.price | currency : "Rp. " }}
+        </span>
+        <span class="small-size"> &minus; {{ recipe.discount }}%</span>
+      </div>
+      <div class="sold-out" *ngIf="isNotAvailableStock || isStockUsed">
+        <h3>{{ "menu.sold" | translate }}</h3>
+      </div>
+    </div>
+    <div class="subdesc-wrapper">
+      {{ recipe.discount_price | currency : "Rp. " }}
+    </div>
+  </div>
+</div>

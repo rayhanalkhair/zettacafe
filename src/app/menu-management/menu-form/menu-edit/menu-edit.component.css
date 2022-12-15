@@ -1,0 +1,62 @@
+.container {
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+button {
+  width: fit-content;
+  height: fit-content;
+  padding: 0 1rem;
+}
+
+.ingredient-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.ingredient-wrapper input {
+  width: fit-content !important;
+}
+
+.ingredient-wrapper button {
+  width: fit-content !important;
+  height: fit-content !important;
+}
+
+.price-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.input-wrapper mat-form-field {
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header a {
+  text-decoration: none;
+  color: #f52112;
+  padding: 5px;
+}

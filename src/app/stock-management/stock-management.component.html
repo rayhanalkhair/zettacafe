@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="btn-container">
+      <mat-icon
+        matTooltip="{{ 'stock-management.add-new' | translate }}"
+        (click)="onAdd()"
+        >add_box</mat-icon
+      >
+    </div>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      *ngIf="ingredients.length !== 0"
+    >
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="name-field">
+          <div class="title">
+            {{ "stock-management.table-name" | translate }}
+            <input
+              matInput
+              [formControl]="filtername"
+              [(ngModel)]="defaultFilter"
+              placeholder="Input name ..."
+            />
+          </div>
+          <div class="btn-sort">
+            <button
+              (click)="onSort()"
+              matTooltip="{{ 'stock-management.sort' | translate }}"
+            >
+              <mat-icon>sort_by_alpha</mat-icon>
+            </button>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <!-- Stock Column -->
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "stock-management.table-stock" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="available">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-label>{{
+              "stock-management.availability" | translate
+            }}</mat-label>
+            <mat-select
+              (valueChange)="onFilterAvailability($event)"
+              name="food"
+            >
+              <mat-option
+                *ngFor="let availability of availabilities"
+                [value]="availability.value"
+              >
+                {{ availability.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            matTooltip="{{ 'stock-management.available' | translate }}"
+            [ngStyle]="{ color: 'green' }"
+            *ngIf="element.available === true"
+          >
+            done
+          </mat-icon>
+          <mat-icon
+            matTooltip="{{ 'stock-management.unavailable' | translate }}"
+            [ngStyle]="{ color: 'red' }"
+            *ngIf="element.available === false"
+          >
+            close
+          </mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "stock-management.table-actions" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element" class="actions">
+          <button
+            matTooltip="{{ 'stock-management.edit' | translate }}"
+            mat-raised-button
+            color="primary"
+            (click)="onUpdate(element)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            matTooltip="{{ 'stock-management.delete' | translate }}"
+            mat-raised-button
+            color="warn"
+            (click)="onDelete(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [length]="ingredientsLength"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page"
+      (page)="pageEvent = indexingPage($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

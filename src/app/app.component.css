@@ -1,0 +1,92 @@
+.app-container {
+  position: relative;
+  z-index: 999;
+}
+
+mat-toolbar {
+  height: 4rem;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-wrapper a {
+  font-size: 1rem;
+  color: black;
+  font-weight: 600;
+}
+
+.nav-wrapper a:hover {
+  transition: 0.4s;
+  background-color: black;
+  color: white;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+}
+
+.lang-container {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  align-items: center;
+}
+
+.lang-wrapper {
+  font-size: 0.8rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.lang-wrapper div {
+  font-size: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.parent-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.mat-menu {
+  align-items: center;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
+}
+
+.management {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.credit {
+  display: flex;
+  align-items: center;
+}
+
+.credit a {
+  padding: 0 1rem;
+  padding-left: 0 !important;
+}
+
+.credit span {
+  margin-right: 1rem;
+}
+
+.credit a.icon {
+  padding-left: 1rem !important;
+}

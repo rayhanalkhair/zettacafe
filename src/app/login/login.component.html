@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="content-wrapper social-wrapper">
+    <div class="title">ZettaCafe</div>
+    <div class="subtitle">{{ "login.title" | translate }}</div>
+    <hr />
+  </div>
+  <div class="content-wrapper form-wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+      <div class="form-field">
+        <mat-form-field appearance="fill">
+          <mat-label>{{ "login.email" | translate }}</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="email"
+            placeholder="Ex: user@user.com"
+          />
+          <mat-error *ngIf="loginForm.controls['email'].invalid">{{
+            "login.err-email" | translate
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ "login.password" | translate }}</mat-label>
+          <input
+            id="password"
+            type="password"
+            matInput
+            formControlName="password"
+          />
+          <mat-error *ngIf="loginForm.controls['password'].invalid">{{
+            "login.err-password" | translate
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="btn-wrapper">
+        <div class="btn-actions user-validation">
+          <mat-checkbox (change)="onShowPassword($event)">{{
+            "login.btn-show" | translate
+          }}</mat-checkbox>
+          <a (click)="onForgetPassword()">{{
+            "login.btn-forget" | translate
+          }}</a>
+        </div>
+        <div class="btn-actions">
+          <button
+            [disabled]="loginForm.invalid"
+            mat-raised-button
+            color="primary"
+          >
+            {{ "login.btn-submit" | translate }}
+          </button>
+        </div>
+        <div class="btn-actions">
+          <span>{{ "login.text-register" | translate }}</span>
+          <a (click)="onCreateUser()">{{ "login.btn-register" | translate }}</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

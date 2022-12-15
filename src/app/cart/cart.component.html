@@ -1,0 +1,70 @@
+<div class="container" *ngIf="cart.length > 0">
+  <div class="spinner-wrapper">
+    <mat-spinner *ngIf="!isLoading" class="spinner"></mat-spinner>
+  </div>
+  <div class="wrapper" *ngFor="let recipes of cart">
+    <div class="card-container">
+      <mat-card *ngFor="let recipe of recipes.menu">
+        <div class="card-wrapper">
+          <mat-card-header>
+            <mat-card-title>{{ recipe.recipe_name }}</mat-card-title>
+            <mat-card-subtitle>{{ recipe.amount }} items</mat-card-subtitle>
+            <mat-card-subtitle
+              >{{ recipe.discount_price | currency : "Rp. " }} per
+              item</mat-card-subtitle
+            >
+          </mat-card-header>
+          <img [src]="recipe.link_recipe" />
+        </div>
+        <mat-card-actions align="end">
+          <mat-card-subtitle>
+            Total:
+            {{ recipe.amount * recipe.discount_price | currency : "Rp. " }}
+          </mat-card-subtitle>
+          <div class="btn-wrapper">
+            <button mat-raised-button color="primary" (click)="onEdit(recipe)">
+              Edit
+            </button>
+
+            <button mat-raised-button color="warn" (click)="onRemove(recipe)">
+              Remove
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-card-actions class="card-actions">
+      <mat-card-title
+        >Total Price:
+        {{ recipes.total_price | currency : "Rp. " }}
+      </mat-card-title>
+      <div class="btn-wrapper">
+        <button mat-raised-button color="warn" (click)="onCancel(recipes._id)">
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onCheckOut(recipes._id)"
+        >
+          CheckOut
+        </button>
+      </div>
+    </mat-card-actions>
+  </div>
+</div>
+
+<div class="no-cart-container" *ngIf="cart.length === 0">
+  <div class="img-container">
+    <mat-icon>remove_shopping_cart</mat-icon>
+  </div>
+  <div class="text-container">
+    <div class="title">Your cart is currently empty</div>
+    <div class="subtitle">
+      Before proceed to checkout, you must add some products to your cart.
+    </div>
+  </div>
+  <button mat-raised-button color="warn" (click)="onMenu()">
+    <mat-icon>shopping_cart</mat-icon> Return to Recipe List
+  </button>
+</div>

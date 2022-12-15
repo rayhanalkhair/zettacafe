@@ -1,0 +1,82 @@
+<div class="container" *ngIf="historyLength > 0">
+  <div class="wrapper">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- role Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user_id.last_name }}
+        </td>
+      </ng-container>
+      <!-- Order Date Column -->
+      <ng-container matColumnDef="menu">
+        <th mat-header-cell *matHeaderCellDef>Menu</th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let recipe of element.menu">
+            {{ recipe.recipe_id.recipe_name }} ({{ recipe.amount }})
+          </p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef>Note</th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let recipe of element.menu">
+            {{ recipe.note }}
+          </p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="order_date">
+        <th mat-header-cell *matHeaderCellDef>Order Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.order_date | date : "longDate" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="order_status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            *ngIf="element.order_status === 'Success'"
+            style="color: #009d00"
+            >check_circle</mat-icon
+          >
+          <mat-icon
+            *ngIf="element.order_status === 'Failed'"
+            style="color: #b80101"
+          >
+            cancel</mat-icon
+          >
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="total_price">
+        <th mat-header-cell *matHeaderCellDef>Total Payment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.total_price | currency : "Rp. " }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [length]="historyLength"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [pageSizeOptions]="[1, 3, 5, 7, 10]"
+      aria-label="Select page"
+      (page)="pageEvent = indexingPage($event)"
+    >
+    </mat-paginator>
+  </div>
+  <div class="btn-container">
+    <div *ngIf="isAdmin">Income: {{ financeBalance | currency : "Rp. " }}</div>
+    <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+  </div>
+</div>
+
+<div class="no-cart-container" *ngIf="!historyLength">
+  <div class="main-container">
+    <mat-icon><mat-icon>history</mat-icon></mat-icon>
+    <div class="title">No transaction history</div>
+  </div>
+  <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+</div>

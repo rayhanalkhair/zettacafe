@@ -1,0 +1,45 @@
+<div class="container">
+  <mat-dialog-content [formGroup]="cartForm">
+    <div class="header">
+      <h2>Edit Order</h2>
+      <button (click)="onClose()"><mat-icon>close</mat-icon></button>
+    </div>
+    <div class="input-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>Amount</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Ex: 2"
+          formControlName="amount"
+        />
+        <mat-error *ngIf="cartForm.controls['amount'].invalid"
+          >Please input correct amount!</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="input-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>Note</mat-label>
+        <textarea
+          matInput
+          placeholder="Note"
+          formControlName="note"
+          placeholder="Ex: Little bit spicy..."
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="onClose()">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!cartForm.valid"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+  </mat-dialog-actions>
+</div>

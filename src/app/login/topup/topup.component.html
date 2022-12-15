@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Credit</mat-label>
+      <input
+        type="number"
+        matInput
+        [formControl]="credite"
+        placeholder="Ex: 10000"
+      />
+      <mat-error *ngIf="credite.invalid"
+        >Please input the field with correct credit!</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div class="btn-wrapper">
+    <button mat-raised-button color="warn" (click)="onClose()">Cancel</button>
+    <button
+      [disabled]="credite.invalid"
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+  </div>
+</div>

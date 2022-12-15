@@ -1,0 +1,127 @@
+<div class="app-container">
+  <mat-toolbar>
+    <div class="wrapper nav-wrapper">
+      <a mat-button [routerLink]="['']">{{ "ZettaCafe" | uppercase }}</a>
+      <a mat-button [routerLink]="['about']">
+        {{ "app.about" | translate | uppercase }}
+      </a>
+      <a mat-button [routerLink]="['home']">
+        {{ "app.home" | translate | uppercase }}
+      </a>
+      <a mat-button [routerLink]="['menu']">
+        {{ "app.recipe-list" | translate | uppercase }}
+      </a>
+    </div>
+    <div class="wrapper parent-wrapper">
+      <div class="nav-wrapper">
+        <a
+          mat-button
+          [matMenuTriggerFor]="management"
+          *ngIf="isAdmin"
+          matTooltip="{{ 'app.restaurant-management' | translate }}"
+        >
+          <mat-icon>apps</mat-icon></a
+        >
+        <mat-menu class="mat-menu" #management="matMenu" xPosition="before">
+          <div class="management">
+            <a mat-button [routerLink]="['menu-management']" *ngIf="isAdmin">
+              {{ "app.recipe-management" | translate | uppercase }}
+            </a>
+            <a mat-button [routerLink]="['stock-management']" *ngIf="isAdmin">
+              {{ "app.stock-management" | translate | uppercase }}
+            </a>
+          </div>
+        </mat-menu>
+
+        <a
+          mat-button
+          [matMenuTriggerFor]="cart"
+          *ngIf="isAdmin || isCustomer"
+          matTooltip="{{ 'app.transaction-management' | translate }}"
+        >
+          <mat-icon>shopping_cart</mat-icon></a
+        >
+        <mat-menu class="mat-menu" #cart="matMenu" xPosition="before">
+          <div class="cart">
+            <a mat-button (click)="onHistory()" *ngIf="isAdmin || isCustomer">
+              {{ "app.history" | translate | uppercase }}
+            </a>
+            <a mat-button [routerLink]="['cart']" *ngIf="isAdmin || isCustomer">
+              {{ "app.cart" | translate | uppercase }}
+            </a>
+          </div>
+        </mat-menu>
+
+        <a
+          mat-button
+          [matMenuTriggerFor]="profile"
+          matTooltip="{{ 'app.user-management' | translate }}"
+        >
+          <mat-icon>account_circle</mat-icon></a
+        >
+        <mat-menu class="mat-menu" #profile="matMenu" xPosition="before">
+          <div class="profile">
+            <a mat-button [disabled]="true" *ngIf="!isAdmin && !isCustomer">
+              {{ "Non User" | uppercase }}
+            </a>
+            <a mat-button [disabled]="true" *ngIf="isAdmin">
+              {{ isName | uppercase }}
+            </a>
+            <a mat-button [disabled]="true" *ngIf="isCustomer">
+              {{ isName | uppercase }}
+            </a>
+            <div class="credit">
+              <a
+                mat-button
+                class="icon"
+                matTooltip="{{ 'app.topup' | translate }}"
+                *ngIf="isCustomer || isAdmin"
+                (click)="onTopupCredit()"
+              >
+                <mat-icon>credit_card</mat-icon>
+              </a>
+              <span *ngIf="isCustomer || isAdmin">
+                {{ isCredit | currency : "Rp. " }}
+              </span>
+            </div>
+            <a
+              mat-button
+              [routerLink]="['login']"
+              *ngIf="!isAdmin && !isCustomer"
+            >
+              {{ "app.login" | translate | uppercase }}
+            </a>
+            <a mat-button (click)="onLogout()" *ngIf="isAdmin || isCustomer">
+              {{ "app.logout" | translate | uppercase }}
+            </a>
+          </div>
+        </mat-menu>
+      </div>
+      <div class="wrapper lang-container">
+        <div class="lang-wrapper">{{ "app.lang" | translate }}</div>
+        <div class="lang-wrapper">
+          <div>
+            <span
+              class="fi fi-us"
+              matTooltip="{{ 'app.en' | translate }}"
+            ></span>
+          </div>
+          <mat-slide-toggle
+            (change)="setLanguage($event)"
+            matTooltip="{{ 'app.switch' | translate }}"
+          ></mat-slide-toggle>
+          <div>
+            <span
+              class="fi fi-id"
+              matTooltip="{{ 'app.id' | translate }}"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>
+
+<div class="child-container">
+  <router-outlet></router-outlet>
+</div>
