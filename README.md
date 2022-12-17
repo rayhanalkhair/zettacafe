@@ -1,7 +1,10 @@
 # ZettaCafe
 
 This project was generated with Angular CLI  version 14.2.6.
-![](zettacafe-v1.0.0.png)
+
+![Preview of Platform](zettacafe-v1.0.0.png)
+
+[Live Demo ---->](https://zettacafe.vercel.app)
 
 ## How to Run this Project
 
