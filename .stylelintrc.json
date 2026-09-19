@@ -1,0 +1,44 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": [
+    "legacy-src/**",
+    ".kilo/**",
+    "dist/**",
+    ".angular/**",
+    "coverage/**",
+    "node_modules/**"
+  ],
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "declaration-property-value-disallowed-list": {
+      "/^(color|background-color|border-color|fill|stroke|box-shadow|outline-color)$/": [
+        "/^rgb\\(/",
+        "/^rgba\\(/",
+        "/^hsl\\(/",
+        "/^hsla\\(/"
+      ]
+    },
+    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
+    "selector-disallowed-list": [
+      ["/::ng-deep/", "/\\/deep\\//", "/>>>/"],
+      {
+        "message": "Do not pierce encapsulation. Theme Angular Material with mat.*-overrides() token maps in src/styles/_theme.scss instead."
+      }
+    ],
+    "scss/dollar-variable-pattern": "^[a-z][a-z0-9-]*$",
+    "custom-property-pattern": "^(zc|mat)-[a-z0-9-]+$",
+    "declaration-no-important": true,
+    "no-descending-specificity": null
+  },
+  "overrides": [
+    {
+      "files": ["src/styles/_tokens.scss"],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "declaration-property-value-disallowed-list": null
+      }
+    }
+  ]
+}

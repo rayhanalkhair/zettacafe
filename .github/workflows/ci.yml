@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [master, 'feat/**']
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  verify:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Each step is a separate gate so a failure names itself in the UI.
+      - name: Lint (TypeScript and templates)
+        run: npm run lint
+
+      - name: Lint (styles)
+        run: npm run stylelint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Check i18n drift
+        run: npm run i18n:check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:coverage
+
+      # Budgets are errors in angular.json, so an oversized bundle fails here.
+      - name: Production build
+        run: npm run build
+
+      - name: Check bundle boundaries
+        run: node scripts/check-bundle.mjs
+
+      - name: Upload build output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+          if-no-files-found: ignore
