@@ -1,0 +1,11 @@
+legacy-src/
+.kilo/
+dist/
+.angular/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+src/app/core/graphql/generated/
+src/server/generated/
+package-lock.json
