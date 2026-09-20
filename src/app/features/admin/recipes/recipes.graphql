@@ -1,0 +1,76 @@
+fragment RecipeAdmin on Recipe {
+  id
+  name
+  descriptionEn: description(locale: EN)
+  descriptionId: description(locale: ID)
+  imageUrl
+  category
+  priceIdr
+  discountPercent
+  discountedPriceIdr
+  status
+  isFeatured
+  availableServings
+  ingredients {
+    quantity
+    ingredient {
+      id
+      name
+      unit
+      stockQty
+    }
+  }
+}
+
+query AdminRecipes($filter: RecipeFilter, $page: PageInput, $sort: RecipeSort) {
+  recipes(filter: $filter, page: $page, sort: $sort) {
+    totalCount
+    items {
+      ...RecipeAdmin
+    }
+  }
+}
+
+"""
+One page of the ingredient names a recipe can use. The form loads every page.
+"""
+query IngredientOptions($page: PageInput) {
+  ingredients(page: $page, sort: { field: NAME, direction: ASC }) {
+    totalCount
+    items {
+      id
+      name
+      unit
+    }
+  }
+}
+
+mutation CreateRecipe($input: CreateRecipeInput!) {
+  createRecipe(input: $input) {
+    ...RecipeAdmin
+  }
+}
+
+mutation UpdateRecipe($id: ID!, $input: UpdateRecipeInput!) {
+  updateRecipe(id: $id, input: $input) {
+    ...RecipeAdmin
+  }
+}
+
+mutation SetRecipeStatus($id: ID!, $status: RecipeStatus!) {
+  setRecipeStatus(id: $id, status: $status) {
+    ...RecipeAdmin
+  }
+}
+
+mutation SetRecipeFeatured($id: ID!, $isFeatured: Boolean!) {
+  setRecipeFeatured(id: $id, isFeatured: $isFeatured) {
+    ...RecipeAdmin
+  }
+}
+
+mutation DeleteRecipe($id: ID!) {
+  deleteRecipe(id: $id) {
+    id
+  }
+}

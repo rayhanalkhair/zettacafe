@@ -26,6 +26,12 @@ export const routes: Routes = [
     loadComponent: () => import('@features/cart/orders.page').then((m) => m.OrdersPage),
   },
   {
+    path: 'admin/recipes',
+    title: 'titles.adminRecipes',
+    canActivate: [adminGuard],
+    loadComponent: () => import('@features/admin/recipes/recipes.page').then((m) => m.RecipesPage),
+  },
+  {
     path: 'admin/ingredients',
     title: 'titles.adminIngredients',
     canActivate: [adminGuard],

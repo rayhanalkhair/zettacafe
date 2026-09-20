@@ -18,6 +18,8 @@ const RULES = [
   { name: 'min', key: 'forms.errors.min', param: 'min' },
   { name: 'max', key: 'forms.errors.max', param: 'max' },
   { name: 'pattern', key: 'forms.errors.pattern', param: null },
+  { name: 'integer', key: 'forms.errors.integer', param: null },
+  { name: 'url', key: 'forms.errors.url', param: null },
 ] as const;
 
 /**

@@ -7,7 +7,10 @@ import { fieldErrorMessage } from './field-errors';
 import { NumberField } from './number-field';
 import { PasswordField } from './password-field';
 import { SearchField, SEARCH_DEBOUNCE_MS } from './search-field';
+import { SelectField } from './select-field';
+import { TextareaField } from './textarea-field';
 import { TextField } from './text-field';
+import { atLeast, httpUrl, integer, uniqueBy } from './validators';
 
 describe('fieldErrorMessage', () => {
   const errorsOf = (control: FormControl) => control.errors;
@@ -239,5 +242,104 @@ describe('SearchField', () => {
     await vi.advanceTimersByTimeAsync(SEARCH_DEBOUNCE_MS);
     expect(input.value).toBe('rawon');
     expect(terms).toEqual([]);
+  });
+});
+
+describe('validators', () => {
+  const control = (value: unknown) => new FormControl(value);
+
+  it('integer accepts whole numbers and empty, refuses fractions', () => {
+    expect(integer(control(3))).toBeNull();
+    expect(integer(control(0))).toBeNull();
+    expect(integer(control(null))).toBeNull();
+    expect(integer(control(2.5))).toEqual({ integer: true });
+  });
+
+  it('httpUrl accepts web addresses and empty, refuses anything else', () => {
+    expect(httpUrl(control('https://example.com/a.jpg'))).toBeNull();
+    expect(httpUrl(control('http://example.com'))).toBeNull();
+    expect(httpUrl(control(''))).toBeNull();
+    expect(httpUrl(control('   '))).toBeNull();
+    expect(httpUrl(control('example.com'))).toEqual({ url: true });
+    expect(httpUrl(control('javascript:alert(1)'))).toEqual({ url: true });
+    expect(httpUrl(control('ftp://example.com'))).toEqual({ url: true });
+  });
+
+  it('uniqueBy refuses a repeated key and ignores blanks', () => {
+    const rule = uniqueBy<{ id: string }>((r) => r.id, 'x.duplicate');
+    expect(rule(control([{ id: 'a' }, { id: 'b' }]))).toBeNull();
+    expect(rule(control([{ id: 'a' }, { id: 'a' }]))).toEqual({
+      duplicate: { messageKey: 'x.duplicate' },
+    });
+    expect(rule(control([{ id: '' }, { id: '' }]))).toBeNull();
+  });
+
+  it('atLeast needs enough rows', () => {
+    const rule = atLeast(1, 'x.tooFew');
+    expect(rule(control([]))).toEqual({ tooFew: { messageKey: 'x.tooFew' } });
+    expect(rule(control([1]))).toBeNull();
+  });
+
+  it('maps the new built-in errors to messages', () => {
+    expect(fieldErrorMessage({ integer: true })?.key).toBe('forms.errors.integer');
+    expect(fieldErrorMessage({ url: true })?.key).toBe('forms.errors.url');
+  });
+});
+
+@Component({
+  imports: [SelectField, TextareaField],
+  template: `
+    <zc-select-field [control]="category" label="Category" [options]="options" hint="Pick one." />
+    <zc-textarea-field [control]="notes" label="Notes" [rows]="4" hint="Optional." />
+  `,
+})
+class ChoiceHost {
+  category = new FormControl('FOOD', { nonNullable: true, validators: [Validators.required] });
+  notes = new FormControl('', { nonNullable: true, validators: [Validators.maxLength(5)] });
+  options = [
+    { value: 'FOOD', labelKey: 'forms.errors.required' },
+    { value: 'DRINK', label: 'Drink' },
+  ];
+}
+
+describe('select and textarea fields', () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideTestTranslations()] }));
+
+  const render = async () => {
+    const fixture = TestBed.createComponent(ChoiceHost);
+    await fixture.whenStable();
+    return { fixture, el: fixture.nativeElement as HTMLElement, host: fixture.componentInstance };
+  };
+
+  it('has no accessibility violations', async () => {
+    const { el } = await render();
+    await expectNoAxeViolations(el);
+  });
+
+  it('labels the select and the textarea', async () => {
+    const { el } = await render();
+    expect(el.querySelector('mat-select')?.getAttribute('role')).toBe('combobox');
+    expect(el.querySelector('textarea')?.getAttribute('rows')).toBe('4');
+    const labels = Array.from(el.querySelectorAll('label')).map((l) => l.textContent.trim());
+    expect(labels).toEqual(['Category', 'Notes']);
+  });
+
+  it('shows the selected option, translating a key and using a literal label as is', async () => {
+    const { fixture, el, host } = await render();
+    expect(el.querySelector('.mat-mdc-select-value-text')?.textContent).toContain(
+      'This field is required.',
+    );
+    host.category.setValue('DRINK');
+    await fixture.whenStable();
+    expect(el.querySelector('.mat-mdc-select-value-text')?.textContent).toContain('Drink');
+  });
+
+  it('shows the validation message of the textarea once touched', async () => {
+    const { fixture, el, host } = await render();
+    host.notes.setValue('too long for it');
+    host.notes.markAsTouched();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(el.querySelector('mat-error')?.textContent).toContain('at most 5 characters');
   });
 });

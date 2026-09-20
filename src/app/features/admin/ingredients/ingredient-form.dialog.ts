@@ -1,12 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-  type AbstractControl,
-  type ValidationErrors,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -15,6 +8,7 @@ import { NotificationService } from '@core/feedback/notification.service';
 import { focusFirstInvalid } from '@shared/forms/focus-first-invalid';
 import { NumberField } from '@shared/forms/number-field';
 import { TextField } from '@shared/forms/text-field';
+import { integer } from '@shared/forms/validators';
 import { DialogShell } from '@shared/ui/dialog-shell/dialog-shell';
 import { IngredientsService, type Ingredient } from './ingredients.service';
 
@@ -27,14 +21,6 @@ export interface IngredientFormData {
   /** `create` adds an ingredient; `edit` changes the one given. */
   readonly mode: 'create' | 'edit';
   readonly ingredient?: Ingredient;
-}
-
-/** A whole number. Stock is counted in whole grams, millilitres or pieces. */
-function integer(control: AbstractControl<number | null>): ValidationErrors | null {
-  const value = control.value;
-  return value === null || Number.isInteger(value)
-    ? null
-    : { integer: { messageKey: 'ingredients.form.integer' } };
 }
 
 /**

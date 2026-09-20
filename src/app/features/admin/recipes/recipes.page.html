@@ -1,0 +1,163 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'recipes.title' | translate">
+    <button matButton="filled" type="button" (click)="create()">
+      {{ 'recipes.add' | translate }}
+    </button>
+  </zc-section-heading>
+  <p class="intro">{{ 'recipes.intro' | translate }}</p>
+
+  <div class="controls">
+    <zc-search-field
+      [label]="'recipes.searchLabel' | translate"
+      [value]="term()"
+      (search)="setSearch($event)"
+    />
+
+    <div class="filters" role="group" [attr.aria-label]="'recipes.filterLabel' | translate">
+      @for (f of filters; track f.value) {
+        <button
+          type="button"
+          [matButton]="statusFilter() === f.value ? 'filled' : 'outlined'"
+          [attr.aria-pressed]="statusFilter() === f.value"
+          (click)="setStatusFilter(f.param)"
+        >
+          {{ f.key | translate }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <p class="visually-hidden" role="status">
+    @if (state() === 'ready') {
+      {{ 'recipes.count' | translate: { count: total() } }}
+    }
+  </p>
+
+  <zc-table-shell
+    [state]="state()"
+    [label]="'recipes.tableLabel' | translate"
+    [emptyHeading]="'recipes.empty.title' | translate"
+    [emptyMessage]="'recipes.empty.message' | translate"
+    [errorHeading]="'recipes.error.title' | translate"
+    [errorMessage]="'recipes.error.message' | translate"
+    (retry)="result.reload()"
+  >
+    <button zcEmptyAction matButton="tonal" type="button" (click)="clearFilters()">
+      {{ 'recipes.empty.clear' | translate }}
+    </button>
+
+    <table>
+      <caption class="visually-hidden">
+        {{
+          'recipes.tableLabel' | translate
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col" [attr.aria-sort]="ariaSort('NAME')">
+            <button class="sort" type="button" (click)="sortBy('NAME')">
+              {{ 'recipes.columns.name' | translate }}
+              <span class="arrow" aria-hidden="true">{{
+                sortField() === 'NAME' ? (direction() === 'ASC' ? '↑' : '↓') : ''
+              }}</span>
+            </button>
+          </th>
+          <th scope="col" class="num" [attr.aria-sort]="ariaSort('PRICE')">
+            <button class="sort" type="button" (click)="sortBy('PRICE')">
+              {{ 'recipes.columns.price' | translate }}
+              <span class="arrow" aria-hidden="true">{{
+                sortField() === 'PRICE' ? (direction() === 'ASC' ? '↑' : '↓') : ''
+              }}</span>
+            </button>
+          </th>
+          <th scope="col" class="num">{{ 'recipes.columns.servings' | translate }}</th>
+          <th scope="col">{{ 'recipes.columns.status' | translate }}</th>
+          <th scope="col">
+            <span class="visually-hidden">{{ 'recipes.columns.actions' | translate }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (recipe of items(); track recipe.id) {
+          <tr>
+            <th scope="row">
+              {{ recipe.name }}
+              <span class="category">{{
+                (recipe.category === 'FOOD' ? 'recipes.category.food' : 'recipes.category.drink')
+                  | translate
+              }}</span>
+            </th>
+            <td class="num">
+              <zc-money [value]="recipe.discountedPriceIdr" [listPrice]="recipe.priceIdr" />
+            </td>
+            <td class="num">{{ recipe.availableServings | zcNumber }}</td>
+            <td>
+              <div class="pills">
+                @if (recipe.status === 'PUBLISHED') {
+                  <zc-status-pill
+                    tone="positive"
+                    [label]="'recipes.status.published' | translate"
+                  />
+                } @else {
+                  <zc-status-pill tone="neutral" [label]="'recipes.status.draft' | translate" />
+                }
+                @if (recipe.isFeatured) {
+                  <zc-status-pill tone="warning" [label]="'recipes.status.featured' | translate" />
+                }
+              </div>
+            </td>
+            <td class="actions">
+              <button
+                matButton="text"
+                type="button"
+                [attr.aria-label]="'recipes.detailsAria' | translate: { name: recipe.name }"
+                (click)="details(recipe)"
+              >
+                {{ 'recipes.details' | translate }}
+              </button>
+              <button
+                matButton="outlined"
+                type="button"
+                [attr.aria-label]="'recipes.editAria' | translate: { name: recipe.name }"
+                (click)="edit(recipe)"
+              >
+                {{ 'recipes.edit' | translate }}
+              </button>
+              <button
+                matButton="tonal"
+                type="button"
+                [attr.aria-label]="
+                  toggleLabels[recipe.status === 'PUBLISHED' ? 'unpublish' : 'publish'].ariaKey
+                    | translate: { name: recipe.name }
+                "
+                (click)="toggleStatus(recipe)"
+              >
+                {{
+                  toggleLabels[recipe.status === 'PUBLISHED' ? 'unpublish' : 'publish'].buttonKey
+                    | translate
+                }}
+              </button>
+              <button
+                matButton="text"
+                type="button"
+                [attr.aria-label]="'recipes.deleteAria' | translate: { name: recipe.name }"
+                (click)="remove(recipe)"
+              >
+                {{ 'recipes.deleteLabel' | translate }}
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </zc-table-shell>
+
+  @if (state() === 'ready') {
+    <zc-pager
+      [offset]="offset()"
+      [limit]="pageSize"
+      [total]="total()"
+      (offsetChange)="setOffset($event)"
+    />
+  }
+</zc-page-shell>
