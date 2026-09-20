@@ -1,1 +1,25 @@
-{}
+{
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Dismiss"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "Please sign in to continue.",
+    "SESSION_EXPIRED": "Your session has ended. Please sign in again.",
+    "FORBIDDEN": "You don't have permission to do that.",
+    "NOT_FOUND": "We couldn't find that {{entity}}.",
+    "VALIDATION": "Please check the {{field}} field.",
+    "INVALID_CREDENTIALS": "Wrong email or password.",
+    "EMAIL_TAKEN": "{{email}} is already registered.",
+    "INVALID_RESET_CODE": "That code is wrong or has expired.",
+    "EMPTY_CART": "Your cart is empty.",
+    "RECIPE_UNAVAILABLE": "A dish in your cart is no longer available.",
+    "INSUFFICIENT_STOCK": "We can't make these right now: {{items}}.",
+    "INSUFFICIENT_CREDIT": "You need {{shortfall}} more credit. Top up and try again.",
+    "PRICE_CHANGED": "The total changed from {{expected}} to {{actual}}. Please review your cart.",
+    "RECIPE_IN_USE": "That ingredient is still used by a recipe.",
+    "NETWORK": "We couldn't reach the server. Check your connection.",
+    "UNKNOWN": "Something went wrong. Please try again."
+  }
+}
