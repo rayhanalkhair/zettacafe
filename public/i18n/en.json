@@ -21,5 +21,40 @@
     "RECIPE_IN_USE": "That ingredient is still used by a recipe.",
     "NETWORK": "We couldn't reach the server. Check your connection.",
     "UNKNOWN": "Something went wrong. Please try again."
+  },
+  "ui": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "close": "Close",
+    "page": {
+      "label": "Pagination",
+      "previous": "Previous page",
+      "next": "Next page",
+      "status": "Page {{page}} of {{pages}}"
+    },
+    "money": {
+      "was": "Was {{price}}",
+      "now": "Now {{price}}",
+      "discount": "{{percent}}% off"
+    },
+    "status": {
+      "soldOut": "Sold out",
+      "lowStock": "{{count}} left"
+    },
+    "password": {
+      "show": "Show password"
+    }
+  },
+  "forms": {
+    "errors": {
+      "required": "This field is required.",
+      "email": "Enter a valid email address.",
+      "minlength": "Use at least {{requiredLength}} characters.",
+      "maxlength": "Use at most {{requiredLength}} characters.",
+      "min": "Must be at least {{min}}.",
+      "max": "Must be at most {{max}}.",
+      "pattern": "This value is not in the expected format.",
+      "invalid": "This value is not valid."
+    }
   }
 }

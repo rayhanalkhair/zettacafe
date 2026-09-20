@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+
+.card {
+  display: grid;
+  overflow: hidden;
+  block-size: 100%;
+  border: 1px solid var(--zc-rule);
+  border-radius: var(--zc-radius-md);
+  background: var(--zc-surface);
+}
+
+.photo {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--zc-surface-sunken);
+  object-fit: cover;
+}
+
+.body {
+  display: grid;
+  gap: var(--zc-space-2);
+  align-content: start;
+  padding: var(--zc-space-4);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-lg);
+  font-weight: var(--zc-weight-semibold);
+  line-height: var(--zc-leading-snug);
+}
+
+.description {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--zc-ink-soft);
+  font-size: var(--zc-text-sm);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+}
+
+.flags:empty {
+  display: none;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: var(--zc-space-2);
+}

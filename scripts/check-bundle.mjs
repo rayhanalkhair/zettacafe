@@ -47,6 +47,7 @@ const SERVER_MARKERS = [
 const DEV_ONLY = [
   { pattern: 'zc-tokens-page', why: 'dev-only tooling must be compiled out' },
   { pattern: 'zc-graphql-console', why: 'dev-only tooling must be compiled out' },
+  { pattern: 'zc-kitchen-sink-page', why: 'dev-only tooling must be compiled out' },
   { pattern: 'zc-session-page', why: 'dev-only tooling must be compiled out' },
 ];
 

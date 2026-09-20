@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+main {
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: var(--zc-page-max);
+  margin-inline: auto;
+  padding-block: var(--zc-space-7) var(--zc-space-9);
+  padding-inline: var(--zc-gutter);
+  outline: none;
+}
+
+main.narrow {
+  max-inline-size: 40rem;
+}

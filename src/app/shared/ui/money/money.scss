@@ -1,0 +1,17 @@
+:host {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+
+.now {
+  font-weight: var(--zc-weight-semibold);
+}
+
+.was {
+  color: var(--zc-ink-soft);
+  font-size: var(--zc-text-sm);
+  text-decoration-thickness: 1px;
+}

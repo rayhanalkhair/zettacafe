@@ -1,0 +1,139 @@
+<a class="skip-link" href="#main">Skip to the kitchen sink</a>
+
+<zc-page-shell>
+  <zc-section-heading heading="Kitchen sink" [level]="1">
+    <button matButton="outlined" type="button" (click)="language.toggle()">
+      {{ language.language() }} · switch language
+    </button>
+  </zc-section-heading>
+  <p class="note">
+    Every shared component, live. Check it at 360, 768 and 1440 wide, in light and dark (follow the
+    OS setting), and in both languages.
+  </p>
+
+  <section aria-labelledby="h-board">
+    <zc-section-heading heading="Menu board" [level]="2" headingId="h-board" />
+    @for (dish of dishes; track dish.id) {
+      <zc-menu-board-row [item]="dish">
+        <button
+          zcRowAction
+          matButton="tonal"
+          type="button"
+          [disabled]="!dish.isAvailable"
+          [attr.aria-label]="'Add ' + dish.name"
+        >
+          Add
+        </button>
+      </zc-menu-board-row>
+    }
+    <zc-pager [offset]="offset()" [limit]="10" [total]="34" (offsetChange)="offset.set($event)" />
+  </section>
+
+  <section aria-labelledby="h-cards">
+    <zc-section-heading heading="Recipe cards" [level]="2" headingId="h-cards" />
+    <div class="cards">
+      @for (dish of dishes; track dish.id) {
+        <zc-recipe-card [item]="dish">
+          <button
+            zcCardAction
+            matButton="filled"
+            type="button"
+            [disabled]="!dish.isAvailable"
+            [attr.aria-label]="'Add ' + dish.name"
+          >
+            Add
+          </button>
+        </zc-recipe-card>
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="h-atoms">
+    <zc-section-heading heading="Money and status" [level]="2" headingId="h-atoms" />
+    <div class="row">
+      <zc-money [value]="28000" />
+      <zc-money [value]="41600" [listPrice]="52000" />
+      <zc-status-pill label="Sold out" tone="danger" />
+      <zc-status-pill label="3 left" tone="warning" />
+      <zc-status-pill label="20% off" tone="positive" />
+      <zc-status-pill label="Draft" tone="neutral" />
+    </div>
+  </section>
+
+  <section aria-labelledby="h-forms">
+    <zc-section-heading heading="Form fields" [level]="2" headingId="h-forms" />
+    <form class="form" (submit)="$event.preventDefault()">
+      <zc-text-field
+        [control]="email"
+        label="Email"
+        type="email"
+        autocomplete="email"
+        hint="We never share it."
+      />
+      <zc-password-field
+        [control]="password"
+        label="Password"
+        autocomplete="new-password"
+        hint="At least 8 characters."
+      />
+      <zc-number-field [control]="servings" label="Servings" suffix="portions" [min]="1" />
+      <zc-search-field label="Search recipes" (search)="lastSearch.set($event)" />
+      <p role="status">Last search: {{ lastSearch() || 'none yet' }}</p>
+    </form>
+  </section>
+
+  <section aria-labelledby="h-table">
+    <zc-section-heading heading="Table states" [level]="2" headingId="h-table" />
+    <div class="row">
+      @for (state of tableStates; track state) {
+        <button
+          matButton="outlined"
+          type="button"
+          [attr.aria-pressed]="tableState() === state"
+          (click)="tableState.set(state)"
+        >
+          {{ state }}
+        </button>
+      }
+    </div>
+    <zc-table-shell
+      [state]="tableState()"
+      label="Sample recipes"
+      emptyHeading="No recipes yet"
+      emptyMessage="Add your first dish to start the menu."
+      errorHeading="Could not load recipes"
+      errorMessage="Check your connection and try again."
+      (retry)="tableState.set('ready')"
+    >
+      <table>
+        <caption class="visually-hidden">
+          Sample recipes
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (dish of dishes; track dish.id) {
+            <tr>
+              <td>{{ dish.name }}</td>
+              <td><zc-money [value]="dish.discountedPriceIdr" [listPrice]="dish.priceIdr" /></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </zc-table-shell>
+  </section>
+
+  <section aria-labelledby="h-states">
+    <zc-section-heading heading="States and dialog" [level]="2" headingId="h-states" />
+    <zc-loading-pane />
+    <zc-empty-state heading="Your cart is empty" message="Pick something from the menu.">
+      <button matButton="filled" type="button">Browse the menu</button>
+    </zc-empty-state>
+    <zc-error-state heading="Something went wrong" message="We could not load this page." />
+    <button matButton="filled" type="button" (click)="openDialog()">Open a dialog</button>
+  </section>
+</zc-page-shell>
