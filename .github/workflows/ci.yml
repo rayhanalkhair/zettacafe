@@ -41,6 +41,9 @@ jobs:
       - name: Check i18n drift
         run: npm run i18n:check
 
+      - name: Check colour contrast (WCAG 2.2 AA)
+        run: npm run contrast:check
+
       - name: Typecheck
         run: npm run typecheck
 
@@ -52,7 +55,7 @@ jobs:
         run: npm run build
 
       - name: Check bundle boundaries
-        run: node scripts/check-bundle.mjs
+        run: npm run bundle:check
 
       - name: Upload build output
         if: always()

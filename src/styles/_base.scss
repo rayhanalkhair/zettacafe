@@ -1,0 +1,89 @@
+// Element defaults. Class-free and low-specificity so components can override.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  // iOS Safari still requires the prefixed property to stop text inflating on rotate.
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--zc-paper);
+  color: var(--zc-ink);
+  font-family: var(--zc-font-body);
+  font-size: var(--zc-text-base);
+  font-weight: var(--zc-weight-regular);
+  line-height: var(--zc-leading-body);
+  letter-spacing: var(--zc-tracking-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-weight: var(--zc-weight-semibold);
+  line-height: var(--zc-leading-tight);
+  letter-spacing: var(--zc-tracking-display);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--zc-text-3xl);
+}
+
+h2 {
+  font-size: var(--zc-text-2xl);
+}
+
+h3 {
+  font-size: var(--zc-text-xl);
+  line-height: var(--zc-leading-snug);
+}
+
+h4 {
+  font-size: var(--zc-text-lg);
+  line-height: var(--zc-leading-snug);
+}
+
+p {
+  margin: 0;
+  max-inline-size: var(--zc-measure);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--zc-aren);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-inline-size: 100%;
+}
+
+img {
+  block-size: auto;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+::selection {
+  background: var(--zc-aren-tint);
+  color: var(--zc-ink);
+}

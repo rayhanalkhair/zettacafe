@@ -1,0 +1,13 @@
+# Normalise line endings to LF for everyone, regardless of core.autocrlf.
+# Prettier, ESLint and the CI (Linux) all expect LF; without this a Windows
+# checkout writes CRLF and `npm run format:check` fails locally.
+* text=auto eol=lf
+
+# Binary assets: never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
