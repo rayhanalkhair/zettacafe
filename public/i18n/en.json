@@ -73,7 +73,8 @@
       "orders": "Orders",
       "cartItems": "{{count}} items",
       "ingredients": "Ingredients",
-      "recipes": "Recipes"
+      "recipes": "Recipes",
+      "about": "About"
     },
     "signOutConfirm": {
       "title": "Sign out?",
@@ -81,8 +82,26 @@
     }
   },
   "home": {
-    "title": "ZettaCafe",
-    "tagline": "Indonesian food and coffee, made to order."
+    "hero": {
+      "title": "Indonesian food and coffee, made to order.",
+      "body": "Rice, noodles and slow-cooked curries from a working Indonesian kitchen, and the coffee to go with them. Pick what you want, and we cook it when you order.",
+      "menu": "See the menu",
+      "join": "Create an account"
+    },
+    "featured": {
+      "title": "From the kitchen"
+    },
+    "offers": {
+      "title": "On offer",
+      "intro": "Dishes with a discount today, biggest saving first."
+    },
+    "add": "Add",
+    "addAria": "Add {{name}} to your cart",
+    "error": {
+      "title": "The menu did not load",
+      "message": "Check your connection and try again."
+    },
+    "nothing": "Nothing is on the home page yet. The full menu is one click away."
   },
   "auth": {
     "welcome": "Welcome back, {{name}}.",
@@ -139,7 +158,8 @@
     "cart": "Your cart",
     "orders": "Your orders",
     "adminIngredients": "Ingredients",
-    "adminRecipes": "Recipes"
+    "adminRecipes": "Recipes",
+    "about": "About"
   },
   "menu": {
     "title": "Menu",
@@ -162,11 +182,6 @@
     "error": {
       "title": "The menu did not load",
       "message": "Check your connection and try again."
-    },
-    "guest": {
-      "title": "Sign in to order",
-      "message": "Do you have an account? Sign in and we will bring you back to this dish.",
-      "confirm": "Go to sign in"
     }
   },
   "cartDialog": {
@@ -179,7 +194,12 @@
     "add": "Add to cart",
     "save": "Save changes",
     "added": "{{name}} is in your cart.",
-    "saved": "Updated {{name}}."
+    "saved": "Updated {{name}}.",
+    "guest": {
+      "title": "Sign in to order",
+      "message": "Do you have an account? Sign in and we will bring you back to this dish.",
+      "confirm": "Go to sign in"
+    }
   },
   "cart": {
     "title": "Your cart",
@@ -415,6 +435,35 @@
       "duplicate": "Each ingredient can appear only once.",
       "ingredientsError": "The ingredients could not be loaded. Close this and try again.",
       "featured": "Show on the home page"
+    }
+  },
+  "about": {
+    "title": "About ZettaCafe",
+    "tagline": "It is not just food, it is an experience.",
+    "story": {
+      "title": "Our kitchen",
+      "body": "ZettaCafe cooks Indonesian food to order: nasi goreng with the smoke still on it, rendang that has had its eight hours, soto that is ladled to your bowl. Drinks come from a short list of coffee we like.",
+      "demo": "ZettaCafe is also a portfolio project. The menu, the prices and the orders are real data in this browser and nothing is delivered."
+    },
+    "hours": {
+      "title": "Opening hours",
+      "weekdays": "Monday to Friday",
+      "weekdaysTime": "08:00 to 17:00",
+      "weekend": "Saturday and Sunday",
+      "weekendTime": "Closed",
+      "note": "Times are Western Indonesia Time (WIB), except public holidays."
+    },
+    "form": {
+      "title": "Write to us",
+      "intro": "A question or a suggestion? Tell us here.",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send message",
+      "demo": "This is a portfolio demo, so your message is not sent anywhere.",
+      "sent": "Thank you, {{name}}.",
+      "demoSent": "This is a portfolio demo, so your message was not sent anywhere.",
+      "again": "Write another"
     }
   }
 }

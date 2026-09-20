@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+
+.hero {
+  max-inline-size: 44rem;
+  padding-block: var(--zc-space-6) var(--zc-space-8);
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-display);
+  font-weight: var(--zc-weight-bold);
+  line-height: var(--zc-leading-tight);
+  text-wrap: balance;
+}
+
+// A short rule in the pandan green, the one colour the rest of the page does not use.
+.hero h1::after {
+  display: block;
+  inline-size: 4rem;
+  block-size: 4px;
+  margin-block-start: var(--zc-space-4);
+  background: var(--zc-pandan);
+  content: '';
+}
+
+.lead {
+  max-inline-size: var(--zc-measure);
+  margin: var(--zc-space-4) 0 0;
+  color: var(--zc-ink-soft);
+  font-size: var(--zc-text-lg);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  margin-block-start: var(--zc-space-5);
+}
+
+.block {
+  margin-block-start: var(--zc-space-7);
+}
+
+.intro {
+  max-inline-size: var(--zc-measure);
+  margin: var(--zc-space-3) 0 0;
+  color: var(--zc-ink-soft);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--zc-space-5);
+  margin: var(--zc-space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quiet {
+  color: var(--zc-ink-soft);
+}

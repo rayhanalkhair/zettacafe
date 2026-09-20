@@ -5,6 +5,9 @@
     <a routerLink="/menu" routerLinkActive="active" ariaCurrentWhenActive="page">{{
       'shell.nav.menu' | translate
     }}</a>
+    <a routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">{{
+      'shell.nav.about' | translate
+    }}</a>
     @if (session.isAuthenticated()) {
       <a routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page">
         {{ 'shell.nav.cart' | translate }}

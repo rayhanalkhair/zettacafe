@@ -73,7 +73,8 @@
       "orders": "Pesanan",
       "cartItems": "{{count}} item",
       "ingredients": "Bahan",
-      "recipes": "Resep"
+      "recipes": "Resep",
+      "about": "Tentang"
     },
     "signOutConfirm": {
       "title": "Keluar?",
@@ -81,8 +82,26 @@
     }
   },
   "home": {
-    "title": "ZettaCafe",
-    "tagline": "Makanan dan kopi Indonesia, dibuat sesuai pesanan."
+    "hero": {
+      "title": "Makanan dan kopi Indonesia, dibuat sesuai pesanan.",
+      "body": "Nasi, mi dan kari yang dimasak lama dari dapur Indonesia, ditemani kopi. Pilih yang Anda mau, dan kami memasaknya saat Anda memesan.",
+      "menu": "Lihat menu",
+      "join": "Buat akun"
+    },
+    "featured": {
+      "title": "Dari dapur kami"
+    },
+    "offers": {
+      "title": "Sedang diskon",
+      "intro": "Hidangan yang didiskon hari ini, potongan terbesar lebih dulu."
+    },
+    "add": "Tambah",
+    "addAria": "Tambahkan {{name}} ke keranjang",
+    "error": {
+      "title": "Menu gagal dimuat",
+      "message": "Periksa koneksi Anda lalu coba lagi."
+    },
+    "nothing": "Belum ada yang tampil di beranda. Menu lengkap hanya satu klik."
   },
   "auth": {
     "welcome": "Selamat datang kembali, {{name}}.",
@@ -139,7 +158,8 @@
     "cart": "Keranjang",
     "orders": "Pesanan",
     "adminIngredients": "Bahan",
-    "adminRecipes": "Resep"
+    "adminRecipes": "Resep",
+    "about": "Tentang"
   },
   "menu": {
     "title": "Menu",
@@ -162,11 +182,6 @@
     "error": {
       "title": "Menu gagal dimuat",
       "message": "Periksa koneksi Anda lalu coba lagi."
-    },
-    "guest": {
-      "title": "Masuk untuk memesan",
-      "message": "Sudah punya akun? Masuk dan kami antar Anda kembali ke hidangan ini.",
-      "confirm": "Ke halaman masuk"
     }
   },
   "cartDialog": {
@@ -179,7 +194,12 @@
     "add": "Tambah ke keranjang",
     "save": "Simpan perubahan",
     "added": "{{name}} masuk keranjang Anda.",
-    "saved": "{{name}} diperbarui."
+    "saved": "{{name}} diperbarui.",
+    "guest": {
+      "title": "Masuk untuk memesan",
+      "message": "Sudah punya akun? Masuk dan kami antar Anda kembali ke hidangan ini.",
+      "confirm": "Ke halaman masuk"
+    }
   },
   "cart": {
     "title": "Keranjang Anda",
@@ -415,6 +435,35 @@
       "duplicate": "Setiap bahan hanya boleh muncul sekali.",
       "ingredientsError": "Bahan tidak dapat dimuat. Tutup ini dan coba lagi.",
       "featured": "Tampilkan di beranda"
+    }
+  },
+  "about": {
+    "title": "Tentang ZettaCafe",
+    "tagline": "Bukan sekadar makanan, ini sebuah pengalaman.",
+    "story": {
+      "title": "Dapur kami",
+      "body": "ZettaCafe memasak makanan Indonesia sesuai pesanan: nasi goreng yang masih beraroma asap, rendang yang sudah delapan jam dimasak, soto yang dituang ke mangkuk Anda. Minuman berasal dari daftar pendek kopi favorit kami.",
+      "demo": "ZettaCafe juga proyek portofolio. Menu, harga, dan pesanan adalah data sungguhan di peramban ini dan tidak ada yang diantar."
+    },
+    "hours": {
+      "title": "Jam buka",
+      "weekdays": "Senin sampai Jumat",
+      "weekdaysTime": "08.00 sampai 17.00",
+      "weekend": "Sabtu dan Minggu",
+      "weekendTime": "Tutup",
+      "note": "Waktu dalam Waktu Indonesia Barat (WIB), kecuali hari libur nasional."
+    },
+    "form": {
+      "title": "Tulis kepada kami",
+      "intro": "Ada pertanyaan atau saran? Sampaikan di sini.",
+      "name": "Nama",
+      "email": "Email",
+      "message": "Pesan",
+      "submit": "Kirim pesan",
+      "demo": "Ini demo portofolio, jadi pesan Anda tidak dikirim ke mana pun.",
+      "sent": "Terima kasih, {{name}}.",
+      "demoSent": "Ini demo portofolio, jadi pesan Anda tidak dikirim ke mana pun.",
+      "again": "Tulis lagi"
     }
   }
 }

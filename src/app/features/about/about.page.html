@@ -1,0 +1,63 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'about.title' | translate" />
+  <p class="lead">{{ 'about.tagline' | translate }}</p>
+
+  <div class="grid">
+    <section class="story" aria-labelledby="story-heading">
+      <h2 id="story-heading">{{ 'about.story.title' | translate }}</h2>
+      <p>{{ 'about.story.body' | translate }}</p>
+      <p>{{ 'about.story.demo' | translate }}</p>
+
+      <h2 id="hours-heading">{{ 'about.hours.title' | translate }}</h2>
+      <dl class="hours" aria-labelledby="hours-heading">
+        <div>
+          <dt>{{ 'about.hours.weekdays' | translate }}</dt>
+          <dd>{{ 'about.hours.weekdaysTime' | translate }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'about.hours.weekend' | translate }}</dt>
+          <dd>{{ 'about.hours.weekendTime' | translate }}</dd>
+        </div>
+      </dl>
+      <p class="note">{{ 'about.hours.note' | translate }}</p>
+    </section>
+
+    <section class="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">{{ 'about.form.title' | translate }}</h2>
+
+      @if (sentTo(); as name) {
+        <div class="sent" role="status">
+          <p>{{ 'about.form.sent' | translate: { name } }}</p>
+          <p class="note">{{ 'about.form.demoSent' | translate }}</p>
+          <button matButton="outlined" type="button" (click)="writeAgain()">
+            {{ 'about.form.again' | translate }}
+          </button>
+        </div>
+      } @else {
+        <p class="note">{{ 'about.form.intro' | translate }}</p>
+        <form class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+          <zc-text-field
+            [control]="form.controls.name"
+            autocomplete="name"
+            [label]="'about.form.name' | translate"
+          />
+          <zc-text-field
+            [control]="form.controls.email"
+            type="email"
+            autocomplete="email"
+            [label]="'about.form.email' | translate"
+          />
+          <zc-textarea-field
+            [control]="form.controls.message"
+            [rows]="5"
+            [label]="'about.form.message' | translate"
+          />
+          <button class="submit" matButton="filled" type="submit">
+            {{ 'about.form.submit' | translate }}
+          </button>
+          <p class="note">{{ 'about.form.demo' | translate }}</p>
+        </form>
+      }
+    </section>
+  </div>
+</zc-page-shell>

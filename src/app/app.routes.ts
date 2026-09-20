@@ -9,6 +9,13 @@ export const routes: Routes = [
     loadComponent: () => import('@features/home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'about',
+    title: 'titles.about',
+    loadComponent: () => import('@features/about/about.page').then((m) => m.AboutPage),
+  },
+  // v1 mounted the About page at /profile too. Keep old links working.
+  { path: 'profile', redirectTo: 'about', pathMatch: 'full' },
+  {
     path: 'menu',
     title: 'titles.menu',
     loadComponent: () => import('@features/menu/menu.page').then((m) => m.MenuPage),
