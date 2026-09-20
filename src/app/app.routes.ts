@@ -10,6 +10,12 @@ export const routes: Routes = [
           title: 'Design tokens',
           loadComponent: () => import('./dev/tokens/tokens.page').then((m) => m.TokensPage),
         },
+        {
+          path: 'dev/graphql',
+          title: 'GraphQL console',
+          loadComponent: () =>
+            import('./dev/graphql/graphql-console.page').then((m) => m.GraphqlConsolePage),
+        },
       ]
     : []),
 ];

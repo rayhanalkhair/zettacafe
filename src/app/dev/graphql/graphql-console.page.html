@@ -1,0 +1,67 @@
+<a class="skip-link" href="#console-main">Skip to the console</a>
+
+<main id="console-main" class="page">
+  <header>
+    <h1>GraphQL console</h1>
+    <p class="note">
+      Runs any operation against the in-browser server through the app's Apollo client. Data lives
+      in this browser's IndexedDB. Demo password for both accounts:
+      <code>zettacafe123</code>.
+    </p>
+  </header>
+
+  <section aria-labelledby="h-presets">
+    <h2 id="h-presets">Presets</h2>
+    <div class="row">
+      @for (p of presets; track p.label) {
+        <button type="button" matButton="outlined" (click)="choose(p)">{{ p.label }}</button>
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="h-auth">
+    <h2 id="h-auth">Session</h2>
+    <div class="row">
+      <button type="button" matButton="tonal" (click)="signInAs('customer')">
+        Sign in as customer
+      </button>
+      <button type="button" matButton="tonal" (click)="signInAs('admin')">Sign in as admin</button>
+      <button type="button" matButton="text" (click)="token.set('')">Sign out (clear token)</button>
+    </div>
+    <label for="token">Bearer token</label>
+    <input id="token" type="text" [value]="token()" (input)="onToken($event)" placeholder="guest" />
+  </section>
+
+  <section aria-labelledby="h-query">
+    <h2 id="h-query">Operation</h2>
+    <label for="query">Query or mutation</label>
+    <textarea
+      id="query"
+      rows="10"
+      spellcheck="false"
+      [value]="query()"
+      (input)="onQuery($event)"
+    ></textarea>
+    <label for="vars">Variables (JSON)</label>
+    <textarea
+      id="vars"
+      rows="3"
+      spellcheck="false"
+      [value]="variables()"
+      (input)="onVariables($event)"
+    ></textarea>
+    <div class="row">
+      <button type="button" matButton="filled" [disabled]="running()" (click)="run()">
+        {{ running() ? 'Running…' : 'Run' }}
+      </button>
+      @if (elapsedMs() !== null) {
+        <span class="note" role="status">{{ elapsedMs() }} ms</span>
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="h-out">
+    <h2 id="h-out">Result</h2>
+    <pre id="output" aria-live="polite">{{ output() }}</pre>
+  </section>
+</main>
