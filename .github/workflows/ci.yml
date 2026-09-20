@@ -44,6 +44,11 @@ jobs:
       - name: Check colour contrast (WCAG 2.2 AA)
         run: npm run contrast:check
 
+      # The resolver types are generated from schema.graphql. A stale file means
+      # someone changed the schema without regenerating.
+      - name: Check generated code is up to date
+        run: npm run codegen:check
+
       - name: Typecheck
         run: npm run typecheck
 

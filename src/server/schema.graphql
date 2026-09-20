@@ -1,0 +1,584 @@
+"""
+ZettaCafe API contract.
+
+This schema is executed in the browser (see src/server) but is written as if it
+were a real service, so the client can be pointed at an HTTP GraphQL endpoint
+without changing a single document.
+
+Conventions
+-----------
+* Money is an integer number of rupiah (IDR has no minor unit in practice).
+  Fields end in `Idr`. Never floats.
+* Failures are GraphQL errors carrying a stable `extensions.code`; the client
+  maps codes to translated messages. Codes and their extra data:
+
+    UNAUTHENTICATED      no valid session
+    FORBIDDEN            signed in, but not allowed (e.g. a customer calling an admin operation)
+    NOT_FOUND            { entity, id }
+    VALIDATION           { field, reason }
+    INVALID_CREDENTIALS  wrong email or password
+    EMAIL_TAKEN          { email }
+    INVALID_RESET_CODE   wrong or expired password reset code
+    EMPTY_CART           checkout with nothing in the cart
+    RECIPE_UNAVAILABLE   { recipeId } unpublished or archived recipe in the cart
+    INSUFFICIENT_STOCK   { shortages: [{ ingredientId, name, required, available, unit }] }
+    INSUFFICIENT_CREDIT  { requiredIdr, availableIdr, shortfallIdr }
+    PRICE_CHANGED        { expectedIdr, actualIdr } the cart total moved since the client last saw it
+    RECIPE_IN_USE        { recipeIds } deleting an ingredient a live recipe depends on
+
+  Business problems a client can act on BEFORE submitting (stock, availability)
+  are exposed as typed data instead: see `Order.issues`.
+* Lists are paginated with offset/limit. Cursors were considered and rejected:
+  the UI is a numbered page control, the data set is small, and there is a
+  single writer.
+* On update inputs, an omitted field is left unchanged. For nullable content
+  fields an explicit null clears the value.
+* Nothing here ever returns a password or password hash. There is no such field.
+* Recipe names are proper nouns ("Nasi Goreng Kampung") and are not localised;
+  descriptions are.
+"""
+scalar DateTime
+
+# --- Enums ----------------------------------------------------------------------------------
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+"""
+Language for user-facing content. Falls back to EN when a translation is missing.
+"""
+enum Locale {
+  EN
+  ID
+}
+
+enum RecipeStatus {
+  """
+  Hidden from the public menu.
+  """
+  DRAFT
+  PUBLISHED
+}
+
+enum RecipeCategory {
+  FOOD
+  DRINK
+}
+
+"""
+Where a recipe came from.
+"""
+enum RecipeSource {
+  """
+  Authored seed data.
+  """
+  SEED
+  """
+  Fetched from the public coffee API.
+  """
+  COFFEE_API
+  """
+  Created by an admin in the app.
+  """
+  USER
+}
+
+enum OrderStatus {
+  """
+  The cart. Exactly one per signed-in user, empty or not.
+  """
+  DRAFT
+  """
+  Checked out and paid from credit.
+  """
+  PLACED
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum RecipeSortField {
+  NAME
+  PRICE
+  DISCOUNT
+}
+
+enum IngredientSortField {
+  NAME
+  STOCK
+}
+
+enum CartIssueKind {
+  """
+  Nothing can be made: an ingredient is exhausted.
+  """
+  OUT_OF_STOCK
+  """
+  Some can be made, but fewer than the quantity in the cart.
+  """
+  PARTIALLY_AVAILABLE
+  """
+  The recipe was unpublished or archived after it was added.
+  """
+  UNPUBLISHED
+}
+
+# --- Types ----------------------------------------------------------------------------------
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  role: Role!
+  """
+  Spendable balance in rupiah.
+  """
+  creditIdr: Int!
+}
+
+type AuthPayload {
+  """
+  Opaque session token. Send as `Authorization: Bearer <token>`.
+  """
+  token: String!
+  user: User!
+}
+
+"""
+Always returned, whether or not the email is registered, so the response cannot
+be used to discover which emails have accounts.
+"""
+type PasswordResetChallenge {
+  """
+  The verification code. There is no email service behind the in-browser server,
+  so it is returned here in demo mode and is null once a real mailer exists.
+  """
+  demoCode: String
+  expiresAt: DateTime!
+}
+
+"""
+Stock levels are internal. Only admins can read them.
+"""
+type Ingredient {
+  id: ID!
+  name: String!
+  stockQty: Int!
+  """
+  Unit of `stockQty`, e.g. "g", "ml", "pcs".
+  """
+  unit: String!
+  """
+  True while there is any stock.
+  """
+  isAvailable: Boolean!
+}
+
+type RecipeIngredient {
+  ingredient: Ingredient!
+  """
+  How much of the ingredient one serving uses, in the ingredient's unit.
+  """
+  quantity: Int!
+}
+
+type Recipe {
+  id: ID!
+  name: String!
+  description(locale: Locale = EN): String
+  imageUrl: String
+  category: RecipeCategory!
+  source: RecipeSource!
+  priceIdr: Int!
+  """
+  Whole percent, 0 to 100.
+  """
+  discountPercent: Int!
+  """
+  `priceIdr` after the discount, rounded to the nearest rupiah.
+  """
+  discountedPriceIdr: Int!
+  status: RecipeStatus!
+  """
+  Curated for the home page.
+  """
+  isFeatured: Boolean!
+  """
+  Public. What goes into the dish, without quantities or stock.
+  """
+  ingredientNames: [String!]!
+  """
+  Admin only: quantities and live stock. Null for everyone else, so a guest can
+  never read inventory, and asking for it does not fail the whole recipe.
+  """
+  ingredients: [RecipeIngredient!]
+  """
+  Portions that can be made right now: the minimum over ingredients of
+  floor(stock / quantity). The single definition of the stock rule; the client
+  never recomputes it.
+  """
+  availableServings: Int!
+  isAvailable: Boolean!
+}
+
+"""
+A line in a cart or an order. Everything history needs is frozen when the order
+is placed, so `recipe` may be null once a recipe is archived and the line still
+renders in full.
+"""
+type OrderLine {
+  id: ID!
+  recipe: Recipe
+  recipeName: String!
+  recipeImageUrl: String
+  quantity: Int!
+  note: String
+  """
+  Before discount. Live while in the cart, frozen once placed.
+  """
+  listPriceIdr: Int!
+  discountPercent: Int!
+  """
+  What is charged per serving, after discount.
+  """
+  unitPriceIdr: Int!
+  lineTotalIdr: Int!
+}
+
+"""
+A problem with a cart line that would make checkout fail.
+"""
+type CartIssue {
+  line: OrderLine!
+  kind: CartIssueKind!
+  """
+  The most of this line that could be ordered right now, given the rest of the cart.
+  """
+  maxOrderableQuantity: Int!
+}
+
+"""
+A cart or a placed order. A signed-in user always has a cart: when nothing has
+been added it is an empty Order with the same id it will keep once persisted
+(`cart_<userId>`), so clients cache it as one entity.
+"""
+type Order {
+  id: ID!
+  user: User!
+  lines: [OrderLine!]!
+  status: OrderStatus!
+  totalIdr: Int!
+  """
+  Empty when the cart can be checked out as-is. Always empty on a placed order.
+  """
+  issues: [CartIssue!]!
+  createdAt: DateTime!
+  placedAt: DateTime
+}
+
+"""
+Revenue summary. Admin only.
+"""
+type Finance {
+  revenueIdr: Int!
+  orderCount: Int!
+  averageOrderIdr: Int!
+}
+
+# --- Paginated results ---------------------------------------------------------------------
+
+type RecipeConnection {
+  items: [Recipe!]!
+  """
+  Total matching the filter, ignoring the page.
+  """
+  totalCount: Int!
+}
+
+type IngredientConnection {
+  items: [Ingredient!]!
+  totalCount: Int!
+}
+
+type OrderConnection {
+  items: [Order!]!
+  totalCount: Int!
+}
+
+# --- Inputs ----------------------------------------------------------------------------------
+# Defaults are declared on nullable arguments (`Int = 0`), not on non-null ones, so
+# generated client types make those fields optional.
+
+input PageInput {
+  offset: Int = 0
+  """
+  1 to 50.
+  """
+  limit: Int = 10
+}
+
+input RecipeFilter {
+  """
+  Case-insensitive match on the name.
+  """
+  search: String
+  """
+  Customers and guests may only pass PUBLISHED; DRAFT is FORBIDDEN for them.
+  """
+  status: RecipeStatus
+  category: RecipeCategory
+}
+
+input RecipeSort {
+  field: RecipeSortField = NAME
+  direction: SortDirection = ASC
+}
+
+input IngredientFilter {
+  search: String
+  isAvailable: Boolean
+}
+
+input IngredientSort {
+  field: IngredientSortField = NAME
+  direction: SortDirection = ASC
+}
+
+input OrderFilter {
+  """
+  Admin only: restrict to the admin's own orders. Ignored for customers, who only ever see their own.
+  """
+  mine: Boolean
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  """
+  At least 8 characters.
+  """
+  password: String!
+}
+
+input ResetPasswordInput {
+  email: String!
+  """
+  The four-digit code from `requestPasswordReset`.
+  """
+  code: String!
+  """
+  At least 8 characters.
+  """
+  newPassword: String!
+}
+
+input LocalizedTextInput {
+  en: String!
+  id: String
+}
+
+input RecipeIngredientInput {
+  ingredientId: ID!
+  """
+  Greater than zero.
+  """
+  quantity: Int!
+}
+
+input CreateRecipeInput {
+  name: String!
+  description: LocalizedTextInput
+  imageUrl: String
+  category: RecipeCategory!
+  priceIdr: Int!
+  """
+  0 to 100.
+  """
+  discountPercent: Int = 0
+  status: RecipeStatus = DRAFT
+  """
+  At least one.
+  """
+  ingredients: [RecipeIngredientInput!]!
+}
+
+"""
+Partial update. Status and featured flag have their own mutations so an edit form
+can never publish or unpublish by accident.
+"""
+input UpdateRecipeInput {
+  name: String
+  description: LocalizedTextInput
+  imageUrl: String
+  category: RecipeCategory
+  priceIdr: Int
+  discountPercent: Int
+  """
+  When present, replaces the whole ingredient list.
+  """
+  ingredients: [RecipeIngredientInput!]
+}
+
+input CreateIngredientInput {
+  name: String!
+  """
+  Zero or more.
+  """
+  stockQty: Int!
+  unit: String!
+}
+
+input UpdateIngredientInput {
+  name: String
+  stockQty: Int
+  unit: String
+}
+
+input AddCartLineInput {
+  recipeId: ID!
+  """
+  1 to 99. Adding a recipe already in the cart increases its quantity.
+  """
+  quantity: Int = 1
+  note: String
+}
+
+input UpdateCartLineInput {
+  lineId: ID!
+  """
+  1 to 99.
+  """
+  quantity: Int!
+  """
+  Replaces the existing note. Null clears it.
+  """
+  note: String
+}
+
+# --- Operations ------------------------------------------------------------------------------
+
+type Query {
+  """
+  The signed-in user, or null for a guest.
+  """
+  me: User
+
+  """
+  Recipes. Guests and customers only ever see PUBLISHED recipes; admins see
+  everything.
+  """
+  recipes(filter: RecipeFilter, page: PageInput, sort: RecipeSort): RecipeConnection!
+
+  recipe(id: ID!): Recipe
+
+  """
+  Published, in-stock recipes curated for the home page.
+  """
+  featuredRecipes(limit: Int = 6): [Recipe!]!
+
+  """
+  Published, in-stock recipes with a discount, biggest discount first.
+  """
+  discountedRecipes(limit: Int = 8): [Recipe!]!
+
+  """
+  Admin only.
+  """
+  ingredients(
+    filter: IngredientFilter
+    page: PageInput
+    sort: IngredientSort
+  ): IngredientConnection!
+
+  """
+  The signed-in user's cart, empty or not. Null only for a guest.
+  """
+  cart: Order
+
+  """
+  One of the caller's own orders, or any order for an admin.
+  """
+  order(id: ID!): Order
+
+  """
+  Own orders for a customer, every order for an admin. Newest first.
+  """
+  orderHistory(page: PageInput, filter: OrderFilter): OrderConnection!
+
+  """
+  Admin only.
+  """
+  finance: Finance!
+}
+
+type Mutation {
+  signIn(input: SignInInput!): AuthPayload!
+  """
+  Always creates a CUSTOMER and signs them in.
+  """
+  signUp(input: SignUpInput!): AuthPayload!
+  signOut: Boolean!
+  """
+  Always succeeds, whether or not the email exists.
+  """
+  requestPasswordReset(email: String!): PasswordResetChallenge!
+  resetPassword(input: ResetPasswordInput!): Boolean!
+
+  """
+  Adds spendable credit. 1,000 to 10,000,000 rupiah.
+  """
+  topUpCredit(amountIdr: Int!): User!
+
+  addCartLine(input: AddCartLineInput!): Order!
+  updateCartLine(input: UpdateCartLineInput!): Order!
+  """
+  Returns the cart, which is empty when that was the last line.
+  """
+  removeCartLine(lineId: ID!): Order!
+  """
+  Empties the cart and returns it.
+  """
+  cancelCart: Order!
+  """
+  Places the cart atomically: checks stock and credit first, then decrements
+  stock and debits credit in one transaction. A failure changes nothing.
+  Pass `expectedTotalIdr` (the total the user saw) to fail with PRICE_CHANGED
+  instead of charging a different amount.
+  """
+  checkout(expectedTotalIdr: Int): Order!
+
+  """
+  Admin only.
+  """
+  createRecipe(input: CreateRecipeInput!): Recipe!
+  updateRecipe(id: ID!, input: UpdateRecipeInput!): Recipe!
+  setRecipeStatus(id: ID!, status: RecipeStatus!): Recipe!
+  setRecipeFeatured(id: ID!, isFeatured: Boolean!): Recipe!
+  """
+  Archives the recipe and returns it. Past orders keep working.
+  """
+  deleteRecipe(id: ID!): Recipe!
+
+  createIngredient(input: CreateIngredientInput!): Ingredient!
+  updateIngredient(id: ID!, input: UpdateIngredientInput!): Ingredient!
+  """
+  Adds or removes stock without resending the rest of the ingredient. The result
+  cannot go below zero.
+  """
+  adjustIngredientStock(id: ID!, deltaQty: Int!): Ingredient!
+  """
+  Archives the ingredient. Fails with RECIPE_IN_USE while a live recipe depends on it.
+  """
+  deleteIngredient(id: ID!): Ingredient!
+}
