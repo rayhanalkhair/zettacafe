@@ -1,0 +1,20 @@
+.form {
+  display: grid;
+  gap: var(--zc-space-3);
+}
+
+.dish {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-lg);
+  font-weight: var(--zc-weight-semibold);
+}
+
+.failure {
+  margin: 0;
+  padding: var(--zc-space-3) var(--zc-space-4);
+  border-inline-start: 4px solid var(--zc-sambal);
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-sambal-tint);
+  color: var(--zc-ink);
+}

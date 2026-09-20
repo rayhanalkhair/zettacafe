@@ -1,0 +1,83 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'menu.title' | translate" />
+  <p class="intro">{{ 'menu.intro' | translate }}</p>
+
+  <div class="controls">
+    <zc-search-field
+      [label]="'menu.searchLabel' | translate"
+      [value]="term()"
+      (search)="setSearch($event)"
+    />
+
+    <div class="categories" role="group" [attr.aria-label]="'menu.categoryLabel' | translate">
+      @for (c of categories; track c.key) {
+        <button
+          type="button"
+          [matButton]="selected() === c.id ? 'filled' : 'outlined'"
+          [attr.aria-pressed]="selected() === c.id"
+          (click)="setCategory(c.param)"
+        >
+          {{ c.key | translate }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Announces the result of a search or filter without moving focus. -->
+  <p class="visually-hidden" role="status">
+    @if (view() === 'ready') {
+      {{ 'menu.count' | translate: { count: total() } }}
+    } @else if (view() === 'empty') {
+      {{ 'menu.empty.title' | translate }}
+    }
+  </p>
+
+  @switch (view()) {
+    @case ('loading') {
+      <zc-loading-pane />
+    }
+    @case ('error') {
+      <zc-error-state
+        [heading]="'menu.error.title' | translate"
+        [message]="'menu.error.message' | translate"
+        (retry)="recipes.reload()"
+      />
+    }
+    @case ('empty') {
+      <zc-empty-state
+        [heading]="'menu.empty.title' | translate"
+        [message]="'menu.empty.message' | translate"
+      >
+        <button matButton="tonal" type="button" (click)="clearFilters()">
+          {{ 'menu.empty.clear' | translate }}
+        </button>
+      </zc-empty-state>
+    }
+    @default {
+      <ul class="board" [attr.aria-busy]="recipes.isLoading()">
+        @for (item of items(); track item.id) {
+          <li>
+            <zc-menu-board-row [item]="item" [headingLevel]="2">
+              <button
+                zcRowAction
+                matButton="tonal"
+                type="button"
+                [disabled]="!item.isAvailable"
+                [attr.aria-label]="'menu.addAria' | translate: { name: item.name }"
+                (click)="add(item)"
+              >
+                {{ 'menu.add' | translate }}
+              </button>
+            </zc-menu-board-row>
+          </li>
+        }
+      </ul>
+      <zc-pager
+        [offset]="offset()"
+        [limit]="pageSize"
+        [total]="total()"
+        (offsetChange)="setOffset($event)"
+      />
+    }
+  }
+</zc-page-shell>

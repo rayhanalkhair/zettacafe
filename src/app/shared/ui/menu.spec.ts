@@ -43,6 +43,16 @@ describe('menu components', () => {
       await expectNoAxeViolations(el);
     });
 
+    it.each([2, 3, 4] as const)('renders the dish name as an h%s when asked', async (level) => {
+      const fixture = TestBed.createComponent(MenuBoardRow);
+      fixture.componentRef.setInput('item', dish);
+      fixture.componentRef.setInput('headingLevel', level);
+      await fixture.whenStable();
+      expect((fixture.nativeElement as HTMLElement).querySelector(`h${level}`)?.textContent).toBe(
+        'Rendang Daging',
+      );
+    });
+
     it('flags a sold-out dish in words', async () => {
       const el = await row({ isAvailable: false, availableServings: 0 });
       expect(text(el)).toContain('Sold out');
@@ -86,6 +96,16 @@ describe('menu components', () => {
       expect(el.querySelector('h3')?.textContent).toBe('Rendang Daging');
       expect(text(el)).toContain('20% off');
       await expectNoAxeViolations(el);
+    });
+  });
+
+  describe('RecipeCard heading level', () => {
+    it.each([2, 3, 4] as const)('renders the dish name as an h%s when asked', async (level) => {
+      const fixture = TestBed.createComponent(RecipeCard);
+      fixture.componentRef.setInput('item', dish);
+      fixture.componentRef.setInput('headingLevel', level);
+      await fixture.whenStable();
+      expect((fixture.nativeElement as HTMLElement).querySelector(`h${level}`)).not.toBeNull();
     });
   });
 

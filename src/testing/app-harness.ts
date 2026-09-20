@@ -1,6 +1,6 @@
 import { Component, type EnvironmentProviders, type Provider, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, Router, type Route } from '@angular/router';
+import { provideRouter, Router, withComponentInputBinding, type Route } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { guestGuard } from '@core/auth/guards';
 import { provideTestApollo } from './apollo';
@@ -30,11 +30,15 @@ export async function renderRoute(
   localStorage.clear();
   TestBed.configureTestingModule({
     providers: [
-      provideRouter([
-        ...routes,
-        { path: 'cart', component: Placeholder },
-        { path: '', pathMatch: 'full', component: Placeholder },
-      ]),
+      provideRouter(
+        [
+          ...routes,
+          { path: 'cart', component: Placeholder },
+          { path: '', pathMatch: 'full', component: Placeholder },
+        ],
+        // As in the app: query parameters bind straight to component inputs.
+        withComponentInputBinding(),
+      ),
       provideTestApollo(),
       provideTestTranslations(),
       ...extraProviders,

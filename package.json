@@ -23,7 +23,7 @@
     "contrast:table": "node scripts/check-contrast.mjs --table",
     "bundle:check": "node scripts/check-bundle.mjs",
     "codegen": "graphql-codegen --config codegen.mjs",
-    "codegen:check": "npm run codegen && git diff --exit-code src/server/generated src/app/core/graphql/generated"
+    "codegen:check": "npm run codegen && git diff --exit-code -- src/server/generated src/app/core/graphql/generated \"src/app/features/**/graphql.generated.ts\""
   },
   "private": true,
   "dependencies": {

@@ -63,7 +63,15 @@
     "signOut": "Keluar",
     "otherLanguage": "English",
     "credit": "Saldo",
-    "topUp": "Isi saldo"
+    "topUp": "Isi saldo",
+    "nav": {
+      "label": "Utama",
+      "menu": "Menu"
+    },
+    "signOutConfirm": {
+      "title": "Keluar?",
+      "message": "Keranjang Anda tetap tersimpan."
+    }
   },
   "home": {
     "title": "ZettaCafe",
@@ -119,6 +127,47 @@
     "home": "ZettaCafe",
     "login": "Masuk",
     "register": "Buat akun",
-    "forgotPassword": "Atur ulang kata sandi"
+    "forgotPassword": "Atur ulang kata sandi",
+    "menu": "Menu"
+  },
+  "menu": {
+    "title": "Menu",
+    "intro": "Hidangan dan minuman Indonesia, dibuat sesuai pesanan.",
+    "searchLabel": "Cari di menu",
+    "categoryLabel": "Tampilkan",
+    "category": {
+      "all": "Semua",
+      "food": "Makanan",
+      "drink": "Minuman"
+    },
+    "count": "{{count}} di menu",
+    "add": "Tambah",
+    "addAria": "Tambahkan {{name}} ke keranjang",
+    "empty": {
+      "title": "Tidak ada yang cocok",
+      "message": "Coba kata lain, atau tampilkan semuanya.",
+      "clear": "Tampilkan semua"
+    },
+    "error": {
+      "title": "Menu gagal dimuat",
+      "message": "Periksa koneksi Anda lalu coba lagi."
+    },
+    "guest": {
+      "title": "Masuk untuk memesan",
+      "message": "Sudah punya akun? Masuk dan kami antar Anda kembali ke hidangan ini.",
+      "confirm": "Ke halaman masuk"
+    },
+    "dialog": {
+      "addTitle": "Tambah ke keranjang",
+      "editTitle": "Ubah pesanan Anda",
+      "quantity": "Porsi",
+      "maxHint": "Tersedia hingga {{max}}.",
+      "note": "Catatan untuk dapur",
+      "noteHint": "Opsional, misalnya kurang pedas.",
+      "add": "Tambah ke keranjang",
+      "save": "Simpan perubahan",
+      "added": "{{name}} masuk keranjang Anda.",
+      "saved": "{{name}} diperbarui."
+    }
   }
 }

@@ -1,8 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { inject, Injectable, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { ConfirmDialog, type ConfirmDialogData } from './confirm-dialog';
+import type { ConfirmDialogData } from './confirm-dialog';
 
 export interface ConfirmOptions {
   /** i18n key for the title. */
@@ -37,7 +36,7 @@ const DEFAULTS = {
  */
 @Injectable({ providedIn: 'root' })
 export class ConfirmService {
-  private readonly dialog = inject(MatDialog);
+  private readonly injector = inject(Injector);
   private readonly translate = inject(TranslateService);
 
   async ask(options: ConfirmOptions): Promise<boolean> {
@@ -49,12 +48,20 @@ export class ConfirmService {
       cancelLabel: t(options.cancelKey ?? DEFAULTS.cancelKey),
       tone: options.tone ?? 'default',
     };
-    const ref = this.dialog.open<ConfirmDialog, ConfirmDialogData, boolean>(ConfirmDialog, {
-      data,
-      width: 'min(28rem, calc(100vw - 2rem))',
-      autoFocus: 'first-tabbable',
-      restoreFocus: true,
-    });
+    // Loaded on the first question, not at startup: the header asks before signing out,
+    // and a static import would put all of the dialog code in the initial bundle.
+    const [{ MatDialog }, { ConfirmDialog }] = await Promise.all([
+      import('@angular/material/dialog'),
+      import('./confirm-dialog'),
+    ]);
+    const ref = this.injector
+      .get(MatDialog)
+      .open<InstanceType<typeof ConfirmDialog>, ConfirmDialogData, boolean>(ConfirmDialog, {
+        data,
+        width: 'min(28rem, calc(100vw - 2rem))',
+        autoFocus: 'first-tabbable',
+        restoreFocus: true,
+      });
     return (await firstValueFrom(ref.afterClosed())) === true;
   }
 }

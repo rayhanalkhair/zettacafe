@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { inject, Injectable, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { formatIdr } from '@core/i18n/zc-formatting.pipes';
 import { LanguageStore } from '@core/i18n/language.store';
@@ -19,7 +18,7 @@ const DISMISS = { closeKey: 'common.close' } as const;
  */
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly injector = inject(Injector);
   private readonly translate = inject(TranslateService);
   private readonly language = inject(LanguageStore);
 
@@ -46,17 +45,31 @@ export class NotificationService {
     return this.translate.instant(key, params) as string;
   }
 
+  /**
+   * The snack bar is loaded on the first message, not at startup: it drags in the whole
+   * overlay system (over 100 kB), and most page views never show a notification.
+   */
   private show(
     key: string,
     params: Params | undefined,
     duration: number,
     politeness: 'polite' | 'assertive',
   ): void {
-    this.snackBar.open(this.text(key, params), this.text(DISMISS.closeKey), {
-      duration,
-      politeness,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-    });
+    // Translate now, while the active language is the one the message was raised in.
+    const message = this.text(key, params);
+    const action = this.text(DISMISS.closeKey);
+    void import('@angular/material/snack-bar')
+      .then(({ MatSnackBar }) => {
+        this.injector.get(MatSnackBar).open(message, action, {
+          duration,
+          politeness,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
+      })
+      .catch(() => {
+        // Failing to show a message (the chunk did not load, or the app is being torn
+        // down) must never become an error of its own.
+      });
   }
 }

@@ -1,0 +1,29 @@
+<zc-dialog-shell [heading]="labels.titleKey | translate">
+  <form id="add-to-cart-form" class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+    <p class="dish">{{ data.recipeName }}</p>
+
+    @if (failure(); as f) {
+      <p class="failure" role="alert">{{ f.key | translate: f.params }}</p>
+    }
+
+    <zc-number-field
+      [control]="form.controls.quantity"
+      [min]="1"
+      [max]="maxQuantity"
+      [label]="'menu.dialog.quantity' | translate"
+      [hint]="'menu.dialog.maxHint' | translate: { max: maxQuantity }"
+    />
+    <zc-text-field
+      [control]="form.controls.note"
+      autocomplete="off"
+      [label]="'menu.dialog.note' | translate"
+      [hint]="'menu.dialog.noteHint' | translate"
+    />
+  </form>
+
+  <div zcDialogActions>
+    <button matButton="filled" type="submit" form="add-to-cart-form" [disabled]="submitting()">
+      {{ labels.submitKey | translate }}
+    </button>
+  </div>
+</zc-dialog-shell>

@@ -47,6 +47,7 @@ export default defineConfig([
       'playwright-report/**',
       'test-results/**',
       'src/app/core/graphql/generated/**',
+      'src/app/features/**/graphql.generated.ts',
       'src/server/generated/**',
     ],
   },
