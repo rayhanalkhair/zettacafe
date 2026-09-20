@@ -1,8 +1,11 @@
-import type { Provider } from '@angular/core';
+import { inject, type Provider } from '@angular/core';
 import { ApolloLink, InMemoryCache } from '@apollo/client';
 import { HttpLink } from '@apollo/client/link/http';
 import { provideApollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
+import { SessionStore } from '@core/auth/session.store';
+import { NotificationService } from '@core/feedback/notification.service';
+import { createAuthLink, createErrorLink } from './links';
 
 /**
  * A terminating link that loads the in-browser GraphQL server on first use.
@@ -49,8 +52,24 @@ function createLazySchemaLink(): ApolloLink {
  * its dynamic import and its chunk are all removed from the build.
  */
 export function provideZcApollo(): Provider {
-  return provideApollo(() => ({
-    link: API_URL ? new HttpLink({ uri: API_URL }) : createLazySchemaLink(),
-    cache: new InMemoryCache(),
-  }));
+  return provideApollo(() => {
+    const session = inject(SessionStore);
+    const notifications = inject(NotificationService);
+    const terminating = API_URL ? new HttpLink({ uri: API_URL }) : createLazySchemaLink();
+
+    return {
+      link: ApolloLink.from([
+        createErrorLink({
+          isSignedIn: () => session.isAuthenticated(),
+          onSessionExpired: () => {
+            session.signOut();
+            notifications.error('errors.SESSION_EXPIRED');
+          },
+        }),
+        createAuthLink(() => session.token()),
+        terminating,
+      ]),
+      cache: new InMemoryCache(),
+    };
+  });
 }

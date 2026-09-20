@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { createContext } from './create-context';
+import { createContext, type ContextOptions } from './create-context';
 import type { ServerContext } from './context';
 import { resolvers } from './resolvers';
 import typeDefs from './schema.graphql';
@@ -38,9 +38,16 @@ function readAuthorization(headers: unknown): string {
   return '';
 }
 
-/** Builds the resolver context for one Apollo operation from its Authorization header. */
-export function contextFor(operation: OperationLike): ServerContext {
+/**
+ * Builds the resolver context for one Apollo operation from its Authorization header.
+ * `options` overrides the volatile parts (database name, clock, work factor, network);
+ * the app passes none, and tests use it to isolate each spec in its own database.
+ */
+export function contextFor(
+  operation: OperationLike,
+  options: Omit<ContextOptions, 'token'> = {},
+): ServerContext {
   const header = readAuthorization((operation.getContext() as { headers?: unknown }).headers);
   const token = /^Bearer\s+(\S+)$/i.exec(header)?.[1] ?? null;
-  return createContext({ token });
+  return createContext({ ...options, token });
 }

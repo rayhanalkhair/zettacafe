@@ -23,7 +23,7 @@
     "contrast:table": "node scripts/check-contrast.mjs --table",
     "bundle:check": "node scripts/check-bundle.mjs",
     "codegen": "graphql-codegen --config codegen.mjs",
-    "codegen:check": "npm run codegen && git diff --exit-code src/server/generated"
+    "codegen:check": "npm run codegen && git diff --exit-code src/server/generated src/app/core/graphql/generated"
   },
   "private": true,
   "dependencies": {
@@ -55,7 +55,9 @@
     "@commitlint/config-conventional": "^21.2.3",
     "@eslint/js": "^10.0.1",
     "@graphql-codegen/cli": "^7.4.1",
+    "@graphql-codegen/typed-document-node": "^7.1.0",
     "@graphql-codegen/typescript": "^6.1.0",
+    "@graphql-codegen/typescript-operations": "^6.1.6",
     "@graphql-codegen/typescript-resolvers": "^6.1.0",
     "@vitest/coverage-v8": "^4.1.11",
     "angular-eslint": "^22.5.0",

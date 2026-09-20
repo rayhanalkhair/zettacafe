@@ -1,0 +1,53 @@
+fragment SessionUser on User {
+  id
+  firstName
+  lastName
+  email
+  role
+  creditIdr
+}
+
+query Me {
+  me {
+    ...SessionUser
+  }
+}
+
+mutation SignIn($input: SignInInput!) {
+  signIn(input: $input) {
+    token
+    user {
+      ...SessionUser
+    }
+  }
+}
+
+mutation SignUp($input: SignUpInput!) {
+  signUp(input: $input) {
+    token
+    user {
+      ...SessionUser
+    }
+  }
+}
+
+mutation SignOut {
+  signOut
+}
+
+mutation RequestPasswordReset($email: String!) {
+  requestPasswordReset(email: $email) {
+    demoCode
+    expiresAt
+  }
+}
+
+mutation ResetPassword($input: ResetPasswordInput!) {
+  resetPassword(input: $input)
+}
+
+mutation TopUpCredit($amountIdr: Int!) {
+  topUpCredit(amountIdr: $amountIdr) {
+    ...SessionUser
+  }
+}
