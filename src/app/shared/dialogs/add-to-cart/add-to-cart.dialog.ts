@@ -65,8 +65,8 @@ export class AddToCartDialog {
   /** The words for this mode. Keys, so the i18n check can see every one of them. */
   protected readonly labels =
     this.data.mode === 'edit'
-      ? { titleKey: 'menu.dialog.editTitle', submitKey: 'menu.dialog.save' }
-      : { titleKey: 'menu.dialog.addTitle', submitKey: 'menu.dialog.add' };
+      ? { titleKey: 'cartDialog.editTitle', submitKey: 'cartDialog.save' }
+      : { titleKey: 'cartDialog.addTitle', submitKey: 'cartDialog.add' };
 
   protected readonly submitting = signal(false);
   protected readonly failure = signal<UserMessage | null>(null);
@@ -85,10 +85,10 @@ export class AddToCartDialog {
     try {
       if (this.data.mode === 'edit' && this.data.lineId) {
         await this.cart.updateLine(this.data.lineId, quantity, note);
-        this.notifications.success('menu.dialog.saved', { name: this.data.recipeName });
+        this.notifications.success('cartDialog.saved', { name: this.data.recipeName });
       } else {
         await this.cart.addLine(this.data.recipeId, quantity, note);
-        this.notifications.success('menu.dialog.added', { name: this.data.recipeName });
+        this.notifications.success('cartDialog.added', { name: this.data.recipeName });
       }
       this.ref.close(true);
     } catch (error) {

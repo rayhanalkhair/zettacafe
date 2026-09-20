@@ -1,5 +1,5 @@
 import type { Routes } from '@angular/router';
-import { guestGuard } from '@core/auth/guards';
+import { authGuard, guestGuard } from '@core/auth/guards';
 
 export const routes: Routes = [
   {
@@ -12,6 +12,18 @@ export const routes: Routes = [
     path: 'menu',
     title: 'titles.menu',
     loadComponent: () => import('@features/menu/menu.page').then((m) => m.MenuPage),
+  },
+  {
+    path: 'cart',
+    title: 'titles.cart',
+    canActivate: [authGuard],
+    loadComponent: () => import('@features/cart/cart.page').then((m) => m.CartPage),
+  },
+  {
+    path: 'orders',
+    title: 'titles.orders',
+    canActivate: [authGuard],
+    loadComponent: () => import('@features/cart/orders.page').then((m) => m.OrdersPage),
   },
   {
     path: 'login',

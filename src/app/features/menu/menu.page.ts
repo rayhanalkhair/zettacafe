@@ -15,7 +15,7 @@ import { PageShell } from '@shared/ui/page-shell/page-shell';
 import { Pager } from '@shared/ui/pager/pager';
 import { SectionHeading } from '@shared/ui/section-heading/section-heading';
 import { EmptyState, ErrorState, LoadingPane } from '@shared/ui/states/states';
-import { AddToCartDialog } from './add-to-cart/add-to-cart.dialog';
+import { AddToCartDialog } from '@shared/dialogs/add-to-cart/add-to-cart.dialog';
 import { MENU_PAGE_SIZE, MenuService, type MenuCategory } from './menu.service';
 
 type View = 'loading' | 'error' | 'empty' | 'ready';

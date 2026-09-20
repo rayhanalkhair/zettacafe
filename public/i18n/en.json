@@ -66,7 +66,10 @@
     "topUp": "Top up",
     "nav": {
       "label": "Main",
-      "menu": "Menu"
+      "menu": "Menu",
+      "cart": "Cart",
+      "orders": "Orders",
+      "cartItems": "{{count}} items"
     },
     "signOutConfirm": {
       "title": "Sign out?",
@@ -128,7 +131,9 @@
     "login": "Sign in",
     "register": "Create an account",
     "forgotPassword": "Reset your password",
-    "menu": "Menu"
+    "menu": "Menu",
+    "cart": "Your cart",
+    "orders": "Your orders"
   },
   "menu": {
     "title": "Menu",
@@ -156,18 +161,92 @@
       "title": "Sign in to order",
       "message": "Do you have an account? Sign in and we will bring you back to this dish.",
       "confirm": "Go to sign in"
+    }
+  },
+  "cartDialog": {
+    "addTitle": "Add to cart",
+    "editTitle": "Change your order",
+    "quantity": "Servings",
+    "maxHint": "Up to {{max}} available.",
+    "note": "Note for the kitchen",
+    "noteHint": "Optional, for example less spicy.",
+    "add": "Add to cart",
+    "save": "Save changes",
+    "added": "{{name}} is in your cart.",
+    "saved": "Updated {{name}}."
+  },
+  "cart": {
+    "title": "Your cart",
+    "linesHeading": "Items in your cart",
+    "attention": "Some items need your attention before you can check out.",
+    "note": "Note: {{note}}",
+    "edit": "Edit",
+    "editAria": "Edit {{name}}",
+    "removeLabel": "Remove",
+    "removeAria": "Remove {{name}} from your cart",
+    "removed": "{{name}} removed.",
+    "cancelled": "Your cart is empty again.",
+    "remove": {
+      "title": "Remove this dish?",
+      "message": "{{name}} will be taken out of your cart.",
+      "confirm": "Remove"
     },
-    "dialog": {
-      "addTitle": "Add to cart",
-      "editTitle": "Change your order",
-      "quantity": "Servings",
-      "maxHint": "Up to {{max}} available.",
-      "note": "Note for the kitchen",
-      "noteHint": "Optional, for example less spicy.",
-      "add": "Add to cart",
-      "save": "Save changes",
-      "added": "{{name}} is in your cart.",
-      "saved": "Updated {{name}}."
+    "cancel": {
+      "button": "Empty the cart",
+      "title": "Empty your cart?",
+      "message": "Every dish will be removed. This cannot be undone.",
+      "confirm": "Empty the cart"
+    },
+    "checkout": {
+      "button": "Place order",
+      "title": "Place this order?",
+      "message": "{{total}} will be taken from your credit.",
+      "confirm": "Place order"
+    },
+    "placed": {
+      "title": "Order placed",
+      "message": "Thank you. {{total}} was taken from your credit.",
+      "history": "See your orders",
+      "more": "Order more"
+    },
+    "empty": {
+      "title": "Your cart is empty",
+      "message": "Pick something from the menu and it will wait for you here.",
+      "browse": "Browse the menu"
+    },
+    "issue": {
+      "outOfStock": "Sold out",
+      "unpublished": "No longer on the menu",
+      "partial": "Only {{max}} can be made",
+      "fit": "Order {{max}} instead"
+    },
+    "summary": {
+      "title": "Summary",
+      "items": "Servings",
+      "total": "Total",
+      "credit": "Your credit",
+      "shortfall": "You are short by {{shortfall}}.",
+      "topUp": "Add credit",
+      "fixFirst": "Fix the marked items to check out."
+    }
+  },
+  "orders": {
+    "title": "Your orders",
+    "count": "{{count}} orders",
+    "empty": {
+      "title": "No orders yet",
+      "message": "Orders you place will appear here.",
+      "browse": "Browse the menu"
+    },
+    "error": {
+      "title": "Your orders did not load",
+      "message": "Check your connection and try again."
+    },
+    "finance": {
+      "title": "Revenue",
+      "revenue": "Total revenue",
+      "count": "Orders",
+      "average": "Average order"
     }
   }
 }

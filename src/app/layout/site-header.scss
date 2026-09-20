@@ -60,3 +60,18 @@
 .nav a.active {
   border-block-end-color: var(--zc-aren);
 }
+
+.count {
+  display: inline-block;
+  min-inline-size: 1.25rem;
+  margin-inline-start: var(--zc-space-1);
+  padding-inline: var(--zc-space-1);
+  border-radius: var(--zc-radius-pill);
+  background: var(--zc-aren);
+  color: var(--zc-on-aren);
+  font-size: var(--zc-text-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--zc-weight-semibold);
+  line-height: 1.25rem;
+  text-align: center;
+}

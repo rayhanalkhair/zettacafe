@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { SessionStore } from '@core/auth/session.store';
+import { CartStore } from '@core/cart/cart.store';
 import { LanguageStore } from '@core/i18n/language.store';
 import { ConfirmService } from '@core/feedback/confirm.service';
 import { NotificationService } from '@core/feedback/notification.service';
@@ -26,6 +27,7 @@ import { ZcCurrencyPipe } from '@core/i18n/zc-formatting.pipes';
 export class SiteHeader {
   protected readonly session = inject(SessionStore);
   protected readonly language = inject(LanguageStore);
+  protected readonly cart = inject(CartStore);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly notifications = inject(NotificationService);
@@ -39,7 +41,7 @@ export class SiteHeader {
    */
   protected async openTopUp(): Promise<void> {
     const [{ TopUpDialog }, { MatDialog }] = await Promise.all([
-      import('@features/auth/top-up/top-up.dialog'),
+      import('@shared/dialogs/top-up/top-up.dialog'),
       import('@angular/material/dialog'),
     ]);
     this.injector

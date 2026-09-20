@@ -66,7 +66,10 @@
     "topUp": "Isi saldo",
     "nav": {
       "label": "Utama",
-      "menu": "Menu"
+      "menu": "Menu",
+      "cart": "Keranjang",
+      "orders": "Pesanan",
+      "cartItems": "{{count}} item"
     },
     "signOutConfirm": {
       "title": "Keluar?",
@@ -128,7 +131,9 @@
     "login": "Masuk",
     "register": "Buat akun",
     "forgotPassword": "Atur ulang kata sandi",
-    "menu": "Menu"
+    "menu": "Menu",
+    "cart": "Keranjang",
+    "orders": "Pesanan"
   },
   "menu": {
     "title": "Menu",
@@ -156,18 +161,92 @@
       "title": "Masuk untuk memesan",
       "message": "Sudah punya akun? Masuk dan kami antar Anda kembali ke hidangan ini.",
       "confirm": "Ke halaman masuk"
+    }
+  },
+  "cartDialog": {
+    "addTitle": "Tambah ke keranjang",
+    "editTitle": "Ubah pesanan Anda",
+    "quantity": "Porsi",
+    "maxHint": "Tersedia hingga {{max}}.",
+    "note": "Catatan untuk dapur",
+    "noteHint": "Opsional, misalnya kurang pedas.",
+    "add": "Tambah ke keranjang",
+    "save": "Simpan perubahan",
+    "added": "{{name}} masuk keranjang Anda.",
+    "saved": "{{name}} diperbarui."
+  },
+  "cart": {
+    "title": "Keranjang Anda",
+    "linesHeading": "Isi keranjang",
+    "attention": "Beberapa item perlu diperhatikan sebelum Anda bisa membayar.",
+    "note": "Catatan: {{note}}",
+    "edit": "Ubah",
+    "editAria": "Ubah {{name}}",
+    "removeLabel": "Hapus",
+    "removeAria": "Hapus {{name}} dari keranjang",
+    "removed": "{{name}} dihapus.",
+    "cancelled": "Keranjang Anda kosong kembali.",
+    "remove": {
+      "title": "Hapus hidangan ini?",
+      "message": "{{name}} akan dikeluarkan dari keranjang.",
+      "confirm": "Hapus"
     },
-    "dialog": {
-      "addTitle": "Tambah ke keranjang",
-      "editTitle": "Ubah pesanan Anda",
-      "quantity": "Porsi",
-      "maxHint": "Tersedia hingga {{max}}.",
-      "note": "Catatan untuk dapur",
-      "noteHint": "Opsional, misalnya kurang pedas.",
-      "add": "Tambah ke keranjang",
-      "save": "Simpan perubahan",
-      "added": "{{name}} masuk keranjang Anda.",
-      "saved": "{{name}} diperbarui."
+    "cancel": {
+      "button": "Kosongkan keranjang",
+      "title": "Kosongkan keranjang?",
+      "message": "Semua hidangan akan dihapus. Tindakan ini tidak dapat dibatalkan.",
+      "confirm": "Kosongkan"
+    },
+    "checkout": {
+      "button": "Pesan sekarang",
+      "title": "Pesan sekarang?",
+      "message": "{{total}} akan dipotong dari saldo Anda.",
+      "confirm": "Pesan"
+    },
+    "placed": {
+      "title": "Pesanan dibuat",
+      "message": "Terima kasih. {{total}} dipotong dari saldo Anda.",
+      "history": "Lihat pesanan Anda",
+      "more": "Pesan lagi"
+    },
+    "empty": {
+      "title": "Keranjang Anda kosong",
+      "message": "Pilih sesuatu dari menu dan akan menunggu di sini.",
+      "browse": "Lihat menu"
+    },
+    "issue": {
+      "outOfStock": "Habis",
+      "unpublished": "Tidak lagi ada di menu",
+      "partial": "Hanya {{max}} yang bisa dibuat",
+      "fit": "Pesan {{max}} saja"
+    },
+    "summary": {
+      "title": "Ringkasan",
+      "items": "Porsi",
+      "total": "Total",
+      "credit": "Saldo Anda",
+      "shortfall": "Saldo Anda kurang {{shortfall}}.",
+      "topUp": "Tambah saldo",
+      "fixFirst": "Perbaiki item yang ditandai untuk memesan."
+    }
+  },
+  "orders": {
+    "title": "Pesanan Anda",
+    "count": "{{count}} pesanan",
+    "empty": {
+      "title": "Belum ada pesanan",
+      "message": "Pesanan yang Anda buat akan muncul di sini.",
+      "browse": "Lihat menu"
+    },
+    "error": {
+      "title": "Pesanan gagal dimuat",
+      "message": "Periksa koneksi Anda lalu coba lagi."
+    },
+    "finance": {
+      "title": "Pendapatan",
+      "revenue": "Total pendapatan",
+      "count": "Pesanan",
+      "average": "Rata-rata pesanan"
     }
   }
 }

@@ -4,10 +4,11 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { SessionStore } from '@core/auth/session.store';
+import { CartStore } from '@core/cart/cart.store';
 import { TranslatedTitleStrategy } from '@core/i18n/translated-title.strategy';
 import { expectNoAxeViolations } from '../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../testing/apollo';
-import { Placeholder, renderRoute } from '../../testing/app-harness';
+import { findDish, Placeholder, renderRoute } from '../../testing/app-harness';
 import { App } from '../app';
 import { TitleStrategy } from '@angular/router';
 
@@ -39,6 +40,28 @@ describe('app shell', () => {
     const nav = root.querySelector('nav');
     expect(nav?.getAttribute('aria-label')).toBe('Main');
     expect(nav?.querySelector('a')?.getAttribute('href')).toBe('/menu');
+  });
+
+  it('shows Cart and Orders only to a signed-in user, with the item count', async () => {
+    const { root, app } = await renderApp();
+    const links = () =>
+      Array.from(root.querySelectorAll('nav a')).map((a) => a.getAttribute('href'));
+    expect(links()).toEqual(['/menu']);
+
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
+    const cart = TestBed.inject(CartStore);
+    TestBed.tick();
+    await vi.waitFor(() => expect(cart.isLoading()).toBe(false));
+    await app.whenStable();
+    expect(links()).toEqual(['/menu', '/cart', '/orders']);
+    expect(root.querySelector('.count')).toBeNull();
+
+    await cart.addLine((await findDish('Nasi Goreng')).id, 3, null);
+    await app.whenStable();
+    expect(root.querySelector('.count')?.textContent.trim()).toBe('3');
+    // The number is decoration; the accessible name says what it means.
+    expect(root.querySelector('.count')?.getAttribute('aria-hidden')).toBe('true');
+    expect(root.querySelector('nav')?.textContent).toContain('3 items');
   });
 
   it('offers sign in to a guest', async () => {

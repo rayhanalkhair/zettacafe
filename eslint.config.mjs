@@ -112,6 +112,14 @@ export default defineConfig([
     },
   },
   {
+    // Dialogs used by more than one page (add or edit a cart line, top up). They may use
+    // core stores, but no feature, since features are leaves.
+    files: ['src/app/shared/dialogs/**/*.ts'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [NO_SERVER, NO_FEATURES] }],
+    },
+  },
+  {
     files: ['src/app/shared/forms/**/*.ts'],
     rules: {
       'no-restricted-imports': ['error', { patterns: [NO_SERVER, NO_FEATURES] }],

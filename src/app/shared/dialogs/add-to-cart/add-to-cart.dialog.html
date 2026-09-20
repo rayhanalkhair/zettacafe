@@ -10,14 +10,14 @@
       [control]="form.controls.quantity"
       [min]="1"
       [max]="maxQuantity"
-      [label]="'menu.dialog.quantity' | translate"
-      [hint]="'menu.dialog.maxHint' | translate: { max: maxQuantity }"
+      [label]="'cartDialog.quantity' | translate"
+      [hint]="'cartDialog.maxHint' | translate: { max: maxQuantity }"
     />
     <zc-text-field
       [control]="form.controls.note"
       autocomplete="off"
-      [label]="'menu.dialog.note' | translate"
-      [hint]="'menu.dialog.noteHint' | translate"
+      [label]="'cartDialog.note' | translate"
+      [hint]="'cartDialog.noteHint' | translate"
     />
   </form>
 

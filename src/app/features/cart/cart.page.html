@@ -1,0 +1,167 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'cart.title' | translate" />
+
+  @if (placed(); as order) {
+    <section class="placed" aria-labelledby="placed-heading">
+      <h2 id="placed-heading">{{ 'cart.placed.title' | translate }}</h2>
+      <p>{{ 'cart.placed.message' | translate: { total: (order.totalIdr | zcCurrency) } }}</p>
+      <ul class="receipt">
+        @for (line of order.lines; track line.id) {
+          <li>
+            <span>{{ line.quantity }} × {{ line.recipeName }}</span>
+            <span>{{ line.lineTotalIdr | zcCurrency }}</span>
+          </li>
+        }
+      </ul>
+      <div class="actions">
+        <a matButton="filled" routerLink="/orders">{{ 'cart.placed.history' | translate }}</a>
+        <a matButton="tonal" routerLink="/menu" (click)="startAgain()">{{
+          'cart.placed.more' | translate
+        }}</a>
+      </div>
+    </section>
+  } @else if (cart.isLoading()) {
+    <zc-loading-pane />
+  } @else if (cart.isEmpty()) {
+    <zc-empty-state
+      [heading]="'cart.empty.title' | translate"
+      [message]="'cart.empty.message' | translate"
+    >
+      <a matButton="filled" routerLink="/menu">{{ 'cart.empty.browse' | translate }}</a>
+    </zc-empty-state>
+  } @else {
+    <div class="layout" [attr.aria-busy]="cart.isBusy()">
+      <section aria-labelledby="lines-heading">
+        <h2 id="lines-heading" class="visually-hidden">{{ 'cart.linesHeading' | translate }}</h2>
+
+        @if (cart.hasIssues()) {
+          <p class="attention" role="status">{{ 'cart.attention' | translate }}</p>
+        }
+
+        <ul class="lines">
+          @for (line of cart.lines(); track line.id) {
+            <li class="line">
+              @if (line.recipeImageUrl; as src) {
+                <img class="photo" [src]="src" alt="" width="72" height="72" loading="lazy" />
+              }
+              <div class="body">
+                <h3 class="name">{{ line.recipeName }}</h3>
+                @if (line.note) {
+                  <p class="note">{{ 'cart.note' | translate: { note: line.note } }}</p>
+                }
+                <p class="unit">
+                  {{ line.quantity }} ×
+                  <zc-money [value]="line.unitPriceIdr" [listPrice]="line.listPriceIdr" />
+                </p>
+
+                @if (issueOf(line); as issue) {
+                  <div class="issue">
+                    @switch (issue.kind) {
+                      @case ('OUT_OF_STOCK') {
+                        <zc-status-pill
+                          tone="danger"
+                          [label]="'cart.issue.outOfStock' | translate"
+                        />
+                      }
+                      @case ('UNPUBLISHED') {
+                        <zc-status-pill
+                          tone="danger"
+                          [label]="'cart.issue.unpublished' | translate"
+                        />
+                      }
+                      @default {
+                        <zc-status-pill
+                          tone="warning"
+                          [label]="
+                            'cart.issue.partial' | translate: { max: issue.maxOrderableQuantity }
+                          "
+                        />
+                        <button
+                          matButton="text"
+                          type="button"
+                          [disabled]="cart.isBusy()"
+                          (click)="fitToStock(line, issue.maxOrderableQuantity)"
+                        >
+                          {{ 'cart.issue.fit' | translate: { max: issue.maxOrderableQuantity } }}
+                        </button>
+                      }
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="total">{{ line.lineTotalIdr | zcCurrency }}</div>
+
+              <div class="line-actions">
+                <button
+                  matButton="outlined"
+                  type="button"
+                  [disabled]="cart.isBusy() || issueOf(line)?.kind === 'UNPUBLISHED'"
+                  [attr.aria-label]="'cart.editAria' | translate: { name: line.recipeName }"
+                  (click)="edit(line)"
+                >
+                  {{ 'cart.edit' | translate }}
+                </button>
+                <button
+                  matButton="text"
+                  type="button"
+                  [disabled]="cart.isBusy()"
+                  [attr.aria-label]="'cart.removeAria' | translate: { name: line.recipeName }"
+                  (click)="remove(line)"
+                >
+                  {{ 'cart.removeLabel' | translate }}
+                </button>
+              </div>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="summary" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">{{ 'cart.summary.title' | translate }}</h2>
+        <dl>
+          <div>
+            <dt>{{ 'cart.summary.items' | translate }}</dt>
+            <dd>{{ cart.itemCount() }}</dd>
+          </div>
+          <div class="grand">
+            <dt>{{ 'cart.summary.total' | translate }}</dt>
+            <dd>{{ cart.totalIdr() | zcCurrency }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'cart.summary.credit' | translate }}</dt>
+            <dd>{{ session.creditIdr() | zcCurrency }}</dd>
+          </div>
+        </dl>
+
+        @if (cart.shortfallIdr() > 0) {
+          <p class="shortfall" id="checkout-hint">
+            {{
+              'cart.summary.shortfall'
+                | translate: { shortfall: (cart.shortfallIdr() | zcCurrency) }
+            }}
+          </p>
+          <button matButton="tonal" type="button" (click)="openTopUp()">
+            {{ 'cart.summary.topUp' | translate }}
+          </button>
+        } @else if (cart.hasIssues()) {
+          <p class="shortfall" id="checkout-hint">{{ 'cart.summary.fixFirst' | translate }}</p>
+        }
+
+        <button
+          class="checkout"
+          matButton="filled"
+          type="button"
+          [disabled]="!cart.canCheckout()"
+          [attr.aria-describedby]="cart.canCheckout() ? null : 'checkout-hint'"
+          (click)="checkout()"
+        >
+          {{ 'cart.checkout.button' | translate }}
+        </button>
+        <button matButton="text" type="button" [disabled]="cart.isBusy()" (click)="cancel()">
+          {{ 'cart.cancel.button' | translate }}
+        </button>
+      </section>
+    </div>
+  }
+</zc-page-shell>
