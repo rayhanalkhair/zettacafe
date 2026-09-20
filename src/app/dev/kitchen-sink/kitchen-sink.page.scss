@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+section {
+  margin-block-start: var(--zc-space-8);
+}
+
+.note {
+  max-inline-size: var(--zc-measure);
+  color: var(--zc-ink-soft);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  align-items: center;
+  margin-block: var(--zc-space-4);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--zc-space-5);
+  margin-block-start: var(--zc-space-4);
+}
+
+.form {
+  display: grid;
+  gap: var(--zc-space-2);
+  max-inline-size: 28rem;
+  margin-block-start: var(--zc-space-4);
+}
+
+table {
+  inline-size: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: var(--zc-space-3);
+  border-block-end: 1px solid var(--zc-rule);
+  text-align: start;
+}

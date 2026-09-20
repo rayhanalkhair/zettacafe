@@ -80,6 +80,8 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
+      // Angular validators (Validators.required) are static methods meant to be passed by reference.
+      '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
       eqeqeq: ['error', 'always'],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },

@@ -17,6 +17,12 @@ export const routes: Routes = [
             import('./dev/graphql/graphql-console.page').then((m) => m.GraphqlConsolePage),
         },
         {
+          path: 'dev/kitchen-sink',
+          title: 'Kitchen sink',
+          loadComponent: () =>
+            import('./dev/kitchen-sink/kitchen-sink.page').then((m) => m.KitchenSinkPage),
+        },
+        {
           path: 'dev/session',
           title: 'Session',
           loadComponent: () => import('./dev/session/session.page').then((m) => m.SessionPage),
