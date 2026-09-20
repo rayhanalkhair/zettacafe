@@ -1,0 +1,21 @@
+/** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+/** Language for user-facing content. Falls back to EN when a translation is missing. */
+export type Locale =
+  | 'EN'
+  | 'ID';
+
+export type HomeRecipeFragment = { id: string, name: string, description: string | null, imageUrl: string | null, priceIdr: number, discountPercent: number, discountedPriceIdr: number, availableServings: number, isAvailable: boolean };
+
+export type HomeQueryVariables = Exact<{
+  locale: Locale;
+}>;
+
+
+export type HomeQuery = { featuredRecipes: Array<{ id: string, name: string, description: string | null, imageUrl: string | null, priceIdr: number, discountPercent: number, discountedPriceIdr: number, availableServings: number, isAvailable: boolean }>, discountedRecipes: Array<{ id: string, name: string, description: string | null, imageUrl: string | null, priceIdr: number, discountPercent: number, discountedPriceIdr: number, availableServings: number, isAvailable: boolean }> };
+
+export const HomeRecipeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HomeRecipe"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}]},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"priceIdr"}},{"kind":"Field","name":{"kind":"Name","value":"discountPercent"}},{"kind":"Field","name":{"kind":"Name","value":"discountedPriceIdr"}},{"kind":"Field","name":{"kind":"Name","value":"availableServings"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}}]}}]} as unknown as DocumentNode<HomeRecipeFragment, unknown>;
+export const HomeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Home"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"locale"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Locale"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"featuredRecipes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"6"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"HomeRecipe"}}]}},{"kind":"Field","name":{"kind":"Name","value":"discountedRecipes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"8"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"HomeRecipe"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HomeRecipe"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Recipe"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"locale"},"value":{"kind":"Variable","name":{"kind":"Name","value":"locale"}}}]},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"priceIdr"}},{"kind":"Field","name":{"kind":"Name","value":"discountPercent"}},{"kind":"Field","name":{"kind":"Name","value":"discountedPriceIdr"}},{"kind":"Field","name":{"kind":"Name","value":"availableServings"}},{"kind":"Field","name":{"kind":"Name","value":"isAvailable"}}]}}]} as unknown as DocumentNode<HomeQuery, HomeQueryVariables>;

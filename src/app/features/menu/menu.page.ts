@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MatButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { from } from 'rxjs';
-import { SessionStore } from '@core/auth/session.store';
-import { ConfirmService } from '@core/feedback/confirm.service';
 import { LanguageStore } from '@core/i18n/language.store';
 import { SearchField } from '@shared/forms/search-field';
 import { MenuBoardRow } from '@shared/ui/menu-board-row/menu-board-row';
@@ -15,7 +12,7 @@ import { PageShell } from '@shared/ui/page-shell/page-shell';
 import { Pager } from '@shared/ui/pager/pager';
 import { SectionHeading } from '@shared/ui/section-heading/section-heading';
 import { EmptyState, ErrorState, LoadingPane } from '@shared/ui/states/states';
-import { AddToCartDialog } from '@shared/dialogs/add-to-cart/add-to-cart.dialog';
+import { AddToCartService } from '@shared/dialogs/add-to-cart/add-to-cart.service';
 import { MENU_PAGE_SIZE, MenuService, type MenuCategory } from './menu.service';
 
 type View = 'loading' | 'error' | 'empty' | 'ready';
@@ -50,10 +47,8 @@ export class MenuPage {
   readonly page = input<string | undefined>();
 
   private readonly menu = inject(MenuService);
-  private readonly session = inject(SessionStore);
   private readonly language = inject(LanguageStore);
-  private readonly confirm = inject(ConfirmService);
-  private readonly dialog = inject(MatDialog);
+  private readonly addToCart = inject(AddToCartService);
   private readonly router = inject(Router);
 
   protected readonly term = computed(() => (this.search() ?? '').trim());
@@ -116,32 +111,8 @@ export class MenuPage {
     void this.navigate({ search: null, category: null, page: null });
   }
 
-  /**
-   * A guest is asked to sign in (v1 rule 3: guests browse but cannot order), and
-   * comes back to this same view afterwards. A signed-in customer chooses how many.
-   */
-  protected async add(item: MenuItem): Promise<void> {
-    if (!this.session.isAuthenticated()) {
-      const wantsToSignIn = await this.confirm.ask({
-        titleKey: 'menu.guest.title',
-        messageKey: 'menu.guest.message',
-        confirmKey: 'menu.guest.confirm',
-      });
-      if (wantsToSignIn) {
-        await this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
-      }
-      return;
-    }
-
-    this.dialog.open(AddToCartDialog, {
-      width: 'min(28rem, calc(100vw - 2rem))',
-      data: {
-        mode: 'add',
-        recipeId: item.id,
-        recipeName: item.name,
-        availableServings: item.availableServings,
-      },
-    });
+  protected add(item: MenuItem): Promise<void> {
+    return this.addToCart.start(item);
   }
 
   private navigate(queryParams: Record<string, string | number | null>, replace = false) {

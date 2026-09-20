@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { MenuDocument, type MenuQuery } from './graphql.generated';
-import type { MenuItem } from '@shared/ui/menu-item';
+import { MenuDocument } from './graphql.generated';
+import { toMenuItem, type MenuItem } from '@shared/ui/menu-item';
 
 /** Ten dishes to a page, as in v1. */
 export const MENU_PAGE_SIZE = 10;
@@ -21,23 +21,6 @@ export interface MenuRequest {
 export interface MenuPage {
   readonly items: readonly MenuItem[];
   readonly totalCount: number;
-}
-
-type MenuRecipe = MenuQuery['recipes']['items'][number];
-
-/** The server's shape to the one the shared menu components draw. */
-function toMenuItem(recipe: MenuRecipe): MenuItem {
-  return {
-    id: recipe.id,
-    name: recipe.name,
-    description: recipe.description ?? '',
-    imageUrl: recipe.imageUrl ?? null,
-    priceIdr: recipe.priceIdr,
-    discountedPriceIdr: recipe.discountedPriceIdr,
-    discountPercent: recipe.discountPercent,
-    availableServings: recipe.availableServings,
-    isAvailable: recipe.isAvailable,
-  };
 }
 
 /**

@@ -54,10 +54,10 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 
 | #   | v1 component         | What it does                                                                                 | v2 target                                            | Status |
 | --- | -------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------ |
-| 1   | `homepage`           | Hero, "menu highlight" (one random item), discounted-offer strip, Order Now / View Menu CTAs | `features/home`                                      | todo   |
+| 1   | `homepage`           | Hero, "menu highlight" (one random item), discounted-offer strip, Order Now / View Menu CTAs | `features/home`                                      | done   |
 | 2   | `menu` + `list-menu` | Published recipes, 10 per page, prev/next                                                    | `features/menu` (menu board)                         | done   |
 | 3   | `card-menu`          | Recipe card: image, discounted price, remaining servings, sold-out state, add-to-cart        | `shared/ui/recipe-card` + `menu-board-row`           | done   |
-| 4   | `about`              | Contact copy, live-chat link, contact form                                                   | `features/about` (real form; v1's is non-functional) | todo   |
+| 4   | `about`              | Contact copy, live-chat link, contact form                                                   | `features/about` (real form; v1's is non-functional) | done   |
 | 5   | `cart`               | Draft transaction(s): lines, per-line edit/remove, total, checkout, cancel, empty state      | `features/cart`                                      | done   |
 | 6   | `login`              | Email + password, show-password, links to register / forgot password                         | `features/auth/login`                                | done   |
 | 7   | `menu-management`    | Recipe table: name filter, publish filter, paging, publish toggle, add/edit/detail/delete    | `features/admin/recipes`                             | done   |

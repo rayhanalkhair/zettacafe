@@ -1,0 +1,85 @@
+<zc-page-shell>
+  <section class="hero" aria-labelledby="hero-heading">
+    <h1 id="hero-heading">{{ 'home.hero.title' | translate }}</h1>
+    <p class="lead">{{ 'home.hero.body' | translate }}</p>
+    <div class="actions">
+      <a matButton="filled" routerLink="/menu">{{ 'home.hero.menu' | translate }}</a>
+      @if (!session.isAuthenticated()) {
+        <a matButton="outlined" routerLink="/register">{{ 'home.hero.join' | translate }}</a>
+      }
+    </div>
+  </section>
+
+  @switch (view()) {
+    @case ('loading') {
+      <zc-loading-pane />
+    }
+    @case ('error') {
+      <zc-error-state
+        [heading]="'home.error.title' | translate"
+        [message]="'home.error.message' | translate"
+        (retry)="content.reload()"
+      />
+    }
+    @default {
+      @if (featured().length > 0) {
+        <section class="block" aria-labelledby="featured-heading">
+          <zc-section-heading
+            headingId="featured-heading"
+            [heading]="'home.featured.title' | translate"
+          />
+          <ul class="cards">
+            @for (item of featured(); track item.id) {
+              <li>
+                <zc-recipe-card [item]="item" [headingLevel]="3">
+                  <button
+                    zcCardAction
+                    matButton="tonal"
+                    type="button"
+                    [disabled]="!item.isAvailable"
+                    [attr.aria-label]="'home.addAria' | translate: { name: item.name }"
+                    (click)="add(item)"
+                  >
+                    {{ 'home.add' | translate }}
+                  </button>
+                </zc-recipe-card>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (discounted().length > 0) {
+        <section class="block" aria-labelledby="offers-heading">
+          <zc-section-heading
+            headingId="offers-heading"
+            [heading]="'home.offers.title' | translate"
+          />
+          <p class="intro">{{ 'home.offers.intro' | translate }}</p>
+          <ul class="cards">
+            @for (item of discounted(); track item.id) {
+              <li>
+                <zc-recipe-card [item]="item" [headingLevel]="3">
+                  <button
+                    zcCardAction
+                    matButton="tonal"
+                    type="button"
+                    [disabled]="!item.isAvailable"
+                    [attr.aria-label]="'home.addAria' | translate: { name: item.name }"
+                    (click)="add(item)"
+                  >
+                    {{ 'home.add' | translate }}
+                  </button>
+                </zc-recipe-card>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (featured().length === 0 && discounted().length === 0) {
+        <p class="quiet">{{ 'home.nothing' | translate }}</p>
+      }
+    }
+  }
+</zc-page-shell>

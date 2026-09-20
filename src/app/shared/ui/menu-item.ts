@@ -19,3 +19,31 @@ export interface MenuItem {
 
 /** At or below this many servings a dish is flagged as running low. */
 export const LOW_STOCK_THRESHOLD = 5;
+
+/** The fields of a recipe a card or board row needs, as any query returns them. */
+export interface MenuRecipeFields {
+  readonly id: string;
+  readonly name: string;
+  readonly description?: string | null;
+  readonly imageUrl?: string | null;
+  readonly priceIdr: number;
+  readonly discountedPriceIdr: number;
+  readonly discountPercent: number;
+  readonly availableServings: number;
+  readonly isAvailable: boolean;
+}
+
+/** A server recipe to what the shared menu components draw. */
+export function toMenuItem(recipe: MenuRecipeFields): MenuItem {
+  return {
+    id: recipe.id,
+    name: recipe.name,
+    description: recipe.description ?? '',
+    imageUrl: recipe.imageUrl ?? null,
+    priceIdr: recipe.priceIdr,
+    discountedPriceIdr: recipe.discountedPriceIdr,
+    discountPercent: recipe.discountPercent,
+    availableServings: recipe.availableServings,
+    isAvailable: recipe.isAvailable,
+  };
+}

@@ -46,14 +46,14 @@ describe('app shell', () => {
     const { root, app } = await renderApp();
     const links = () =>
       Array.from(root.querySelectorAll('nav a')).map((a) => a.getAttribute('href'));
-    expect(links()).toEqual(['/menu']);
+    expect(links()).toEqual(['/menu', '/about']);
 
     await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
     const cart = TestBed.inject(CartStore);
     TestBed.tick();
     await vi.waitFor(() => expect(cart.isLoading()).toBe(false));
     await app.whenStable();
-    expect(links()).toEqual(['/menu', '/cart', '/orders']);
+    expect(links()).toEqual(['/menu', '/about', '/cart', '/orders']);
     expect(root.querySelector('.count')).toBeNull();
 
     await cart.addLine((await findDish('Nasi Goreng')).id, 3, null);

@@ -1,0 +1,20 @@
+fragment HomeRecipe on Recipe {
+  id
+  name
+  description(locale: $locale)
+  imageUrl
+  priceIdr
+  discountPercent
+  discountedPriceIdr
+  availableServings
+  isAvailable
+}
+
+query Home($locale: Locale!) {
+  featuredRecipes(limit: 6) {
+    ...HomeRecipe
+  }
+  discountedRecipes(limit: 8) {
+    ...HomeRecipe
+  }
+}
