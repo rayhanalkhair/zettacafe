@@ -61,7 +61,7 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | 5   | `cart`               | Draft transaction(s): lines, per-line edit/remove, total, checkout, cancel, empty state      | `features/cart`                                      | done   |
 | 6   | `login`              | Email + password, show-password, links to register / forgot password                         | `features/auth/login`                                | done   |
 | 7   | `menu-management`    | Recipe table: name filter, publish filter, paging, publish toggle, add/edit/detail/delete    | `features/admin/recipes`                             | todo   |
-| 8   | `stock-management`   | Ingredient table: name filter, availability filter, name sort, paging, add/edit/delete       | `features/admin/ingredients`                         | todo   |
+| 8   | `stock-management`   | Ingredient table: name filter, availability filter, name sort, paging, add/edit/delete       | `features/admin/ingredients`                         | done   |
 
 ### Dialogs
 
@@ -76,8 +76,8 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | 15  | `menu-detail`               | Read-only ingredient list of a recipe                             | `features/admin/recipes/recipe-detail-dialog`                        | todo   |
 | 16  | `menu-management/menu-form` | Create recipe: name, price, discount, image link, ingredient rows | `features/admin/recipes/recipe-form-dialog` (`mode: create`)         | todo   |
 | 17  | `menu-edit`                 | Edit recipe (differs from #16 by **1 line of 139**)               | merged into recipe-form-dialog (`mode: edit`)                        | todo   |
-| 18  | `stock-form`                | Create ingredient: name, stock                                    | `features/admin/ingredients/ingredient-form-dialog` (`mode: create`) | todo   |
-| 19  | `stock-edit`                | Edit ingredient (differs from #18 by **1 line of 43**)            | merged into ingredient-form-dialog (`mode: edit`)                    | todo   |
+| 18  | `stock-form`                | Create ingredient: name, stock                                    | `features/admin/ingredients/ingredient-form-dialog` (`mode: create`) | done   |
+| 19  | `stock-edit`                | Edit ingredient (differs from #18 by **1 line of 43**)            | merged into ingredient-form-dialog (`mode: edit`)                    | done   |
 
 ### Shell
 

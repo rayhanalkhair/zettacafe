@@ -69,7 +69,8 @@
       "menu": "Menu",
       "cart": "Keranjang",
       "orders": "Pesanan",
-      "cartItems": "{{count}} item"
+      "cartItems": "{{count}} item",
+      "ingredients": "Bahan"
     },
     "signOutConfirm": {
       "title": "Keluar?",
@@ -133,7 +134,8 @@
     "forgotPassword": "Atur ulang kata sandi",
     "menu": "Menu",
     "cart": "Keranjang",
-    "orders": "Pesanan"
+    "orders": "Pesanan",
+    "adminIngredients": "Bahan"
   },
   "menu": {
     "title": "Menu",
@@ -247,6 +249,63 @@
       "revenue": "Total pendapatan",
       "count": "Pesanan",
       "average": "Rata-rata pesanan"
+    }
+  },
+  "ingredients": {
+    "title": "Bahan",
+    "add": "Tambah bahan",
+    "intro": "Apa yang tersedia di dapur. Sebuah hidangan hanya bisa dipesan selama semua bahannya tersedia.",
+    "searchLabel": "Cari bahan",
+    "filterLabel": "Tampilkan",
+    "filter": {
+      "all": "Semua",
+      "in": "Tersedia",
+      "out": "Habis"
+    },
+    "count": "{{count}} bahan",
+    "tableLabel": "Bahan",
+    "columns": {
+      "name": "Nama",
+      "stock": "Stok",
+      "status": "Status",
+      "actions": "Aksi"
+    },
+    "status": {
+      "in": "Tersedia",
+      "out": "Habis"
+    },
+    "edit": "Ubah",
+    "editAria": "Ubah {{name}}",
+    "deleteLabel": "Hapus",
+    "deleteAria": "Hapus {{name}}",
+    "deleted": "{{name}} dihapus.",
+    "delete": {
+      "title": "Hapus bahan ini?",
+      "message": "{{name}} akan dihapus. Hidangan yang memakainya harus diubah terlebih dahulu.",
+      "confirm": "Hapus"
+    },
+    "empty": {
+      "title": "Tidak ada bahan",
+      "message": "Tidak ada yang cocok. Ubah pencarian atau tambah bahan.",
+      "clear": "Hapus filter"
+    },
+    "error": {
+      "title": "Bahan gagal dimuat",
+      "message": "Periksa koneksi Anda lalu coba lagi."
+    },
+    "form": {
+      "createTitle": "Tambah bahan",
+      "editTitle": "Ubah bahan",
+      "name": "Nama",
+      "stock": "Stok",
+      "stockHint": "Bilangan bulat, 0 sampai 1.000.000.",
+      "unit": "Satuan",
+      "unitHint": "Misalnya g, ml atau pcs.",
+      "create": "Tambah bahan",
+      "save": "Simpan perubahan",
+      "created": "{{name}} ditambahkan.",
+      "saved": "{{name}} diperbarui.",
+      "integer": "Gunakan bilangan bulat."
     }
   }
 }

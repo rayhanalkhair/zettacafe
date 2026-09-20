@@ -1,0 +1,34 @@
+fragment IngredientFields on Ingredient {
+  id
+  name
+  stockQty
+  unit
+  isAvailable
+}
+
+query Ingredients($filter: IngredientFilter, $page: PageInput, $sort: IngredientSort) {
+  ingredients(filter: $filter, page: $page, sort: $sort) {
+    totalCount
+    items {
+      ...IngredientFields
+    }
+  }
+}
+
+mutation CreateIngredient($input: CreateIngredientInput!) {
+  createIngredient(input: $input) {
+    ...IngredientFields
+  }
+}
+
+mutation UpdateIngredient($id: ID!, $input: UpdateIngredientInput!) {
+  updateIngredient(id: $id, input: $input) {
+    ...IngredientFields
+  }
+}
+
+mutation DeleteIngredient($id: ID!) {
+  deleteIngredient(id: $id) {
+    id
+  }
+}

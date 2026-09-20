@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { StorageKeys } from '@core/storage/local-storage.service';
 import { LanguageStore } from './language.store';
-import { formatIdr, ZcCurrencyPipe, ZcDatePipe } from './zc-formatting.pipes';
+import { formatIdr, ZcCurrencyPipe, ZcDatePipe, ZcNumberPipe } from './zc-formatting.pipes';
 
 /** A fresh store, as after a page reload: new injector, same localStorage. */
 function createStore(): LanguageStore {
@@ -118,5 +118,14 @@ describe('zc pipes', () => {
     expect(pipe.transform(new Date('2026-03-01T09:00:00Z'))).not.toBe('');
     expect(pipe.transform('not a date')).toBe('');
     expect(pipe.transform(null)).toBe('');
+  });
+
+  it('zcNumber groups by language and reformats when it changes', () => {
+    const pipe = TestBed.runInInjectionContext(() => new ZcNumberPipe());
+    expect(pipe.transform(12500)).toBe('12,500');
+    store.set('id');
+    expect(pipe.transform(12500)).toBe('12.500');
+    expect(pipe.transform(null)).toBe('');
+    expect(pipe.transform(0)).toBe('0');
   });
 });

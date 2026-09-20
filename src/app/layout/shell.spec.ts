@@ -64,6 +64,21 @@ describe('app shell', () => {
     expect(root.querySelector('nav')?.textContent).toContain('3 items');
   });
 
+  it('shows the admin pages to an admin only', async () => {
+    const { root, app } = await renderApp();
+    const links = () =>
+      Array.from(root.querySelectorAll('nav a')).map((a) => a.getAttribute('href'));
+
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
+    await app.whenStable();
+    expect(links()).not.toContain('/admin/ingredients');
+
+    await TestBed.inject(AuthService).signOut();
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.admin);
+    await app.whenStable();
+    expect(links()).toContain('/admin/ingredients');
+  });
+
   it('offers sign in to a guest', async () => {
     const { root } = await renderApp();
     expect(button(root, 'Sign in')?.getAttribute('href')).toBe('/login');

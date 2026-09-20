@@ -1,0 +1,123 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'ingredients.title' | translate">
+    <button matButton="filled" type="button" (click)="create()">
+      {{ 'ingredients.add' | translate }}
+    </button>
+  </zc-section-heading>
+  <p class="intro">{{ 'ingredients.intro' | translate }}</p>
+
+  <div class="controls">
+    <zc-search-field
+      [label]="'ingredients.searchLabel' | translate"
+      [value]="term()"
+      (search)="setSearch($event)"
+    />
+
+    <div class="filters" role="group" [attr.aria-label]="'ingredients.filterLabel' | translate">
+      @for (f of filters; track f.value) {
+        <button
+          type="button"
+          [matButton]="availability() === f.value ? 'filled' : 'outlined'"
+          [attr.aria-pressed]="availability() === f.value"
+          (click)="setAvailability(f.param)"
+        >
+          {{ f.key | translate }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <p class="visually-hidden" role="status">
+    @if (state() === 'ready') {
+      {{ 'ingredients.count' | translate: { count: total() } }}
+    }
+  </p>
+
+  <zc-table-shell
+    [state]="state()"
+    [label]="'ingredients.tableLabel' | translate"
+    [emptyHeading]="'ingredients.empty.title' | translate"
+    [emptyMessage]="'ingredients.empty.message' | translate"
+    [errorHeading]="'ingredients.error.title' | translate"
+    [errorMessage]="'ingredients.error.message' | translate"
+    (retry)="result.reload()"
+  >
+    <button zcEmptyAction matButton="tonal" type="button" (click)="clearFilters()">
+      {{ 'ingredients.empty.clear' | translate }}
+    </button>
+
+    <table>
+      <caption class="visually-hidden">
+        {{
+          'ingredients.tableLabel' | translate
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col" [attr.aria-sort]="ariaSort('NAME')">
+            <button class="sort" type="button" (click)="sortBy('NAME')">
+              {{ 'ingredients.columns.name' | translate }}
+              <span class="arrow" aria-hidden="true">{{
+                sortField() === 'NAME' ? (direction() === 'ASC' ? '↑' : '↓') : ''
+              }}</span>
+            </button>
+          </th>
+          <th scope="col" class="num" [attr.aria-sort]="ariaSort('STOCK')">
+            <button class="sort" type="button" (click)="sortBy('STOCK')">
+              {{ 'ingredients.columns.stock' | translate }}
+              <span class="arrow" aria-hidden="true">{{
+                sortField() === 'STOCK' ? (direction() === 'ASC' ? '↑' : '↓') : ''
+              }}</span>
+            </button>
+          </th>
+          <th scope="col">{{ 'ingredients.columns.status' | translate }}</th>
+          <th scope="col">
+            <span class="visually-hidden">{{ 'ingredients.columns.actions' | translate }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ingredient of items(); track ingredient.id) {
+          <tr>
+            <th scope="row">{{ ingredient.name }}</th>
+            <td class="num">{{ ingredient.stockQty | zcNumber }} {{ ingredient.unit }}</td>
+            <td>
+              @if (ingredient.isAvailable) {
+                <zc-status-pill tone="positive" [label]="'ingredients.status.in' | translate" />
+              } @else {
+                <zc-status-pill tone="danger" [label]="'ingredients.status.out' | translate" />
+              }
+            </td>
+            <td class="actions">
+              <button
+                matButton="outlined"
+                type="button"
+                [attr.aria-label]="'ingredients.editAria' | translate: { name: ingredient.name }"
+                (click)="edit(ingredient)"
+              >
+                {{ 'ingredients.edit' | translate }}
+              </button>
+              <button
+                matButton="text"
+                type="button"
+                [attr.aria-label]="'ingredients.deleteAria' | translate: { name: ingredient.name }"
+                (click)="remove(ingredient)"
+              >
+                {{ 'ingredients.deleteLabel' | translate }}
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </zc-table-shell>
+
+  @if (state() === 'ready') {
+    <zc-pager
+      [offset]="offset()"
+      [limit]="pageSize"
+      [total]="total()"
+      (offsetChange)="setOffset($event)"
+    />
+  }
+</zc-page-shell>

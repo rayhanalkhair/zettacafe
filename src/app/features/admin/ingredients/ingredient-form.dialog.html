@@ -1,0 +1,32 @@
+<zc-dialog-shell [heading]="labels.titleKey | translate">
+  <form id="ingredient-form" class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+    @if (failure(); as f) {
+      <p class="failure" role="alert">{{ f.key | translate: f.params }}</p>
+    }
+
+    <zc-text-field
+      [control]="form.controls.name"
+      autocomplete="off"
+      [label]="'ingredients.form.name' | translate"
+    />
+    <zc-number-field
+      [control]="form.controls.stockQty"
+      [min]="0"
+      [max]="1000000"
+      [label]="'ingredients.form.stock' | translate"
+      [hint]="'ingredients.form.stockHint' | translate"
+    />
+    <zc-text-field
+      [control]="form.controls.unit"
+      autocomplete="off"
+      [label]="'ingredients.form.unit' | translate"
+      [hint]="'ingredients.form.unitHint' | translate"
+    />
+  </form>
+
+  <div zcDialogActions>
+    <button matButton="filled" type="submit" form="ingredient-form" [disabled]="submitting()">
+      {{ labels.submitKey | translate }}
+    </button>
+  </div>
+</zc-dialog-shell>

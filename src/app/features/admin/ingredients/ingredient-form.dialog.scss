@@ -1,0 +1,13 @@
+.form {
+  display: grid;
+  gap: var(--zc-space-3);
+}
+
+.failure {
+  margin: 0;
+  padding: var(--zc-space-3) var(--zc-space-4);
+  border-inline-start: 4px solid var(--zc-sambal);
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-sambal-tint);
+  color: var(--zc-ink);
+}

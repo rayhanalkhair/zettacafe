@@ -69,7 +69,8 @@
       "menu": "Menu",
       "cart": "Cart",
       "orders": "Orders",
-      "cartItems": "{{count}} items"
+      "cartItems": "{{count}} items",
+      "ingredients": "Ingredients"
     },
     "signOutConfirm": {
       "title": "Sign out?",
@@ -133,7 +134,8 @@
     "forgotPassword": "Reset your password",
     "menu": "Menu",
     "cart": "Your cart",
-    "orders": "Your orders"
+    "orders": "Your orders",
+    "adminIngredients": "Ingredients"
   },
   "menu": {
     "title": "Menu",
@@ -247,6 +249,63 @@
       "revenue": "Total revenue",
       "count": "Orders",
       "average": "Average order"
+    }
+  },
+  "ingredients": {
+    "title": "Ingredients",
+    "add": "Add ingredient",
+    "intro": "What the kitchen has in stock. A dish can be ordered only while every ingredient it needs is available.",
+    "searchLabel": "Search ingredients",
+    "filterLabel": "Show",
+    "filter": {
+      "all": "All",
+      "in": "In stock",
+      "out": "Out of stock"
+    },
+    "count": "{{count}} ingredients",
+    "tableLabel": "Ingredients",
+    "columns": {
+      "name": "Name",
+      "stock": "Stock",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "in": "In stock",
+      "out": "Out of stock"
+    },
+    "edit": "Edit",
+    "editAria": "Edit {{name}}",
+    "deleteLabel": "Delete",
+    "deleteAria": "Delete {{name}}",
+    "deleted": "{{name}} deleted.",
+    "delete": {
+      "title": "Delete this ingredient?",
+      "message": "{{name}} will be removed. A dish that uses it must be changed first.",
+      "confirm": "Delete"
+    },
+    "empty": {
+      "title": "No ingredients",
+      "message": "Nothing matches. Change the search or add an ingredient.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "title": "The ingredients did not load",
+      "message": "Check your connection and try again."
+    },
+    "form": {
+      "createTitle": "Add ingredient",
+      "editTitle": "Edit ingredient",
+      "name": "Name",
+      "stock": "Stock",
+      "stockHint": "A whole number, 0 to 1,000,000.",
+      "unit": "Unit",
+      "unitHint": "For example g, ml or pcs.",
+      "create": "Add ingredient",
+      "save": "Save changes",
+      "created": "{{name}} added.",
+      "saved": "{{name}} updated.",
+      "integer": "Use a whole number."
     }
   }
 }
