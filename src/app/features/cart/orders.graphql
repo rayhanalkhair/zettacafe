@@ -1,0 +1,26 @@
+query OrderHistory($page: PageInput) {
+  orderHistory(page: $page) {
+    totalCount
+    items {
+      id
+      placedAt
+      totalIdr
+      lines {
+        id
+        recipeName
+        quantity
+        note
+        unitPriceIdr
+        lineTotalIdr
+      }
+    }
+  }
+}
+
+query Finance {
+  finance {
+    revenueIdr
+    orderCount
+    averageOrderIdr
+  }
+}

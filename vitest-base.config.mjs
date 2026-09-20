@@ -22,6 +22,9 @@ const GRAPHQL_PACKAGES = /[/\\]node_modules[/\\](graphql|@graphql-tools|@apollo[
 export default defineConfig({
   resolve: { dedupe: ['graphql'] },
   test: {
+    // An axe scan of a full page takes a few seconds when the whole suite runs in
+    // parallel; the default 5 s made those specs flaky rather than wrong.
+    testTimeout: 20_000,
     server: { deps: { inline: [GRAPHQL_PACKAGES] } },
   },
 });

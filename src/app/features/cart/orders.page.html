@@ -1,0 +1,84 @@
+<zc-page-shell>
+  <zc-section-heading [level]="1" [heading]="'orders.title' | translate" />
+
+  @if (session.isAdmin() && finance.hasValue()) {
+    @let f = finance.value()!;
+    <section class="finance" aria-labelledby="finance-heading">
+      <h2 id="finance-heading">{{ 'orders.finance.title' | translate }}</h2>
+      <dl>
+        <div>
+          <dt>{{ 'orders.finance.revenue' | translate }}</dt>
+          <dd>{{ f.revenueIdr | zcCurrency }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'orders.finance.count' | translate }}</dt>
+          <dd>{{ f.orderCount }}</dd>
+        </div>
+        <div>
+          <dt>{{ 'orders.finance.average' | translate }}</dt>
+          <dd>{{ f.averageOrderIdr | zcCurrency }}</dd>
+        </div>
+      </dl>
+    </section>
+  }
+
+  <p class="visually-hidden" role="status">
+    @if (view() === 'ready') {
+      {{ 'orders.count' | translate: { count: total() } }}
+    }
+  </p>
+
+  @switch (view()) {
+    @case ('loading') {
+      <zc-loading-pane />
+    }
+    @case ('error') {
+      <zc-error-state
+        [heading]="'orders.error.title' | translate"
+        [message]="'orders.error.message' | translate"
+        (retry)="history.reload()"
+      />
+    }
+    @case ('empty') {
+      <zc-empty-state
+        [heading]="'orders.empty.title' | translate"
+        [message]="'orders.empty.message' | translate"
+      >
+        <a matButton="filled" routerLink="/menu">{{ 'orders.empty.browse' | translate }}</a>
+      </zc-empty-state>
+    }
+    @default {
+      <ol class="orders" [attr.aria-busy]="history.isLoading()">
+        @for (order of items(); track order.id) {
+          <li>
+            <article class="order">
+              <header>
+                <h2>{{ order.placedAt | zcDate }}</h2>
+                <p class="order-total">{{ order.totalIdr | zcCurrency }}</p>
+              </header>
+              <ul class="lines">
+                @for (line of order.lines; track line.id) {
+                  <li>
+                    <span>
+                      {{ line.quantity }} × {{ line.recipeName }}
+                      @if (line.note) {
+                        <span class="note">({{ line.note }})</span>
+                      }
+                    </span>
+                    <span>{{ line.lineTotalIdr | zcCurrency }}</span>
+                  </li>
+                }
+              </ul>
+            </article>
+          </li>
+        }
+      </ol>
+      <zc-pager
+        [offset]="offset()"
+        [limit]="pageSize"
+        [total]="total()"
+        (offsetChange)="setOffset($event)"
+      />
+    }
+  }
+</zc-page-shell>

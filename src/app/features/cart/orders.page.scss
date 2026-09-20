@@ -1,0 +1,92 @@
+:host {
+  display: block;
+}
+
+.finance {
+  margin-block: var(--zc-space-5);
+  padding: var(--zc-space-4) var(--zc-space-5);
+  border: 1px solid var(--zc-rule);
+  border-radius: var(--zc-radius-md);
+  background: var(--zc-surface);
+}
+
+.finance h2 {
+  margin: 0 0 var(--zc-space-3);
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-lg);
+}
+
+.finance dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--zc-space-4);
+  margin: 0;
+}
+
+.finance dt {
+  color: var(--zc-ink-soft);
+  font-size: var(--zc-text-sm);
+}
+
+.finance dd {
+  margin: 0;
+  font-size: var(--zc-text-xl);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--zc-weight-semibold);
+}
+
+.orders {
+  margin: var(--zc-space-5) 0 0;
+  padding: 0;
+  border-block-start: 1px solid var(--zc-rule);
+  list-style: none;
+}
+
+.orders > li {
+  border-block-end: 1px solid var(--zc-rule);
+}
+
+.order {
+  display: grid;
+  gap: var(--zc-space-3);
+  padding-block: var(--zc-space-4);
+}
+
+.order header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.order h2 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-lg);
+}
+
+.order-total {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--zc-weight-semibold);
+}
+
+.lines {
+  display: grid;
+  gap: var(--zc-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lines li {
+  display: flex;
+  gap: var(--zc-space-3);
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  color: var(--zc-ink-soft);
+}

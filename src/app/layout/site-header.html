@@ -5,6 +5,20 @@
     <a routerLink="/menu" routerLinkActive="active" ariaCurrentWhenActive="page">{{
       'shell.nav.menu' | translate
     }}</a>
+    @if (session.isAuthenticated()) {
+      <a routerLink="/cart" routerLinkActive="active" ariaCurrentWhenActive="page">
+        {{ 'shell.nav.cart' | translate }}
+        @if (cart.itemCount() > 0) {
+          <span class="count" aria-hidden="true">{{ cart.itemCount() }}</span>
+          <span class="visually-hidden">{{
+            'shell.nav.cartItems' | translate: { count: cart.itemCount() }
+          }}</span>
+        }
+      </a>
+      <a routerLink="/orders" routerLinkActive="active" ariaCurrentWhenActive="page">{{
+        'shell.nav.orders' | translate
+      }}</a>
+    }
   </nav>
 
   <div class="actions">

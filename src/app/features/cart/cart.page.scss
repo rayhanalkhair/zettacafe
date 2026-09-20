@@ -1,0 +1,190 @@
+:host {
+  display: block;
+}
+
+.layout {
+  display: grid;
+  gap: var(--zc-space-6);
+  margin-block-start: var(--zc-space-5);
+}
+
+@media (width >= 60rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: start;
+  }
+}
+
+.attention {
+  margin: 0 0 var(--zc-space-4);
+  padding: var(--zc-space-3) var(--zc-space-4);
+  border-inline-start: 4px solid var(--zc-kunyit);
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-surface-sunken);
+}
+
+.lines {
+  margin: 0;
+  padding: 0;
+  border-block-start: 1px solid var(--zc-rule);
+  list-style: none;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'photo body total' '. actions actions';
+  gap: var(--zc-space-2) var(--zc-space-4);
+  padding-block: var(--zc-space-4);
+  border-block-end: 1px solid var(--zc-rule);
+}
+
+.photo {
+  grid-area: photo;
+  inline-size: 4.5rem;
+  block-size: 4.5rem;
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-surface-sunken);
+  object-fit: cover;
+}
+
+.body {
+  grid-area: body;
+  min-inline-size: 0;
+}
+
+// Without a photo the text starts in the first column.
+.line:not(:has(.photo)) {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'body total' 'actions actions';
+}
+
+.name {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-lg);
+  font-weight: var(--zc-weight-semibold);
+  line-height: var(--zc-leading-snug);
+}
+
+.note {
+  margin: var(--zc-space-1) 0 0;
+  color: var(--zc-ink-soft);
+  font-size: var(--zc-text-sm);
+}
+
+.unit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: baseline;
+  margin: var(--zc-space-2) 0 0;
+  color: var(--zc-ink-soft);
+}
+
+.issue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: center;
+  margin-block-start: var(--zc-space-2);
+}
+
+.total {
+  grid-area: total;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--zc-weight-semibold);
+  text-align: end;
+}
+
+.line-actions {
+  display: flex;
+  grid-area: actions;
+  gap: var(--zc-space-2);
+  justify-content: flex-end;
+}
+
+.summary {
+  display: grid;
+  gap: var(--zc-space-3);
+  padding: var(--zc-space-5);
+  border: 1px solid var(--zc-rule);
+  border-radius: var(--zc-radius-md);
+  background: var(--zc-surface);
+}
+
+.summary h2 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-xl);
+}
+
+dl {
+  display: grid;
+  gap: var(--zc-space-2);
+  margin: 0;
+}
+
+dl div {
+  display: flex;
+  gap: var(--zc-space-3);
+  justify-content: space-between;
+}
+
+dt {
+  color: var(--zc-ink-soft);
+}
+
+dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.grand {
+  padding-block: var(--zc-space-2);
+  border-block: 1px solid var(--zc-rule);
+  font-weight: var(--zc-weight-semibold);
+}
+
+.grand dt {
+  color: var(--zc-ink);
+}
+
+.shortfall {
+  margin: 0;
+  color: var(--zc-ink);
+}
+
+.placed {
+  display: grid;
+  gap: var(--zc-space-3);
+  max-inline-size: 36rem;
+  margin-block-start: var(--zc-space-5);
+}
+
+.placed h2 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+}
+
+.receipt {
+  display: grid;
+  gap: var(--zc-space-2);
+  margin: 0;
+  padding: var(--zc-space-4) 0;
+  border-block: 1px solid var(--zc-rule);
+  list-style: none;
+}
+
+.receipt li {
+  display: flex;
+  gap: var(--zc-space-3);
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+}
