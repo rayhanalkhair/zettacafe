@@ -1,0 +1,157 @@
+<a class="skip-link" href="#tokens-main">Skip to tokens</a>
+
+<header class="bar">
+  <div class="bar-inner">
+    <p class="brand">ZettaCafe / dev / tokens</p>
+    <div class="modes" role="group" aria-label="Theme">
+      @for (m of modes; track m) {
+        <button
+          type="button"
+          matButton="outlined"
+          [attr.aria-pressed]="mode() === m"
+          (click)="setMode(m)"
+        >
+          {{ m }}
+        </button>
+      }
+    </div>
+  </div>
+</header>
+
+<main id="tokens-main" class="page">
+  <div class="intro">
+    <h1>Design tokens</h1>
+    <p class="lede">
+      Every token, rendered in the active theme. Colour values live in
+      <code>_tokens.scss</code> and are checked against WCAG 2.2 AA by
+      <code>npm run contrast:check</code>.
+    </p>
+  </div>
+
+  <section aria-labelledby="h-colour">
+    <h2 id="h-colour">Colour</h2>
+    @for (group of colourGroups; track group.title) {
+      <h3>{{ group.title }}</h3>
+      <ul class="swatches">
+        @for (s of group.items; track s.token) {
+          <li class="swatch">
+            <span class="chip" [style.--zc-swatch]="'var(--zc-' + s.token + ')'"></span>
+            <span class="name">--zc-{{ s.token }}</span>
+            <span class="use">{{ s.use }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <section aria-labelledby="h-pairs">
+    <h2 id="h-pairs">Pairings</h2>
+    <ul class="pairs">
+      @for (p of pairings; track p.label) {
+        <li
+          class="pair"
+          [style.--zc-fg]="'var(--zc-' + p.fg + ')'"
+          [style.--zc-bg]="'var(--zc-' + p.bg + ')'"
+        >
+          {{ p.label }}
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-type">
+    <h2 id="h-type">Type</h2>
+    <dl class="type">
+      @for (t of typeScale; track t.token) {
+        <div class="type-row">
+          <dt>--zc-{{ t.token }}</dt>
+          <dd
+            [class.display]="t.family === 'display'"
+            [style.font-size]="'var(--zc-' + t.token + ')'"
+          >
+            {{ t.sample }}
+          </dd>
+        </div>
+      }
+    </dl>
+  </section>
+
+  <section aria-labelledby="h-board">
+    <h2 id="h-board">Menu board specimen</h2>
+    <p class="note">
+      The menu is a board, not a card grid: the dish, a rule, the price right-aligned.
+    </p>
+    <ul class="board">
+      <li class="row">
+        <div class="dish">
+          <h3>Nasi goreng kampung</h3>
+          <p class="desc">Smoked rice, bird’s-eye chilli, fried shallot and a fried egg.</p>
+          <p class="stock">15 portions left</p>
+        </div>
+        <p class="price">Rp 28.000</p>
+      </li>
+      <li class="row">
+        <div class="dish">
+          <h3>Rendang daging</h3>
+          <p class="desc">
+            Slow-cooked eight hours in coconut milk and kluwek until the sauce clings.
+          </p>
+          <p class="badge">20% off</p>
+        </div>
+        <p class="price">
+          <s class="was"><span class="visually-hidden">Was </span>Rp 52.000</s>
+          <span class="now"><span class="visually-hidden">Now </span>Rp 41.600</span>
+        </p>
+      </li>
+      <li class="row sold-out">
+        <div class="dish">
+          <h3>Soto betawi</h3>
+          <p class="desc">Beef and offal in a spiced coconut-milk broth.</p>
+          <p class="stock">Sold out today</p>
+        </div>
+        <p class="price">Rp 36.000</p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-material">
+    <h2 id="h-material">Material, themed by tokens only</h2>
+    <p class="note">
+      No component overrides: these pick up the brand purely through
+      <code>--mat-sys-*</code>.
+    </p>
+    <div class="sampler">
+      <div class="buttons">
+        <button type="button" matButton="filled">Order now</button>
+        <button type="button" matButton="tonal">Add note</button>
+        <button type="button" matButton="outlined">View menu</button>
+        <button type="button" matButton="text">Cancel</button>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput value="Rayhan" />
+      </mat-form-field>
+      <mat-checkbox checked>Remember me</mat-checkbox>
+      <mat-slide-toggle checked>Bahasa Indonesia</mat-slide-toggle>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-space">
+    <h2 id="h-space">Spacing, radius and elevation</h2>
+    <ul class="space">
+      @for (n of spacing; track n) {
+        <li>
+          <span class="space-bar" [style.inline-size]="'var(--zc-space-' + n + ')'"></span>
+          <span class="name">--zc-space-{{ n }}</span>
+        </li>
+      }
+    </ul>
+    <div class="shapes">
+      <span class="shape" style="border-radius: var(--zc-radius-sm)">radius-sm</span>
+      <span class="shape" style="border-radius: var(--zc-radius-md)">radius-md</span>
+      <span class="shape" style="border-radius: var(--zc-radius-lg)">radius-lg</span>
+      <span class="shape" style="box-shadow: var(--zc-shadow-sm)">shadow-sm</span>
+      <span class="shape" style="box-shadow: var(--zc-shadow-md)">shadow-md</span>
+    </div>
+  </section>
+</main>

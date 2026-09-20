@@ -28,6 +28,9 @@ const FORBIDDEN = [
   { pattern: 'ZETTACAFE_SEED_MARKER', why: 'seed data must stay lazily loaded' },
 ];
 
+/** Markers that must not appear in ANY chunk of a production build. */
+const DEV_ONLY = [{ pattern: 'zc-tokens-page', why: 'dev-only tooling must be compiled out' }];
+
 const red = (s) => `\x1b[31m${s}\x1b[0m`;
 const green = (s) => `\x1b[32m${s}\x1b[0m`;
 const dim = (s) => `\x1b[2m${s}\x1b[0m`;
@@ -70,6 +73,15 @@ for (const file of initial) {
 }
 
 const allFiles = readdirSync(DIST).filter((f) => f.endsWith('.js'));
+
+// Dev tooling must not appear in any chunk, lazy or not.
+for (const file of allFiles) {
+  const content = readFileSync(join(DIST, file), 'utf8');
+  for (const { pattern, why } of DEV_ONLY) {
+    if (content.includes(pattern)) problems.push(`${file} contains "${pattern}" — ${why}.`);
+  }
+}
+
 const lazyCount = allFiles.length - initial.filter((f) => f.endsWith('.js')).length;
 
 if (problems.length) {
