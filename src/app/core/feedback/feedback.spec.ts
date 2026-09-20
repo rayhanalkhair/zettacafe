@@ -42,18 +42,21 @@ describe('NotificationService', () => {
   });
   afterEach(() => localStorage.clear());
 
-  it('translates the key, and the dismiss label, before showing it', () => {
+  it('translates the key, and the dismiss label, before showing it', async () => {
     service.success('saved');
-    expect(snackBar.open).toHaveBeenCalledWith(
-      'Saved.',
-      'Dismiss',
-      expect.objectContaining({ politeness: 'polite' }),
+    await vi.waitFor(() =>
+      expect(snackBar.open).toHaveBeenCalledWith(
+        'Saved.',
+        'Dismiss',
+        expect.objectContaining({ politeness: 'polite' }),
+      ),
     );
   });
 
-  it('announces errors assertively and keeps them up longer', () => {
+  it('announces errors assertively and keeps them up longer', async () => {
     service.success('saved');
     service.error('errors.UNKNOWN');
+    await vi.waitFor(() => expect(snackBar.open).toHaveBeenCalledTimes(2));
     const [success, error] = snackBar.open.mock.calls.map(
       (call) => call[2] as Record<string, unknown>,
     );
@@ -61,7 +64,7 @@ describe('NotificationService', () => {
     expect(error!['duration'] as number).toBeGreaterThan(success!['duration'] as number);
   });
 
-  it('turns a server error into a translated message with formatted money', () => {
+  it('turns a server error into a translated message with formatted money', async () => {
     TestBed.inject(LanguageStore);
     const error = new CombinedGraphQLErrors({
       data: null,
@@ -73,11 +76,13 @@ describe('NotificationService', () => {
       ],
     });
     service.fromError(error);
+    await vi.waitFor(() => expect(snackBar.open).toHaveBeenCalled());
     expect(snackBar.open.mock.calls[0]?.[0]).toBe('You are short by Rp 12,000.');
   });
 
-  it('shows a generic message for an error it does not recognise', () => {
+  it('shows a generic message for an error it does not recognise', async () => {
     service.fromError(new Error('boom'));
+    await vi.waitFor(() => expect(snackBar.open).toHaveBeenCalled());
     expect(snackBar.open.mock.calls[0]?.[0]).toBe('Something went wrong.');
   });
 });
