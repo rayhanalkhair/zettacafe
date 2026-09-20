@@ -1,0 +1,76 @@
+fragment CartFields on Order {
+  id
+  status
+  totalIdr
+  lines {
+    id
+    quantity
+    note
+    recipeName
+    recipeImageUrl
+    listPriceIdr
+    discountPercent
+    unitPriceIdr
+    lineTotalIdr
+    recipe {
+      id
+    }
+  }
+  issues {
+    kind
+    maxOrderableQuantity
+    line {
+      id
+    }
+  }
+}
+
+query Cart {
+  cart {
+    ...CartFields
+  }
+}
+
+mutation AddCartLine($input: AddCartLineInput!) {
+  addCartLine(input: $input) {
+    ...CartFields
+  }
+}
+
+mutation UpdateCartLine($input: UpdateCartLineInput!) {
+  updateCartLine(input: $input) {
+    ...CartFields
+  }
+}
+
+mutation RemoveCartLine($lineId: ID!) {
+  removeCartLine(lineId: $lineId) {
+    ...CartFields
+  }
+}
+
+mutation CancelCart {
+  cancelCart {
+    ...CartFields
+  }
+}
+
+mutation Checkout($expectedTotalIdr: Int) {
+  checkout(expectedTotalIdr: $expectedTotalIdr) {
+    id
+    status
+    totalIdr
+    placedAt
+    user {
+      id
+      creditIdr
+    }
+    lines {
+      id
+      recipeName
+      quantity
+      unitPriceIdr
+      lineTotalIdr
+    }
+  }
+}

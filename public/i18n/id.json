@@ -1,1 +1,25 @@
-{}
+{
+  "common": {
+    "confirm": "Konfirmasi",
+    "cancel": "Batal",
+    "close": "Tutup"
+  },
+  "errors": {
+    "UNAUTHENTICATED": "Silakan masuk untuk melanjutkan.",
+    "SESSION_EXPIRED": "Sesi Anda telah berakhir. Silakan masuk kembali.",
+    "FORBIDDEN": "Anda tidak memiliki izin untuk itu.",
+    "NOT_FOUND": "Kami tidak menemukan {{entity}} tersebut.",
+    "VALIDATION": "Periksa kembali kolom {{field}}.",
+    "INVALID_CREDENTIALS": "Email atau kata sandi salah.",
+    "EMAIL_TAKEN": "{{email}} sudah terdaftar.",
+    "INVALID_RESET_CODE": "Kode salah atau sudah kedaluwarsa.",
+    "EMPTY_CART": "Keranjang Anda kosong.",
+    "RECIPE_UNAVAILABLE": "Ada menu di keranjang yang sudah tidak tersedia.",
+    "INSUFFICIENT_STOCK": "Menu berikut belum bisa kami buat: {{items}}.",
+    "INSUFFICIENT_CREDIT": "Saldo Anda kurang {{shortfall}}. Isi saldo lalu coba lagi.",
+    "PRICE_CHANGED": "Total berubah dari {{expected}} menjadi {{actual}}. Silakan periksa keranjang.",
+    "RECIPE_IN_USE": "Bahan itu masih dipakai oleh sebuah resep.",
+    "NETWORK": "Kami tidak dapat terhubung ke server. Periksa koneksi Anda.",
+    "UNKNOWN": "Terjadi kesalahan. Silakan coba lagi."
+  }
+}

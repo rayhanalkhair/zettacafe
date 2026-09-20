@@ -34,7 +34,12 @@ const DIST = join(process.cwd(), 'dist', 'zettacafe', 'browser');
 /** Strings that only exist in this app's server code. They survive minification. */
 const SERVER_MARKERS = [
   { pattern: 'zettacafe123', why: 'seed data (the demo accounts) must stay lazily loaded' },
-  { pattern: 'INSUFFICIENT_STOCK', why: 'resolvers and business rules must stay lazily loaded' },
+  // Not an error CODE: the client legitimately lists those (core/errors). This is
+  // the server's own message text, which the client never contains.
+  {
+    pattern: 'Wrong email or password.',
+    why: 'resolvers and business rules must stay lazily loaded',
+  },
   { pattern: 'pbkdf2$', why: 'password hashing must stay lazily loaded' },
 ];
 
@@ -42,6 +47,7 @@ const SERVER_MARKERS = [
 const DEV_ONLY = [
   { pattern: 'zc-tokens-page', why: 'dev-only tooling must be compiled out' },
   { pattern: 'zc-graphql-console', why: 'dev-only tooling must be compiled out' },
+  { pattern: 'zc-session-page', why: 'dev-only tooling must be compiled out' },
 ];
 
 const red = (s) => `\x1b[31m${s}\x1b[0m`;

@@ -39,4 +39,23 @@ const config = {
   },
 };
 
+// Client operations: every .graphql document under src/app becomes a typed document
+// (variables and result types), so services never hand-write a response shape.
+config.generates['src/app/core/graphql/generated/operations.ts'] = {
+  documents: 'src/app/**/*.graphql',
+  // typescript-operations emits the input and enum types each operation needs, so the
+  // full `typescript` plugin would only duplicate them.
+  plugins: ['typescript-operations', 'typed-document-node'],
+  config: {
+    useTypeImports: true,
+    enumsAsTypes: true,
+    maybeValue: 'T | null',
+    inputMaybeValue: 'T | null | undefined',
+    avoidOptionals: { field: true, inputValue: false, object: false, defaultValue: false },
+    scalars: { DateTime: 'string' },
+    // Keeps generated results structurally simple: no `__typename` unless asked for.
+    skipTypename: true,
+  },
+};
+
 export default config;

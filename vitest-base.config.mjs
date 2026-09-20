@@ -10,11 +10,14 @@ import { defineConfig } from 'vitest/config';
  * builder and the executor can end up with two different copies, and graphql then
  * refuses to run ("Cannot use GraphQLSchema from another module or realm").
  *
+ * `@apollo/client` imports `graphql` too (SchemaLink executes through it), so it is
+ * inlined with them: otherwise Node loads a third copy for it.
+ *
  * Inlining makes Vitest process them through one resolver, and `dedupe` pins a
  * single copy. Note `inline` patterns match the absolute file path, so they must
  * not be anchored with `^`.
  */
-const GRAPHQL_PACKAGES = /[/\\]node_modules[/\\](graphql|@graphql-tools)[/\\]/;
+const GRAPHQL_PACKAGES = /[/\\]node_modules[/\\](graphql|@graphql-tools|@apollo[/\\]client)[/\\]/;
 
 export default defineConfig({
   resolve: { dedupe: ['graphql'] },
