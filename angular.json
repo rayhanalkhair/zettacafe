@@ -29,9 +29,16 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "node_modules/@fontsource-variable/playfair-display/index.css",
+              "node_modules/@fontsource-variable/work-sans/index.css",
+              "src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/styles"]
+            },
+            "define": {
+              "DEV_TOOLS": "true"
             }
           },
           "configurations": {
@@ -48,7 +55,16 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "define": {
+                "DEV_TOOLS": "false"
+              }
             },
             "development": {
               "optimization": false,

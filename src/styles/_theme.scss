@@ -1,0 +1,95 @@
+// Angular Material 22 bridge.
+//
+// One rule governs this file and the whole app: components consume
+// --mat-sys-* and --zc-* tokens and never style another component's internals.
+// Where Material needs adjusting, add a token override HERE, never a selector
+// in a component. (v1 spent 35 lines styling mat-menu content that renders in a
+// CDK overlay outside the component's encapsulation scope; none of it matched.)
+//
+// Colour flow: _tokens.scss owns the exact brand values. The generated tonal
+// palettes in _theme-colors.scss only supply the ranges Material derives
+// containers and states from. The overrides below then pin every role we care
+// about to a --zc-* token, so the brand values are what actually renders.
+
+@use '@angular/material' as mat;
+@use 'theme-colors' as colors;
+@use 'typography' as type;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: colors.$primary-palette,
+        tertiary: colors.$tertiary-palette,
+        theme-type: color-scheme,
+      ),
+      typography: (
+        plain-family: type.$font-body,
+        brand-family: type.$font-display,
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    ),
+    (
+      // Page and surfaces. `surface` is the page; raised things use --zc-surface.
+      background: var(--zc-paper),
+      on-background: var(--zc-ink),
+      surface: var(--zc-paper),
+      surface-dim: var(--zc-surface-sunken),
+      surface-bright: var(--zc-surface),
+      surface-container-lowest: var(--zc-surface),
+      surface-container-low: var(--zc-surface),
+      surface-container: var(--zc-surface),
+      surface-container-high: var(--zc-surface),
+      surface-container-highest: var(--zc-surface-sunken),
+      surface-variant: var(--zc-surface-sunken),
+      on-surface: var(--zc-ink),
+      on-surface-variant: var(--zc-ink-soft),
+      outline: var(--zc-outline),
+      outline-variant: var(--zc-rule),
+      inverse-surface: var(--zc-ink),
+      inverse-on-surface: var(--zc-paper),
+      // Primary: gula aren
+      primary: var(--zc-aren),
+      on-primary: var(--zc-on-aren),
+      primary-container: var(--zc-aren-tint),
+      on-primary-container: var(--zc-ink),
+      // Secondary: quiet, ink-toned
+      secondary: var(--zc-ink-soft),
+      on-secondary: var(--zc-surface),
+      secondary-container: var(--zc-surface-sunken),
+      on-secondary-container: var(--zc-ink),
+      // Tertiary: pandan
+      tertiary: var(--zc-pandan),
+      on-tertiary: var(--zc-on-pandan),
+      tertiary-container: var(--zc-pandan-tint),
+      on-tertiary-container: var(--zc-ink),
+      // Error: sambal. Reserved for destructive actions and failures.
+      error: var(--zc-sambal),
+      on-error: var(--zc-on-sambal),
+      error-container: var(--zc-sambal-tint),
+      on-error-container: var(--zc-sambal),
+      // Shape: restrained. Pill-shaped corner-full is left to Material.
+      corner-extra-small: var(--zc-radius-sm),
+      corner-small: var(--zc-radius-sm),
+      corner-medium: var(--zc-radius-md),
+      corner-large: var(--zc-radius-md),
+      corner-extra-large: var(--zc-radius-lg)
+    )
+  );
+
+  // Buttons: restrained corners, not pills. Pill buttons are the generic SaaS
+  // default and fight the editorial tone. Set here as a token override, never
+  // as a selector in a component.
+  @include mat.button-overrides(
+    (
+      filled-container-shape: var(--zc-radius-sm),
+      outlined-container-shape: var(--zc-radius-sm),
+      protected-container-shape: var(--zc-radius-sm),
+      text-container-shape: var(--zc-radius-sm),
+      tonal-container-shape: var(--zc-radius-sm),
+    )
+  );
+}

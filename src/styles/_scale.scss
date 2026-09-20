@@ -1,0 +1,47 @@
+// Non-colour design tokens: spacing, radius, elevation, motion and layout.
+// Colour lives in _tokens.scss; nothing here may contain a literal colour.
+
+:root {
+  // Spacing: 4px base, expressed in rem so it follows the user's font size.
+  --zc-space-1: 0.25rem;
+  --zc-space-2: 0.5rem;
+  --zc-space-3: 0.75rem;
+  --zc-space-4: 1rem;
+  --zc-space-5: 1.5rem;
+  --zc-space-6: 2rem;
+  --zc-space-7: 3rem;
+  --zc-space-8: 4rem;
+  --zc-space-9: 6rem;
+
+  // Radius is deliberately restrained. The menu is a board, not a card grid.
+  --zc-radius-sm: 0.25rem;
+  --zc-radius-md: 0.5rem;
+  --zc-radius-lg: 1rem;
+  --zc-radius-pill: 999px;
+
+  // Elevation is derived from ink so it follows the theme automatically.
+  --zc-shadow-sm: 0 1px 2px color-mix(in srgb, var(--zc-ink) 14%, transparent);
+  --zc-shadow-md: 0 6px 20px color-mix(in srgb, var(--zc-ink) 16%, transparent);
+
+  // Motion
+  --zc-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --zc-duration-fast: 150ms;
+  --zc-duration-base: 250ms;
+  --zc-duration-slow: 600ms;
+
+  // Layout
+  --zc-page-max: 72rem;
+  --zc-measure: 62ch;
+  --zc-gutter: clamp(1rem, 4vw, 2rem);
+  --zc-header-height: 4rem;
+}
+
+// Reduced motion is handled by collapsing the duration tokens, so every
+// component that uses them respects the preference without !important.
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --zc-duration-fast: 0.01ms;
+    --zc-duration-base: 0.01ms;
+    --zc-duration-slow: 0.01ms;
+  }
+}

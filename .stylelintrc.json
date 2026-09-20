@@ -6,7 +6,8 @@
     "dist/**",
     ".angular/**",
     "coverage/**",
-    "node_modules/**"
+    "node_modules/**",
+    "src/styles/_theme-colors.scss"
   ],
   "rules": {
     "color-no-hex": true,
@@ -19,7 +20,12 @@
         "/^hsla\\(/"
       ]
     },
-    "selector-pseudo-element-no-unknown": [true, { "ignorePseudoElements": ["ng-deep"] }],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ],
     "selector-disallowed-list": [
       ["/::ng-deep/", "/\\/deep\\//", "/>>>/"],
       {
@@ -29,7 +35,9 @@
     "scss/dollar-variable-pattern": "^[a-z][a-z0-9-]*$",
     "custom-property-pattern": "^(zc|mat)-[a-z0-9-]+$",
     "declaration-no-important": true,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "custom-property-empty-line-before": null,
+    "scss/comment-no-empty": null
   },
   "overrides": [
     {
@@ -37,7 +45,8 @@
       "rules": {
         "color-no-hex": null,
         "color-named": null,
-        "declaration-property-value-disallowed-list": null
+        "declaration-property-value-disallowed-list": null,
+        "color-hex-length": null
       }
     }
   ]

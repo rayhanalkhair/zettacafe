@@ -1,0 +1,44 @@
+// Type tokens. The font stacks are Sass variables so the same value feeds both
+// the CSS custom properties below and Angular Material's typography config.
+//
+// Display: Playfair Display. High-contrast serif, carries the editorial voice.
+// Body:    Work Sans. Humanist sans that pairs with Playfair without competing.
+// Both are self-hosted variable fonts (see angular.json `styles`), replacing
+// v1's seven render-blocking CDN stylesheets.
+
+$font-display: 'Playfair Display Variable', 'Iowan Old Style', georgia, serif;
+$font-body:
+  'Work Sans Variable',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  'Helvetica Neue',
+  arial,
+  sans-serif;
+
+:root {
+  --zc-font-display: #{$font-display};
+  --zc-font-body: #{$font-body};
+
+  // Scale. Fluid only at the top end, where headlines earn the space.
+  --zc-text-xs: 0.8125rem;
+  --zc-text-sm: 0.9375rem;
+  --zc-text-base: 1rem;
+  --zc-text-lg: 1.1875rem;
+  --zc-text-xl: 1.5rem;
+  --zc-text-2xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+  --zc-text-3xl: clamp(2.125rem, 1.6rem + 2.4vw, 3.25rem);
+  --zc-text-display: clamp(2.75rem, 1.5rem + 5.6vw, 5.5rem);
+
+  --zc-leading-tight: 1.1;
+  --zc-leading-snug: 1.3;
+  --zc-leading-body: 1.6;
+
+  --zc-tracking-display: -0.02em;
+  --zc-tracking-body: 0;
+
+  --zc-weight-regular: 400;
+  --zc-weight-medium: 500;
+  --zc-weight-semibold: 600;
+  --zc-weight-bold: 700;
+}

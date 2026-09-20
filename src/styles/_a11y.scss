@@ -1,0 +1,57 @@
+// Accessibility primitives. These are baseline behaviours, not decoration.
+
+// Visible focus for every interactive element (WCAG 2.4.7). The ring colour is
+// a token verified to 3:1 against every surface by scripts/check-contrast.mjs.
+:focus-visible {
+  outline: 2px solid var(--zc-focus);
+  outline-offset: 2px;
+}
+
+// Mouse clicks never show a ring; keyboard focus always does.
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// Content available to assistive tech but not shown.
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+// First tab stop on every page (WCAG 2.4.1). Becomes visible on focus.
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--zc-space-2);
+  inset-inline-start: var(--zc-space-2);
+  z-index: 1000;
+  padding: var(--zc-space-2) var(--zc-space-4);
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-ink);
+  color: var(--zc-paper);
+  font-weight: var(--zc-weight-semibold);
+  transform: translateY(-200%);
+  transition: transform var(--zc-duration-fast) var(--zc-ease);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}
+
+// Keep anchor targets clear of a sticky header (WCAG 2.4.11 Focus Not Obscured).
+:target,
+[id] {
+  scroll-margin-block-start: calc(var(--zc-header-height) + var(--zc-space-4));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

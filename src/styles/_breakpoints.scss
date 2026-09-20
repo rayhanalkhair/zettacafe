@@ -1,0 +1,23 @@
+// Mobile-first. Base styles target 360px; every @media is a min-width.
+//
+//   @use 'breakpoints' as bp;
+//   .thing { @include bp.from(md) { display: grid; } }
+
+@use 'sass:map';
+
+$breakpoints: (
+  sm: 36rem,
+  md: 48rem,
+  lg: 64rem,
+  xl: 80rem,
+);
+
+@mixin from($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}';
+  }
+
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
