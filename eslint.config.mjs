@@ -145,6 +145,25 @@ export default defineConfig([
     },
   },
 
+  // localStorage is touched in exactly one file (core/storage). v1 read it in about
+  // eight places, and a failed login could store the string "undefined".
+  {
+    files: ['src/**/*.ts'],
+    ignores: ['src/app/core/storage/**', '**/*.spec.ts'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        { name: 'localStorage', message: 'Use LocalStorageService (core/storage).' },
+        { name: 'sessionStorage', message: 'Use LocalStorageService (core/storage).' },
+      ],
+      'no-restricted-properties': [
+        'error',
+        { object: 'window', property: 'localStorage', message: 'Use LocalStorageService.' },
+        { object: 'window', property: 'sessionStorage', message: 'Use LocalStorageService.' },
+      ],
+    },
+  },
+
   // --- Tests -------------------------------------------------------------------
   {
     files: ['**/*.spec.ts', 'e2e/**/*.ts'],
