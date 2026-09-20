@@ -1,0 +1,121 @@
+<zc-dialog-shell [heading]="labels.titleKey | translate">
+  <form id="recipe-form" class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+    @if (failure(); as f) {
+      <p class="failure" role="alert">{{ f.key | translate: f.params }}</p>
+    }
+
+    <zc-text-field
+      [control]="form.controls.name"
+      autocomplete="off"
+      [label]="'recipes.form.name' | translate"
+    />
+
+    <div class="pair">
+      <zc-select-field
+        [control]="form.controls.category"
+        [label]="'recipes.form.category' | translate"
+        [options]="categoryChoices"
+      />
+      <zc-number-field
+        [control]="form.controls.priceIdr"
+        [min]="1000"
+        [max]="10000000"
+        [suffix]="'recipes.form.rupiah' | translate"
+        [label]="'recipes.form.price' | translate"
+      />
+    </div>
+
+    <div class="pair">
+      <zc-number-field
+        [control]="form.controls.discountPercent"
+        [min]="0"
+        [max]="100"
+        suffix="%"
+        [label]="'recipes.form.discount' | translate"
+        [hint]="'recipes.form.discountHint' | translate"
+      />
+      <zc-text-field
+        [control]="form.controls.imageUrl"
+        type="url"
+        autocomplete="off"
+        [label]="'recipes.form.image' | translate"
+        [hint]="'recipes.form.imageHint' | translate"
+      />
+    </div>
+
+    <zc-textarea-field
+      [control]="form.controls.descriptionEn"
+      [label]="'recipes.form.descriptionEn' | translate"
+    />
+    <zc-textarea-field
+      [control]="form.controls.descriptionId"
+      [label]="'recipes.form.descriptionId' | translate"
+      [hint]="'recipes.form.descriptionIdHint' | translate"
+    />
+
+    <fieldset class="ingredients">
+      <legend>{{ 'recipes.form.ingredients' | translate }}</legend>
+      <p class="hint">{{ 'recipes.form.ingredientsHint' | translate }}</p>
+
+      @if (ingredientOptions.isLoading()) {
+        <p role="status">{{ 'ui.loading' | translate }}</p>
+      } @else if (ingredientOptions.error()) {
+        <p class="failure" role="alert">{{ 'recipes.form.ingredientsError' | translate }}</p>
+      }
+
+      @for (row of rows.controls; track row; let i = $index) {
+        <div class="ingredient-row">
+          <zc-select-field
+            [control]="row.controls.ingredientId"
+            [label]="'recipes.form.ingredient' | translate"
+            [options]="options()"
+          />
+          <zc-number-field
+            [control]="row.controls.quantity"
+            [min]="1"
+            [suffix]="unitOf(row)"
+            [label]="'recipes.form.quantity' | translate"
+          />
+          <button
+            matButton="text"
+            type="button"
+            [disabled]="rows.length === 1"
+            [attr.aria-label]="'recipes.form.removeIngredient' | translate: { n: i + 1 }"
+            (click)="removeRow(i)"
+          >
+            {{ 'recipes.form.remove' | translate }}
+          </button>
+        </div>
+      }
+
+      @if (rows.touched && rows.errors; as errors) {
+        <p class="failure" role="alert">
+          @if (errors['tooFew']) {
+            {{ 'recipes.form.noIngredients' | translate }}
+          } @else if (errors['duplicate']) {
+            {{ 'recipes.form.duplicate' | translate }}
+          }
+        </p>
+      }
+
+      <button matButton="outlined" type="button" (click)="addRow()">
+        {{ 'recipes.form.addIngredient' | translate }}
+      </button>
+    </fieldset>
+
+    <mat-checkbox [formControl]="form.controls.isFeatured">
+      {{ 'recipes.form.featured' | translate }}
+    </mat-checkbox>
+  </form>
+
+  <div zcDialogActions>
+    <button
+      matButton="filled"
+      type="submit"
+      form="recipe-form"
+      [disabled]="submitting() || ingredientOptions.isLoading()"
+    >
+      {{ labels.submitKey | translate }}
+    </button>
+  </div>
+</zc-dialog-shell>

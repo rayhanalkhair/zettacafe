@@ -54,7 +54,9 @@
       "min": "Must be at least {{min}}.",
       "max": "Must be at most {{max}}.",
       "pattern": "This value is not in the expected format.",
-      "invalid": "This value is not valid."
+      "invalid": "This value is not valid.",
+      "integer": "Use a whole number.",
+      "url": "Enter a web address starting with http:// or https://."
     }
   },
   "shell": {
@@ -70,7 +72,8 @@
       "cart": "Cart",
       "orders": "Orders",
       "cartItems": "{{count}} items",
-      "ingredients": "Ingredients"
+      "ingredients": "Ingredients",
+      "recipes": "Recipes"
     },
     "signOutConfirm": {
       "title": "Sign out?",
@@ -135,7 +138,8 @@
     "menu": "Menu",
     "cart": "Your cart",
     "orders": "Your orders",
-    "adminIngredients": "Ingredients"
+    "adminIngredients": "Ingredients",
+    "adminRecipes": "Recipes"
   },
   "menu": {
     "title": "Menu",
@@ -304,8 +308,113 @@
       "create": "Add ingredient",
       "save": "Save changes",
       "created": "{{name}} added.",
+      "saved": "{{name}} updated."
+    }
+  },
+  "recipes": {
+    "title": "Recipes",
+    "add": "Add recipe",
+    "intro": "The dishes and drinks on the menu. A new recipe starts as a draft and appears on the menu once you publish it.",
+    "searchLabel": "Search recipes",
+    "filterLabel": "Show",
+    "filter": {
+      "all": "All",
+      "published": "Published",
+      "draft": "Drafts"
+    },
+    "count": "{{count}} recipes",
+    "tableLabel": "Recipes",
+    "columns": {
+      "name": "Name",
+      "price": "Price",
+      "servings": "Servings left",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "category": {
+      "food": "Food",
+      "drink": "Drink"
+    },
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "featured": "On the home page"
+    },
+    "details": "Details",
+    "detailsAria": "Details of {{name}}",
+    "edit": "Edit",
+    "editAria": "Edit {{name}}",
+    "publishAria": "Publish {{name}}",
+    "unpublishAria": "Unpublish {{name}}",
+    "deleteLabel": "Delete",
+    "deleteAria": "Delete {{name}}",
+    "published": "{{name}} is on the menu.",
+    "unpublished": "{{name}} is hidden from the menu.",
+    "deleted": "{{name}} deleted.",
+    "publish": {
+      "button": "Publish",
+      "title": "Publish this recipe?",
+      "message": "{{name}} will appear on the menu and customers can order it.",
+      "confirm": "Publish"
+    },
+    "unpublish": {
+      "button": "Unpublish",
+      "title": "Unpublish this recipe?",
+      "message": "{{name}} will be hidden from the menu. Orders already in a cart keep it until checkout.",
+      "confirm": "Unpublish"
+    },
+    "delete": {
+      "title": "Delete this recipe?",
+      "message": "{{name}} will be removed from the menu. Past orders are not affected.",
+      "confirm": "Delete"
+    },
+    "empty": {
+      "title": "No recipes",
+      "message": "Nothing matches. Change the search or add a recipe.",
+      "clear": "Clear filters"
+    },
+    "error": {
+      "title": "The recipes did not load",
+      "message": "Check your connection and try again."
+    },
+    "detail": {
+      "category": "Category",
+      "price": "Price",
+      "servings": "Servings that can be made now",
+      "ingredients": "Ingredients",
+      "ingredient": "Ingredient",
+      "perServing": "Per serving",
+      "inStock": "In stock"
+    },
+    "form": {
+      "createTitle": "Add recipe",
+      "editTitle": "Edit recipe",
+      "create": "Add recipe",
+      "save": "Save changes",
+      "created": "{{name}} added as a draft. Publish it to put it on the menu.",
       "saved": "{{name}} updated.",
-      "integer": "Use a whole number."
+      "name": "Name",
+      "category": "Category",
+      "price": "Price",
+      "rupiah": "IDR",
+      "discount": "Discount",
+      "discountHint": "0 to 100 percent.",
+      "image": "Image link",
+      "imageHint": "Optional. A web address to a photo.",
+      "descriptionEn": "Description (English)",
+      "descriptionId": "Description (Indonesian)",
+      "descriptionIdHint": "Optional. English is shown when this is empty.",
+      "ingredients": "Ingredients",
+      "ingredientsHint": "What one serving uses. A dish can be ordered only while every ingredient is in stock.",
+      "ingredient": "Ingredient",
+      "quantity": "Per serving",
+      "addIngredient": "Add an ingredient",
+      "remove": "Remove",
+      "removeIngredient": "Remove ingredient {{n}}",
+      "noIngredients": "Add at least one ingredient.",
+      "duplicate": "Each ingredient can appear only once.",
+      "ingredientsError": "The ingredients could not be loaded. Close this and try again.",
+      "featured": "Show on the home page"
     }
   }
 }

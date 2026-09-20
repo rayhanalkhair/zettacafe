@@ -1,4 +1,5 @@
 import { Component, type EnvironmentProviders, type Provider, type Type } from '@angular/core';
+import { expect, vi } from 'vitest';
 import { gql, type OperationVariables, type TypedDocumentNode } from '@apollo/client';
 import { Apollo } from 'apollo-angular';
 import { TestBed } from '@angular/core/testing';
@@ -62,17 +63,46 @@ export function guestRoute(path: string, component: Type<unknown>): Route {
   return { path, component, canActivate: [guestGuard] };
 }
 
-/** Types into the field with this label and lets the form update. */
-export function fill(root: HTMLElement, label: string, value: string): void {
-  const field = Array.from(root.querySelectorAll('label')).find(
+/**
+ * Types into the field with this label and lets the form update. When several fields
+ * share a label (rows of a repeated group), `index` picks which one.
+ */
+export function fill(root: HTMLElement, label: string, value: string, index = 0): void {
+  const fields = Array.from(root.querySelectorAll('label')).filter(
     (l) => l.textContent.trim() === label,
   );
-  const input = root.querySelector<HTMLInputElement>(
-    `#${field?.getAttribute('for') ?? '__none__'}`,
+  const target = fields[index];
+  const input = root.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+    `#${target?.getAttribute('for') ?? '__none__'}`,
   );
-  if (!input) throw new Error(`No field labelled "${label}"`);
+  if (!input) throw new Error(`No field labelled "${label}" (#${index})`);
   input.value = value;
   input.dispatchEvent(new Event('input'));
+}
+
+/**
+ * Picks an option in a Material select: opens it, then clicks the option in the overlay
+ * it renders. `index` picks among several selects with the same label.
+ */
+export async function choose(
+  root: HTMLElement,
+  label: string,
+  optionText: string,
+  index = 0,
+): Promise<void> {
+  const field = Array.from(root.querySelectorAll('mat-form-field')).filter(
+    (f) => f.querySelector('label')?.textContent.trim() === label && f.querySelector('mat-select'),
+  )[index];
+  const trigger = field?.querySelector<HTMLElement>('.mat-mdc-select-trigger');
+  if (!trigger) throw new Error(`No select labelled "${label}" (#${index})`);
+  trigger.click();
+  await vi.waitFor(() => expect(document.querySelectorAll('mat-option').length).toBeGreaterThan(0));
+  const option = Array.from(document.querySelectorAll<HTMLElement>('mat-option')).find((o) =>
+    o.textContent.trim().startsWith(optionText),
+  );
+  if (!option) throw new Error(`No option starting "${optionText}" in "${label}"`);
+  option.click();
+  await vi.waitFor(() => expect(document.querySelectorAll('mat-option').length).toBe(0));
 }
 
 export function submitButton(root: HTMLElement): HTMLButtonElement {

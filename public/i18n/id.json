@@ -54,7 +54,9 @@
       "min": "Minimal {{min}}.",
       "max": "Maksimal {{max}}.",
       "pattern": "Format nilai ini tidak sesuai.",
-      "invalid": "Nilai ini tidak valid."
+      "invalid": "Nilai ini tidak valid.",
+      "integer": "Gunakan bilangan bulat.",
+      "url": "Masukkan alamat web yang diawali http:// atau https://."
     }
   },
   "shell": {
@@ -70,7 +72,8 @@
       "cart": "Keranjang",
       "orders": "Pesanan",
       "cartItems": "{{count}} item",
-      "ingredients": "Bahan"
+      "ingredients": "Bahan",
+      "recipes": "Resep"
     },
     "signOutConfirm": {
       "title": "Keluar?",
@@ -135,7 +138,8 @@
     "menu": "Menu",
     "cart": "Keranjang",
     "orders": "Pesanan",
-    "adminIngredients": "Bahan"
+    "adminIngredients": "Bahan",
+    "adminRecipes": "Resep"
   },
   "menu": {
     "title": "Menu",
@@ -304,8 +308,113 @@
       "create": "Tambah bahan",
       "save": "Simpan perubahan",
       "created": "{{name}} ditambahkan.",
+      "saved": "{{name}} diperbarui."
+    }
+  },
+  "recipes": {
+    "title": "Resep",
+    "add": "Tambah resep",
+    "intro": "Hidangan dan minuman di menu. Resep baru berupa draf dan muncul di menu setelah Anda menerbitkannya.",
+    "searchLabel": "Cari resep",
+    "filterLabel": "Tampilkan",
+    "filter": {
+      "all": "Semua",
+      "published": "Terbit",
+      "draft": "Draf"
+    },
+    "count": "{{count}} resep",
+    "tableLabel": "Resep",
+    "columns": {
+      "name": "Nama",
+      "price": "Harga",
+      "servings": "Sisa porsi",
+      "status": "Status",
+      "actions": "Aksi"
+    },
+    "category": {
+      "food": "Makanan",
+      "drink": "Minuman"
+    },
+    "status": {
+      "published": "Terbit",
+      "draft": "Draf",
+      "featured": "Di beranda"
+    },
+    "details": "Detail",
+    "detailsAria": "Detail {{name}}",
+    "edit": "Ubah",
+    "editAria": "Ubah {{name}}",
+    "publishAria": "Terbitkan {{name}}",
+    "unpublishAria": "Tarik {{name}} dari menu",
+    "deleteLabel": "Hapus",
+    "deleteAria": "Hapus {{name}}",
+    "published": "{{name}} ada di menu.",
+    "unpublished": "{{name}} disembunyikan dari menu.",
+    "deleted": "{{name}} dihapus.",
+    "publish": {
+      "button": "Terbitkan",
+      "title": "Terbitkan resep ini?",
+      "message": "{{name}} akan muncul di menu dan pelanggan bisa memesannya.",
+      "confirm": "Terbitkan"
+    },
+    "unpublish": {
+      "button": "Tarik dari menu",
+      "title": "Tarik resep ini dari menu?",
+      "message": "{{name}} akan disembunyikan dari menu. Pesanan yang sudah ada di keranjang tetap memilikinya sampai pembayaran.",
+      "confirm": "Tarik dari menu"
+    },
+    "delete": {
+      "title": "Hapus resep ini?",
+      "message": "{{name}} akan dihapus dari menu. Pesanan lampau tidak terpengaruh.",
+      "confirm": "Hapus"
+    },
+    "empty": {
+      "title": "Tidak ada resep",
+      "message": "Tidak ada yang cocok. Ubah pencarian atau tambah resep.",
+      "clear": "Hapus filter"
+    },
+    "error": {
+      "title": "Resep gagal dimuat",
+      "message": "Periksa koneksi Anda lalu coba lagi."
+    },
+    "detail": {
+      "category": "Kategori",
+      "price": "Harga",
+      "servings": "Porsi yang bisa dibuat sekarang",
+      "ingredients": "Bahan",
+      "ingredient": "Bahan",
+      "perServing": "Per porsi",
+      "inStock": "Stok"
+    },
+    "form": {
+      "createTitle": "Tambah resep",
+      "editTitle": "Ubah resep",
+      "create": "Tambah resep",
+      "save": "Simpan perubahan",
+      "created": "{{name}} ditambahkan sebagai draf. Terbitkan agar muncul di menu.",
       "saved": "{{name}} diperbarui.",
-      "integer": "Gunakan bilangan bulat."
+      "name": "Nama",
+      "category": "Kategori",
+      "price": "Harga",
+      "rupiah": "Rp",
+      "discount": "Diskon",
+      "discountHint": "0 sampai 100 persen.",
+      "image": "Tautan gambar",
+      "imageHint": "Opsional. Alamat web ke sebuah foto.",
+      "descriptionEn": "Deskripsi (Inggris)",
+      "descriptionId": "Deskripsi (Indonesia)",
+      "descriptionIdHint": "Opsional. Bahasa Inggris ditampilkan jika ini kosong.",
+      "ingredients": "Bahan",
+      "ingredientsHint": "Yang dipakai untuk satu porsi. Hidangan hanya bisa dipesan selama semua bahan tersedia.",
+      "ingredient": "Bahan",
+      "quantity": "Per porsi",
+      "addIngredient": "Tambah bahan",
+      "remove": "Hapus",
+      "removeIngredient": "Hapus bahan {{n}}",
+      "noIngredients": "Tambahkan minimal satu bahan.",
+      "duplicate": "Setiap bahan hanya boleh muncul sekali.",
+      "ingredientsError": "Bahan tidak dapat dimuat. Tutup ini dan coba lagi.",
+      "featured": "Tampilkan di beranda"
     }
   }
 }

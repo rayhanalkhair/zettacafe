@@ -72,11 +72,13 @@ describe('app shell', () => {
     await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
     await app.whenStable();
     expect(links()).not.toContain('/admin/ingredients');
+    expect(links()).not.toContain('/admin/recipes');
 
     await TestBed.inject(AuthService).signOut();
     await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.admin);
     await app.whenStable();
     expect(links()).toContain('/admin/ingredients');
+    expect(links()).toContain('/admin/recipes');
   });
 
   it('offers sign in to a guest', async () => {

@@ -1,0 +1,65 @@
+<zc-dialog-shell [heading]="recipe.name">
+  <div class="flags">
+    @if (recipe.status === 'PUBLISHED') {
+      <zc-status-pill tone="positive" [label]="'recipes.status.published' | translate" />
+    } @else {
+      <zc-status-pill tone="neutral" [label]="'recipes.status.draft' | translate" />
+    }
+    @if (recipe.isFeatured) {
+      <zc-status-pill tone="warning" [label]="'recipes.status.featured' | translate" />
+    }
+  </div>
+
+  @if (recipe.imageUrl; as src) {
+    <img class="photo" [src]="src" alt="" width="640" height="360" loading="lazy" />
+  }
+
+  @if (recipe.descriptionEn) {
+    <p class="description">{{ recipe.descriptionEn }}</p>
+  }
+
+  <dl class="facts">
+    <div>
+      <dt>{{ 'recipes.detail.category' | translate }}</dt>
+      <dd>
+        {{
+          (recipe.category === 'FOOD' ? 'recipes.category.food' : 'recipes.category.drink')
+            | translate
+        }}
+      </dd>
+    </div>
+    <div>
+      <dt>{{ 'recipes.detail.price' | translate }}</dt>
+      <dd><zc-money [value]="recipe.discountedPriceIdr" [listPrice]="recipe.priceIdr" /></dd>
+    </div>
+    <div>
+      <dt>{{ 'recipes.detail.servings' | translate }}</dt>
+      <dd>{{ recipe.availableServings | zcNumber }}</dd>
+    </div>
+  </dl>
+
+  <h3>{{ 'recipes.detail.ingredients' | translate }}</h3>
+  <table>
+    <caption class="visually-hidden">
+      {{
+        'recipes.detail.ingredients' | translate
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">{{ 'recipes.detail.ingredient' | translate }}</th>
+        <th scope="col" class="num">{{ 'recipes.detail.perServing' | translate }}</th>
+        <th scope="col" class="num">{{ 'recipes.detail.inStock' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of recipe.ingredients; track row.ingredient.id) {
+        <tr>
+          <th scope="row">{{ row.ingredient.name }}</th>
+          <td class="num">{{ row.quantity | zcNumber }} {{ row.ingredient.unit }}</td>
+          <td class="num">{{ row.ingredient.stockQty | zcNumber }} {{ row.ingredient.unit }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</zc-dialog-shell>

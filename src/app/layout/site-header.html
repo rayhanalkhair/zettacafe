@@ -20,6 +20,9 @@
       }}</a>
     }
     @if (session.isAdmin()) {
+      <a routerLink="/admin/recipes" routerLinkActive="active" ariaCurrentWhenActive="page">{{
+        'shell.nav.recipes' | translate
+      }}</a>
       <a routerLink="/admin/ingredients" routerLinkActive="active" ariaCurrentWhenActive="page">{{
         'shell.nav.ingredients' | translate
       }}</a>
