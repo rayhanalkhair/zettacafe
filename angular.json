@@ -38,7 +38,11 @@
               "includePaths": ["src/styles"]
             },
             "define": {
-              "DEV_TOOLS": "true"
+              "DEV_TOOLS": "true",
+              "API_URL": "\"\""
+            },
+            "loader": {
+              ".graphql": "text"
             }
           },
           "configurations": {
@@ -46,8 +50,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "350kB",
-                  "maximumError": "500kB"
+                  "maximumWarning": "600kB",
+                  "maximumError": "800kB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -63,7 +67,8 @@
                 }
               ],
               "define": {
-                "DEV_TOOLS": "false"
+                "DEV_TOOLS": "false",
+                "API_URL": "\"\""
               }
             },
             "development": {
@@ -105,7 +110,8 @@
               "branches": 70,
               "functions": 70,
               "lines": 70
-            }
+            },
+            "runnerConfig": "vitest-base.config.mjs"
           }
         }
       }

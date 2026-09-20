@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  min-block-size: 100dvh;
+}
+
+.page {
+  display: grid;
+  gap: var(--zc-space-6);
+  max-inline-size: var(--zc-page-max);
+  margin-inline: auto;
+  padding: var(--zc-space-6) var(--zc-gutter) var(--zc-space-9);
+}
+
+h2 {
+  margin-block-end: var(--zc-space-3);
+  font-size: var(--zc-text-xl);
+}
+
+.note {
+  margin-block-start: var(--zc-space-2);
+  color: var(--zc-ink-soft);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: center;
+  margin-block: var(--zc-space-3);
+}
+
+label {
+  display: block;
+  margin-block-start: var(--zc-space-3);
+  font-weight: var(--zc-weight-medium);
+}
+
+input,
+textarea,
+pre {
+  inline-size: 100%;
+  padding: var(--zc-space-3);
+  border: 1px solid var(--zc-outline);
+  border-radius: var(--zc-radius-sm);
+  background: var(--zc-surface);
+  color: var(--zc-ink);
+  font:
+    var(--zc-text-sm) / 1.5 ui-monospace,
+    'Cascadia Code',
+    consolas,
+    monospace;
+}
+
+pre {
+  overflow: auto;
+  max-block-size: 30rem;
+  margin: 0;
+  white-space: pre-wrap;
+}
