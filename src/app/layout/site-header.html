@@ -19,6 +19,11 @@
         'shell.nav.orders' | translate
       }}</a>
     }
+    @if (session.isAdmin()) {
+      <a routerLink="/admin/ingredients" routerLinkActive="active" ariaCurrentWhenActive="page">{{
+        'shell.nav.ingredients' | translate
+      }}</a>
+    }
   </nav>
 
   <div class="actions">

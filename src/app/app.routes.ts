@@ -1,5 +1,5 @@
 import type { Routes } from '@angular/router';
-import { authGuard, guestGuard } from '@core/auth/guards';
+import { adminGuard, authGuard, guestGuard } from '@core/auth/guards';
 
 export const routes: Routes = [
   {
@@ -24,6 +24,13 @@ export const routes: Routes = [
     title: 'titles.orders',
     canActivate: [authGuard],
     loadComponent: () => import('@features/cart/orders.page').then((m) => m.OrdersPage),
+  },
+  {
+    path: 'admin/ingredients',
+    title: 'titles.adminIngredients',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('@features/admin/ingredients/ingredients.page').then((m) => m.IngredientsPage),
   },
   {
     path: 'login',

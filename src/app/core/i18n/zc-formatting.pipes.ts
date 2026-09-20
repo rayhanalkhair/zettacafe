@@ -36,3 +36,15 @@ export class ZcDatePipe implements PipeTransform {
     }).format(date);
   }
 }
+
+/** A plain number grouped for the active language: `12.500` in Indonesian, `12,500` in English. */
+@Pipe({ name: 'zcNumber', pure: false })
+export class ZcNumberPipe implements PipeTransform {
+  private readonly language = inject(LanguageStore);
+
+  transform(value: number | null | undefined): string {
+    return value === null || value === undefined
+      ? ''
+      : new Intl.NumberFormat(this.language.locale()).format(value);
+  }
+}
