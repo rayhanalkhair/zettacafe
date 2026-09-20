@@ -1,0 +1,92 @@
+<main class="page">
+  <header>
+    <h1>Session</h1>
+    <p class="note">
+      Sign in, then reload the page: the session and the cart should still be there. Storage is
+      written from one file only (<code>core/storage/local-storage.service.ts</code>).
+    </p>
+  </header>
+
+  <section aria-labelledby="who-heading">
+    <h2 id="who-heading">Who is signed in</h2>
+    @if (session.user(); as user) {
+      <dl>
+        <dt>Name</dt>
+        <dd>{{ session.displayName() }}</dd>
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Role</dt>
+        <dd>
+          {{ user.role }} (admin: {{ session.isAdmin() }}, customer: {{ session.isCustomer() }})
+        </dd>
+        <dt>Credit</dt>
+        <dd>{{ session.creditIdr() | zcCurrency }}</dd>
+      </dl>
+    } @else {
+      <p>Nobody. You are a guest.</p>
+    }
+    <div class="row">
+      <button matButton="filled" type="button" (click)="signInAs('customer')">
+        Sign in as customer
+      </button>
+      <button matButton="tonal" type="button" (click)="signInAs('admin')">Sign in as admin</button>
+      <button matButton="outlined" type="button" (click)="signOut()">Sign out</button>
+      <button matButton="text" type="button" (click)="reload()">Reload the page</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="cart-heading">
+    <h2 id="cart-heading">Cart</h2>
+    @if (cart.isLoading()) {
+      <p>Loading your cart…</p>
+    } @else if (cart.isEmpty()) {
+      <p>{{ session.isAuthenticated() ? 'The cart is empty.' : 'Sign in to have a cart.' }}</p>
+    } @else {
+      <ul>
+        @for (line of cart.lines(); track line.id) {
+          <li>
+            {{ line.quantity }} × {{ line.recipeName }} — {{ line.lineTotalIdr | zcCurrency }}
+          </li>
+        }
+      </ul>
+      <p>
+        Total {{ cart.totalIdr() | zcCurrency }}.
+        @if (cart.shortfallIdr() > 0) {
+          Short by {{ cart.shortfallIdr() | zcCurrency }}.
+        }
+      </p>
+    }
+    <div class="row">
+      <button
+        matButton="filled"
+        type="button"
+        [disabled]="!session.isAuthenticated() || cart.isBusy()"
+        (click)="addNasiGoreng()"
+      >
+        Add Nasi Goreng
+      </button>
+      <button
+        matButton="outlined"
+        type="button"
+        [disabled]="cart.isEmpty() || cart.isBusy()"
+        (click)="removeFirstLine()"
+      >
+        Remove first line
+      </button>
+      <button matButton="tonal" type="button" [disabled]="!cart.canCheckout()" (click)="checkout()">
+        Checkout
+      </button>
+    </div>
+  </section>
+
+  <section aria-labelledby="lang-heading">
+    <h2 id="lang-heading">Language</h2>
+    <p>
+      {{ language.language() }} ({{ language.locale() }}), <code>&lt;html lang&gt;</code> follows
+      it.
+    </p>
+    <button matButton="outlined" type="button" (click)="language.toggle()">Switch language</button>
+  </section>
+
+  <p class="status" role="status">{{ message() }}</p>
+</main>

@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  min-block-size: 100dvh;
+}
+
+.page {
+  display: grid;
+  gap: var(--zc-space-6);
+  max-inline-size: var(--zc-page-max);
+  margin-inline: auto;
+  padding: var(--zc-space-6) var(--zc-gutter) var(--zc-space-9);
+}
+
+h2 {
+  margin-block-end: var(--zc-space-3);
+  font-size: var(--zc-text-xl);
+}
+
+.note {
+  margin-block-start: var(--zc-space-2);
+  color: var(--zc-ink-soft);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: center;
+  margin-block: var(--zc-space-3);
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--zc-space-1) var(--zc-space-4);
+}
+
+dt {
+  color: var(--zc-ink-soft);
+}
+
+dd {
+  margin: 0;
+}
+
+ul {
+  padding-inline-start: var(--zc-space-5);
+}
+
+.status {
+  min-block-size: 1.5em;
+  font-weight: var(--zc-weight-medium);
+}
