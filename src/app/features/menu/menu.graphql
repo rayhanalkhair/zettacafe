@@ -1,0 +1,17 @@
+query Menu($filter: RecipeFilter, $page: PageInput, $sort: RecipeSort, $locale: Locale!) {
+  recipes(filter: $filter, page: $page, sort: $sort) {
+    totalCount
+    items {
+      id
+      name
+      description(locale: $locale)
+      imageUrl
+      category
+      priceIdr
+      discountPercent
+      discountedPriceIdr
+      availableServings
+      isAvailable
+    }
+  }
+}

@@ -23,7 +23,17 @@ import { StatusPill } from '../status-pill/status-pill';
         <div class="photo placeholder" aria-hidden="true"></div>
       }
       <div class="body">
-        <h3 class="name">{{ item().name }}</h3>
+        @switch (headingLevel()) {
+          @case (2) {
+            <h2 class="name">{{ item().name }}</h2>
+          }
+          @case (4) {
+            <h4 class="name">{{ item().name }}</h4>
+          }
+          @default {
+            <h3 class="name">{{ item().name }}</h3>
+          }
+        }
         <p class="description">{{ item().description }}</p>
         <div class="flags">
           @if (!item().isAvailable) {
@@ -47,4 +57,6 @@ import { StatusPill } from '../status-pill/status-pill';
 })
 export class RecipeCard {
   readonly item = input.required<MenuItem>();
+  /** Match the page: a dish is one level below the heading it sits under. */
+  readonly headingLevel = input<2 | 3 | 4>(3);
 }

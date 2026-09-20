@@ -34,6 +34,13 @@ describe('app shell', () => {
     await expectNoAxeViolations(root);
   });
 
+  it('links to the menu from a labelled main navigation', async () => {
+    const { root } = await renderApp();
+    const nav = root.querySelector('nav');
+    expect(nav?.getAttribute('aria-label')).toBe('Main');
+    expect(nav?.querySelector('a')?.getAttribute('href')).toBe('/menu');
+  });
+
   it('offers sign in to a guest', async () => {
     const { root } = await renderApp();
     expect(button(root, 'Sign in')?.getAttribute('href')).toBe('/login');
@@ -65,12 +72,40 @@ describe('app shell', () => {
     TestBed.inject(MatDialog).closeAll();
   });
 
-  it('signs out, goes home and clears the session', async () => {
+  /** The buttons of the open confirmation: [0] is Cancel, [1] confirms. */
+  const confirmButtons = async (): Promise<HTMLButtonElement[]> => {
+    await vi.waitFor(() =>
+      expect(document.querySelectorAll('zc-confirm-dialog button').length).toBe(2),
+    );
+    return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
+  };
+
+  // v1 rule 6: signing out asks first.
+  it('asks before signing out, and cancelling changes nothing', async () => {
+    const { root, app } = await renderApp();
+    const session = TestBed.inject(SessionStore);
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
+    await app.whenStable();
+
+    button(root, 'Sign out')?.click();
+    const [cancel] = await confirmButtons();
+    expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain('Sign out?');
+
+    cancel?.click();
+    await vi.waitFor(() => expect(document.querySelector('zc-confirm-dialog')).toBeNull());
+    expect(session.isAuthenticated()).toBe(true);
+    expect(button(root, 'Sign out')).toBeDefined();
+  });
+
+  it('signs out, goes home and clears the session once confirmed', async () => {
     const { root, app, router } = await renderApp();
     await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
     await app.whenStable();
 
     button(root, 'Sign out')?.click();
+    const [, confirm] = await confirmButtons();
+    confirm?.click();
+
     await vi.waitFor(() => expect(TestBed.inject(SessionStore).isAuthenticated()).toBe(false));
     // The rest of sign out (server call, notice, navigation) finishes after the local part.
     await vi.waitFor(() => expect(document.body.textContent).toContain('You have signed out.'));

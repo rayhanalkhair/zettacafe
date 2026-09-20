@@ -1,6 +1,12 @@
 <header class="bar">
   <a class="brand" routerLink="/">ZettaCafe</a>
 
+  <nav class="nav" [attr.aria-label]="'shell.nav.label' | translate">
+    <a routerLink="/menu" routerLinkActive="active" ariaCurrentWhenActive="page">{{
+      'shell.nav.menu' | translate
+    }}</a>
+  </nav>
+
   <div class="actions">
     <button
       matButton="text"

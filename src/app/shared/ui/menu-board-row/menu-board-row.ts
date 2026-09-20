@@ -20,7 +20,17 @@ import { StatusPill } from '../status-pill/status-pill';
         <img class="photo" [src]="src" alt="" width="72" height="72" loading="lazy" />
       }
       <div class="text">
-        <h3 class="name">{{ item().name }}</h3>
+        @switch (headingLevel()) {
+          @case (2) {
+            <h2 class="name">{{ item().name }}</h2>
+          }
+          @case (4) {
+            <h4 class="name">{{ item().name }}</h4>
+          }
+          @default {
+            <h3 class="name">{{ item().name }}</h3>
+          }
+        }
         <p class="description">{{ item().description }}</p>
         <div class="flags">
           @if (!item().isAvailable) {
@@ -49,6 +59,8 @@ import { StatusPill } from '../status-pill/status-pill';
 })
 export class MenuBoardRow {
   readonly item = input.required<MenuItem>();
+  /** Match the page: a dish is one level below the heading it sits under. */
+  readonly headingLevel = input<2 | 3 | 4>(3);
 
   protected readonly low = computed(
     () => this.item().isAvailable && this.item().availableServings <= LOW_STOCK_THRESHOLD,

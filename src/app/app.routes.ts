@@ -9,6 +9,11 @@ export const routes: Routes = [
     loadComponent: () => import('@features/home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'menu',
+    title: 'titles.menu',
+    loadComponent: () => import('@features/menu/menu.page').then((m) => m.MenuPage),
+  },
+  {
     path: 'login',
     title: 'titles.login',
     canActivate: [guestGuard],

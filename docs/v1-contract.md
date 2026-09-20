@@ -55,8 +55,8 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | #   | v1 component         | What it does                                                                                 | v2 target                                            | Status |
 | --- | -------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------ |
 | 1   | `homepage`           | Hero, "menu highlight" (one random item), discounted-offer strip, Order Now / View Menu CTAs | `features/home`                                      | todo   |
-| 2   | `menu` + `list-menu` | Published recipes, 10 per page, prev/next                                                    | `features/menu` (menu board)                         | todo   |
-| 3   | `card-menu`          | Recipe card: image, discounted price, remaining servings, sold-out state, add-to-cart        | `shared/ui/recipe-card` + `menu-board-row`           | todo   |
+| 2   | `menu` + `list-menu` | Published recipes, 10 per page, prev/next                                                    | `features/menu` (menu board)                         | done   |
+| 3   | `card-menu`          | Recipe card: image, discounted price, remaining servings, sold-out state, add-to-cart        | `shared/ui/recipe-card` + `menu-board-row`           | done   |
 | 4   | `about`              | Contact copy, live-chat link, contact form                                                   | `features/about` (real form; v1's is non-functional) | todo   |
 | 5   | `cart`               | Draft transaction(s): lines, per-line edit/remove, total, checkout, cancel, empty state      | `features/cart`                                      | todo   |
 | 6   | `login`              | Email + password, show-password, links to register / forgot password                         | `features/auth/login`                                | done   |
@@ -71,8 +71,8 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | 10  | `topup`                     | Enter credit amount                                               | `features/auth/top-up/top-up.dialog`                                 | done   |
 | 11  | `register`                  | First/last name, email, password (min 8)                          | `features/auth/register` (routed page, not a dialog)                 | done   |
 | 12  | `forget-password`           | Two-step: request 4-digit code by email, then code + new password | `features/auth/forgot-password` (routed page, not a dialog)          | done   |
-| 13  | `menu/menu-form`            | Add to cart: amount + note                                        | `features/menu/add-to-cart-dialog` (`mode: add`)                     | todo   |
-| 14  | `cart/cart-edit`            | Edit line: amount + note                                          | merged into add-to-cart-dialog (`mode: edit`)                        | todo   |
+| 13  | `menu/menu-form`            | Add to cart: amount + note                                        | `features/menu/add-to-cart-dialog` (`mode: add`)                     | done   |
+| 14  | `cart/cart-edit`            | Edit line: amount + note                                          | merged into add-to-cart-dialog (`mode: edit`)                        | done   |
 | 15  | `menu-detail`               | Read-only ingredient list of a recipe                             | `features/admin/recipes/recipe-detail-dialog`                        | todo   |
 | 16  | `menu-management/menu-form` | Create recipe: name, price, discount, image link, ingredient rows | `features/admin/recipes/recipe-form-dialog` (`mode: create`)         | todo   |
 | 17  | `menu-edit`                 | Edit recipe (differs from #16 by **1 line of 139**)               | merged into recipe-form-dialog (`mode: edit`)                        | todo   |

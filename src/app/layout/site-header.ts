@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, Injector } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { SessionStore } from '@core/auth/session.store';
 import { LanguageStore } from '@core/i18n/language.store';
+import { ConfirmService } from '@core/feedback/confirm.service';
 import { NotificationService } from '@core/feedback/notification.service';
 import { ZcCurrencyPipe } from '@core/i18n/zc-formatting.pipes';
 
@@ -18,7 +19,7 @@ import { ZcCurrencyPipe } from '@core/i18n/zc-formatting.pipes';
 @Component({
   selector: 'zc-site-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButton, RouterLink, TranslatePipe, ZcCurrencyPipe],
+  imports: [MatButton, RouterLink, RouterLinkActive, TranslatePipe, ZcCurrencyPipe],
   templateUrl: './site-header.html',
   styleUrl: './site-header.scss',
 })
@@ -29,6 +30,7 @@ export class SiteHeader {
   private readonly router = inject(Router);
   private readonly notifications = inject(NotificationService);
   private readonly injector = inject(Injector);
+  private readonly confirm = inject(ConfirmService);
 
   /**
    * Loaded on demand, dialog machinery included: most visits never open it, and a
@@ -45,7 +47,14 @@ export class SiteHeader {
       .open(TopUpDialog, { width: 'min(28rem, calc(100vw - 2rem))', autoFocus: 'dialog' });
   }
 
+  /** Asks first (v1 rule 6), and does nothing unless the person confirmed. */
   protected async signOut(): Promise<void> {
+    const confirmed = await this.confirm.ask({
+      titleKey: 'shell.signOutConfirm.title',
+      messageKey: 'shell.signOutConfirm.message',
+      confirmKey: 'shell.signOut',
+    });
+    if (!confirmed) return;
     await this.auth.signOut();
     this.notifications.info('auth.signedOut');
     await this.router.navigateByUrl('/');

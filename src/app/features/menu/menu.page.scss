@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.intro {
+  max-inline-size: var(--zc-measure);
+  margin: var(--zc-space-4) 0 0;
+  color: var(--zc-ink-soft);
+}
+
+.controls {
+  display: grid;
+  gap: var(--zc-space-3);
+  margin-block: var(--zc-space-5);
+}
+
+@media (width >= 48rem) {
+  .controls {
+    grid-template-columns: minmax(0, 24rem) auto;
+    gap: var(--zc-space-5);
+    align-items: start;
+  }
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  align-items: center;
+
+  // Lines up with the search field's height rather than its label.
+  min-block-size: 3.5rem;
+}
+
+.board {
+  margin: 0;
+  padding: 0;
+  border-block-start: 1px solid var(--zc-rule);
+  list-style: none;
+}
