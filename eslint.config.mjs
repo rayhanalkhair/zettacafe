@@ -151,7 +151,7 @@ export default defineConfig([
   // eight places, and a failed login could store the string "undefined".
   {
     files: ['src/**/*.ts'],
-    ignores: ['src/app/core/storage/**', '**/*.spec.ts'],
+    ignores: ['src/app/core/storage/**', 'src/testing/**', '**/*.spec.ts'],
     rules: {
       'no-restricted-globals': [
         'error',

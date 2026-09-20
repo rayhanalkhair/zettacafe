@@ -59,7 +59,7 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | 3   | `card-menu`          | Recipe card: image, discounted price, remaining servings, sold-out state, add-to-cart        | `shared/ui/recipe-card` + `menu-board-row`           | todo   |
 | 4   | `about`              | Contact copy, live-chat link, contact form                                                   | `features/about` (real form; v1's is non-functional) | todo   |
 | 5   | `cart`               | Draft transaction(s): lines, per-line edit/remove, total, checkout, cancel, empty state      | `features/cart`                                      | todo   |
-| 6   | `login`              | Email + password, show-password, links to register / forgot password                         | `features/auth/login`                                | todo   |
+| 6   | `login`              | Email + password, show-password, links to register / forgot password                         | `features/auth/login`                                | done   |
 | 7   | `menu-management`    | Recipe table: name filter, publish filter, paging, publish toggle, add/edit/detail/delete    | `features/admin/recipes`                             | todo   |
 | 8   | `stock-management`   | Ingredient table: name filter, availability filter, name sort, paging, add/edit/delete       | `features/admin/ingredients`                         | todo   |
 
@@ -68,9 +68,9 @@ Status column: `todo` → `rebuilt` | `merged into X` | `dropped (reason)`.
 | #   | v1 component                | Purpose                                                           | v2 target                                                            | Status |
 | --- | --------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- | ------ |
 | 9   | `history-transaction`       | Paged order history (3/page); admins also see finance balance     | `features/cart/order-history-dialog`                                 | todo   |
-| 10  | `topup`                     | Enter credit amount                                               | `features/auth/top-up-dialog`                                        | todo   |
-| 11  | `register`                  | First/last name, email, password (min 8)                          | `features/auth/register-dialog`                                      | todo   |
-| 12  | `forget-password`           | Two-step: request 4-digit code by email, then code + new password | `features/auth/forgot-password-dialog`                               | todo   |
+| 10  | `topup`                     | Enter credit amount                                               | `features/auth/top-up/top-up.dialog`                                 | done   |
+| 11  | `register`                  | First/last name, email, password (min 8)                          | `features/auth/register` (routed page, not a dialog)                 | done   |
+| 12  | `forget-password`           | Two-step: request 4-digit code by email, then code + new password | `features/auth/forgot-password` (routed page, not a dialog)          | done   |
 | 13  | `menu/menu-form`            | Add to cart: amount + note                                        | `features/menu/add-to-cart-dialog` (`mode: add`)                     | todo   |
 | 14  | `cart/cart-edit`            | Edit line: amount + note                                          | merged into add-to-cart-dialog (`mode: edit`)                        | todo   |
 | 15  | `menu-detail`               | Read-only ingredient list of a recipe                             | `features/admin/recipes/recipe-detail-dialog`                        | todo   |

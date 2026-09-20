@@ -56,5 +56,69 @@
       "pattern": "Format nilai ini tidak sesuai.",
       "invalid": "Nilai ini tidak valid."
     }
+  },
+  "shell": {
+    "skip": "Lewati ke konten",
+    "signIn": "Masuk",
+    "signOut": "Keluar",
+    "otherLanguage": "English",
+    "credit": "Saldo",
+    "topUp": "Isi saldo"
+  },
+  "home": {
+    "title": "ZettaCafe",
+    "tagline": "Makanan dan kopi Indonesia, dibuat sesuai pesanan."
+  },
+  "auth": {
+    "welcome": "Selamat datang kembali, {{name}}.",
+    "registered": "Selamat datang di ZettaCafe, {{name}}.",
+    "signedOut": "Anda telah keluar.",
+    "fields": {
+      "email": "Email",
+      "password": "Kata sandi",
+      "passwordHint": "Minimal 8 karakter.",
+      "firstName": "Nama depan",
+      "lastName": "Nama belakang",
+      "code": "Kode verifikasi",
+      "newPassword": "Kata sandi baru"
+    },
+    "login": {
+      "title": "Masuk",
+      "intro": "Masuk untuk memesan dan melihat riwayat pesanan.",
+      "submit": "Masuk",
+      "forgot": "Lupa kata sandi?",
+      "register": "Buat akun"
+    },
+    "register": {
+      "title": "Buat akun",
+      "intro": "Hanya semenit. Anda bisa melihat menu tanpa akun.",
+      "submit": "Buat akun",
+      "haveAccount": "Saya sudah punya akun"
+    },
+    "forgot": {
+      "title": "Atur ulang kata sandi",
+      "requestIntro": "Masukkan email Anda dan kami berikan kode empat digit.",
+      "requestSubmit": "Minta kode",
+      "resetIntro": "Masukkan kode untuk {{email}} dan pilih kata sandi baru.",
+      "demoNotice": "Mode demo: tidak ada email yang dikirim. Kode Anda adalah",
+      "resetSubmit": "Ubah kata sandi",
+      "changeEmail": "Gunakan email lain",
+      "back": "Kembali ke halaman masuk",
+      "done": "Kata sandi diubah. Silakan masuk."
+    },
+    "topUp": {
+      "title": "Tambah saldo",
+      "amount": "Jumlah",
+      "hint": "Dari {{min}} sampai {{max}}.",
+      "quick": "Jumlah cepat",
+      "submit": "Tambah saldo",
+      "done": "{{amount}} ditambahkan ke saldo Anda."
+    }
+  },
+  "titles": {
+    "home": "ZettaCafe",
+    "login": "Masuk",
+    "register": "Buat akun",
+    "forgotPassword": "Atur ulang kata sandi"
   }
 }
