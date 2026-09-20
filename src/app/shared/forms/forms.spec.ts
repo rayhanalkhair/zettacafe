@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { expectNoAxeViolations } from '../../../testing/a11y';
 import { provideTestTranslations } from '../../../testing/translate';
 import { fieldErrorMessage } from './field-errors';
+import { focusFirstInvalid } from './focus-first-invalid';
 import { NumberField } from './number-field';
 import { PasswordField } from './password-field';
 import { SearchField, SEARCH_DEBOUNCE_MS } from './search-field';
@@ -341,5 +342,45 @@ describe('select and textarea fields', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(el.querySelector('mat-error')?.textContent).toContain('at most 5 characters');
+  });
+});
+
+describe('focusFirstInvalid', () => {
+  const build = (html: string): HTMLElement => {
+    const root = document.createElement('div');
+    root.innerHTML = html;
+    document.body.append(root);
+    return root;
+  };
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('focuses the first invalid field in document order, and says it did', () => {
+    const root = build(`
+      <input id="a" class="ng-valid" />
+      <input id="b" class="ng-invalid" />
+      <textarea id="c" class="ng-invalid"></textarea>`);
+    expect(focusFirstInvalid(root)).toBe(true);
+    expect(document.activeElement?.id).toBe('b');
+  });
+
+  it('also finds an invalid textarea or select', () => {
+    const root = build('<textarea id="t" class="ng-invalid"></textarea>');
+    expect(focusFirstInvalid(root)).toBe(true);
+    expect(document.activeElement?.id).toBe('t');
+  });
+
+  it('does nothing, and says so, when every field is valid', () => {
+    const root = build('<input id="a" class="ng-valid" /><input id="b" />');
+    expect(focusFirstInvalid(root)).toBe(false);
+    expect(document.activeElement).toBe(document.body);
+  });
+
+  it('ignores an invalid field outside the root', () => {
+    build('<input id="elsewhere" class="ng-invalid" />');
+    const root = build('<input id="inside" class="ng-valid" />');
+    expect(focusFirstInvalid(root)).toBe(false);
   });
 });
