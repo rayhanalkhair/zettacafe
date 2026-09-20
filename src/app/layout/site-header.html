@@ -1,0 +1,30 @@
+<header class="bar">
+  <a class="brand" routerLink="/">ZettaCafe</a>
+
+  <div class="actions">
+    <button
+      matButton="text"
+      type="button"
+      [attr.lang]="language.language() === 'en' ? 'id' : 'en'"
+      (click)="language.toggle()"
+    >
+      {{ 'shell.otherLanguage' | translate }}
+    </button>
+
+    @if (session.user(); as user) {
+      <span class="who">{{ session.displayName() }}</span>
+      <span class="credit">
+        <span class="visually-hidden">{{ 'shell.credit' | translate }}:</span>
+        {{ session.creditIdr() | zcCurrency }}
+      </span>
+      <button matButton="tonal" type="button" (click)="openTopUp()">
+        {{ 'shell.topUp' | translate }}
+      </button>
+      <button matButton="outlined" type="button" (click)="signOut()">
+        {{ 'shell.signOut' | translate }}
+      </button>
+    } @else {
+      <a matButton="filled" routerLink="/login">{{ 'shell.signIn' | translate }}</a>
+    }
+  </div>
+</header>

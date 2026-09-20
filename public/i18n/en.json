@@ -56,5 +56,69 @@
       "pattern": "This value is not in the expected format.",
       "invalid": "This value is not valid."
     }
+  },
+  "shell": {
+    "skip": "Skip to content",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "otherLanguage": "Bahasa Indonesia",
+    "credit": "Credit",
+    "topUp": "Top up"
+  },
+  "home": {
+    "title": "ZettaCafe",
+    "tagline": "Indonesian food and coffee, made to order."
+  },
+  "auth": {
+    "welcome": "Welcome back, {{name}}.",
+    "registered": "Welcome to ZettaCafe, {{name}}.",
+    "signedOut": "You have signed out.",
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "code": "Verification code",
+      "newPassword": "New password"
+    },
+    "login": {
+      "title": "Sign in",
+      "intro": "Sign in to order and to see your history.",
+      "submit": "Sign in",
+      "forgot": "Forgot your password?",
+      "register": "Create an account"
+    },
+    "register": {
+      "title": "Create an account",
+      "intro": "It takes a minute. You can browse the menu without one.",
+      "submit": "Create account",
+      "haveAccount": "I already have an account"
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "requestIntro": "Enter your email and we will give you a four-digit code.",
+      "requestSubmit": "Get a code",
+      "resetIntro": "Enter the code for {{email}} and choose a new password.",
+      "demoNotice": "Demo mode: no email is sent. Your code is",
+      "resetSubmit": "Change password",
+      "changeEmail": "Use a different email",
+      "back": "Back to sign in",
+      "done": "Password changed. You can sign in now."
+    },
+    "topUp": {
+      "title": "Add credit",
+      "amount": "Amount",
+      "hint": "From {{min}} to {{max}}.",
+      "quick": "Quick amounts",
+      "submit": "Add credit",
+      "done": "Added {{amount}} to your credit."
+    }
+  },
+  "titles": {
+    "home": "ZettaCafe",
+    "login": "Sign in",
+    "register": "Create an account",
+    "forgotPassword": "Reset your password"
   }
 }

@@ -52,6 +52,10 @@ function collectUsedKeys(files) {
     /['"`]([a-z][\w-]*(?:\.[\w-]+)+)['"`]\s*\|\s*translate/gi,
     /\btranslate\.(?:instant|get|stream)\(\s*['"`]([^'"`]+)['"`]/gi,
     /\b\w*[kK]ey\s*:\s*['"`]([a-z][\w-]*(?:\.[\w-]+)+)['"`]/g,
+    // NotificationService: notifications.success('a.b'), .info(...), .error(...)
+    /\.(?:success|info|error)\(\s*['"`]([a-z][\w-]*(?:\.[\w-]+)+)['"`]/g,
+    // Route titles are i18n keys (see TranslatedTitleStrategy); plain-text titles have no dot.
+    /\btitle\s*:\s*['"`]([a-z][\w-]*(?:\.[\w-]+)+)['"`]/g,
   ];
   for (const file of files) {
     const text = readFileSync(file, 'utf8');

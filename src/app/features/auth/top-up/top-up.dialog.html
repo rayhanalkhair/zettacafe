@@ -1,0 +1,29 @@
+<zc-dialog-shell [heading]="'auth.topUp.title' | translate">
+  <form id="top-up-form" class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+    @if (failure(); as f) {
+      <p class="failure" role="alert">{{ f.key | translate: f.params }}</p>
+    }
+
+    <zc-number-field
+      [control]="form.controls.amount"
+      [min]="1000"
+      [step]="1000"
+      [label]="'auth.topUp.amount' | translate"
+      [hint]="'auth.topUp.hint' | translate: { min: format(1000), max: format(10000000) }"
+    />
+
+    <div class="presets" role="group" [attr.aria-label]="'auth.topUp.quick' | translate">
+      @for (preset of presets; track preset) {
+        <button matButton="outlined" type="button" (click)="choose(preset)">
+          {{ format(preset) }}
+        </button>
+      }
+    </div>
+  </form>
+
+  <div zcDialogActions>
+    <button matButton="filled" type="submit" form="top-up-form" [disabled]="submitting()">
+      {{ 'auth.topUp.submit' | translate }}
+    </button>
+  </div>
+</zc-dialog-shell>

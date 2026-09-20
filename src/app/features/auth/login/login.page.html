@@ -1,0 +1,33 @@
+<zc-page-shell width="narrow">
+  <zc-section-heading [level]="1" [heading]="'auth.login.title' | translate" />
+  <p class="intro">{{ 'auth.login.intro' | translate }}</p>
+
+  <form class="form" novalidate [formGroup]="form" (ngSubmit)="submit()">
+    @if (failure(); as f) {
+      <p class="failure" role="alert">{{ f.key | translate: f.params }}</p>
+    }
+
+    <zc-text-field
+      [control]="form.controls.email"
+      type="email"
+      autocomplete="username"
+      [label]="'auth.fields.email' | translate"
+    />
+    <zc-password-field
+      [control]="form.controls.password"
+      autocomplete="current-password"
+      [label]="'auth.fields.password' | translate"
+    />
+
+    <button class="submit" matButton="filled" type="submit" [disabled]="submitting()">
+      {{ 'auth.login.submit' | translate }}
+    </button>
+  </form>
+
+  <p class="links">
+    <a routerLink="/forgot-password">{{ 'auth.login.forgot' | translate }}</a>
+    <a routerLink="/register" [queryParams]="returnUrl ? { returnUrl } : null">{{
+      'auth.login.register' | translate
+    }}</a>
+  </p>
+</zc-page-shell>
