@@ -6,14 +6,15 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideRouter, TitleStrategy, withComponentInputBinding } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthService } from '@core/auth/auth.service';
 import { GlobalErrorHandler } from '@core/errors/global-error-handler';
 import { provideZcApollo } from '@core/graphql/apollo.providers';
 import { LanguageStore } from '@core/i18n/language.store';
+import { TranslatedTitleStrategy } from '@core/i18n/translated-title.strategy';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -21,9 +22,10 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(),
     provideZcApollo(),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    { provide: TitleStrategy, useExisting: TranslatedTitleStrategy },
     provideAppInitializer(() => {
       // Apply the saved language before anything renders.
       inject(LanguageStore);

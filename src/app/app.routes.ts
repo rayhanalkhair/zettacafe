@@ -1,6 +1,35 @@
 import type { Routes } from '@angular/router';
+import { guestGuard } from '@core/auth/guards';
 
 export const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    title: 'titles.home',
+    loadComponent: () => import('@features/home/home.page').then((m) => m.HomePage),
+  },
+  {
+    path: 'login',
+    title: 'titles.login',
+    canActivate: [guestGuard],
+    loadComponent: () => import('@features/auth/login/login.page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'register',
+    title: 'titles.register',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('@features/auth/register/register.page').then((m) => m.RegisterPage),
+  },
+  {
+    path: 'forgot-password',
+    title: 'titles.forgotPassword',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('@features/auth/forgot-password/forgot-password.page').then(
+        (m) => m.ForgotPasswordPage,
+      ),
+  },
   // Dev-only tooling. DEV_TOOLS is substituted at build time (see src/env.d.ts),
   // so in production this branch, its dynamic import and the chunk are all gone.
   ...(DEV_TOOLS
