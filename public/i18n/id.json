@@ -21,5 +21,40 @@
     "RECIPE_IN_USE": "Bahan itu masih dipakai oleh sebuah resep.",
     "NETWORK": "Kami tidak dapat terhubung ke server. Periksa koneksi Anda.",
     "UNKNOWN": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "ui": {
+    "loading": "Memuat…",
+    "retry": "Coba lagi",
+    "close": "Tutup",
+    "page": {
+      "label": "Halaman",
+      "previous": "Halaman sebelumnya",
+      "next": "Halaman berikutnya",
+      "status": "Halaman {{page}} dari {{pages}}"
+    },
+    "money": {
+      "was": "Sebelumnya {{price}}",
+      "now": "Sekarang {{price}}",
+      "discount": "Diskon {{percent}}%"
+    },
+    "status": {
+      "soldOut": "Habis",
+      "lowStock": "Sisa {{count}}"
+    },
+    "password": {
+      "show": "Tampilkan kata sandi"
+    }
+  },
+  "forms": {
+    "errors": {
+      "required": "Kolom ini wajib diisi.",
+      "email": "Masukkan alamat email yang valid.",
+      "minlength": "Gunakan minimal {{requiredLength}} karakter.",
+      "maxlength": "Gunakan maksimal {{requiredLength}} karakter.",
+      "min": "Minimal {{min}}.",
+      "max": "Maksimal {{max}}.",
+      "pattern": "Format nilai ini tidak sesuai.",
+      "invalid": "Nilai ini tidak valid."
+    }
   }
 }

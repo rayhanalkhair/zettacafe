@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { localeFor } from '@shared/ui/locale';
 import { LocalStorageService, StorageKeys } from '@core/storage/local-storage.service';
 
 export type Language = 'en' | 'id';
@@ -32,7 +33,7 @@ export class LanguageStore {
   );
 
   readonly language = this.state.asReadonly();
-  readonly locale = computed(() => (this.state() === 'id' ? 'id-ID' : 'en-US'));
+  readonly locale = computed(() => localeFor(this.state()));
 
   constructor() {
     effect(() => {

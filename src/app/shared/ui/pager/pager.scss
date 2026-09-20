@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--zc-space-4);
+}
+
+.status {
+  color: var(--zc-ink-soft);
+  font-variant-numeric: tabular-nums;
+}

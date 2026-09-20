@@ -1,0 +1,54 @@
+:host {
+  display: inline-block;
+}
+
+.pill {
+  display: inline-flex;
+  gap: var(--zc-space-2);
+  align-items: center;
+  padding: var(--zc-space-1) var(--zc-space-3);
+  border-radius: var(--zc-radius-pill);
+  background: var(--zc-surface-sunken);
+  color: var(--zc-ink);
+  font-size: var(--zc-text-sm);
+  font-weight: var(--zc-weight-medium);
+  line-height: var(--zc-leading-snug);
+}
+
+.shape {
+  flex: none;
+  inline-size: 0.6em;
+  block-size: 0.6em;
+  background: currentcolor;
+}
+
+// One shape per tone, so the state survives greyscale and colour blindness.
+[data-tone='positive'] {
+  background: var(--zc-pandan-tint);
+
+  .shape {
+    border-radius: 50%;
+  }
+}
+
+[data-tone='neutral'] .shape {
+  border: 2px solid currentcolor;
+  border-radius: 50%;
+  background: transparent;
+}
+
+[data-tone='warning'] {
+  background: var(--zc-aren-tint);
+
+  .shape {
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+}
+
+[data-tone='danger'] {
+  background: var(--zc-sambal-tint);
+
+  .shape {
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  }
+}

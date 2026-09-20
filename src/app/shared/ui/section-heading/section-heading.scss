@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  padding-block-end: var(--zc-space-3);
+  border-block-end: 1px solid var(--zc-rule);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-3);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--zc-font-display);
+  font-weight: var(--zc-weight-semibold);
+  line-height: var(--zc-leading-tight);
+}
+
+h1 {
+  font-size: var(--zc-text-3xl);
+}
+
+h2 {
+  font-size: var(--zc-text-2xl);
+}
+
+h3 {
+  font-size: var(--zc-text-xl);
+}
+
+h4 {
+  font-size: var(--zc-text-lg);
+}
+
+.actions:empty {
+  display: none;
+}

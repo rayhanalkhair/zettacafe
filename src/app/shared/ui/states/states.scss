@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.pane {
+  display: grid;
+  gap: var(--zc-space-3);
+  justify-items: center;
+  padding: var(--zc-space-8) var(--zc-space-4);
+  color: var(--zc-ink-soft);
+  text-align: center;
+}
+
+span {
+  color: var(--zc-ink-soft);
+}
+
+.title {
+  margin: 0;
+  color: var(--zc-ink);
+  font-family: var(--zc-font-display);
+  font-size: var(--zc-text-xl);
+  font-weight: var(--zc-weight-semibold);
+}
+
+.message {
+  max-inline-size: var(--zc-measure);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--zc-space-2);
+  justify-content: center;
+}
+
+.actions:empty {
+  display: none;
+}

@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.head {
+  display: flex;
+  gap: var(--zc-space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+h2 {
+  font-family: var(--zc-font-display);
+}
+
+.close {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--zc-radius-pill);
+  background: transparent;
+  color: var(--zc-ink);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--zc-surface-sunken);
+}

@@ -1,10 +1,8 @@
 import { inject, Pipe, type PipeTransform } from '@angular/core';
+import { formatIdr } from '@shared/ui/locale';
 import { LanguageStore } from './language.store';
 
-/** Formats rupiah in the active language: `Rp 28.000` in Indonesian, `Rp 28,000` in English. */
-export function formatIdr(value: number, locale: string): string {
-  return `Rp ${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(value)}`;
-}
+export { formatIdr };
 
 /**
  * Money. v1 used `| currency : "Rp. "` in eleven templates, which rendered
