@@ -57,6 +57,7 @@ async function open(url = '/admin/recipes'): Promise<Page> {
 async function createRecipe(page: Page, name: string): Promise<void> {
   button(page.el, 'Add recipe').click();
   const dialog = await dialogReady('zc-recipe-form-dialog');
+  await formReady(dialog);
   await vi.waitFor(() => expect(dialog.querySelectorAll('mat-select').length).toBeGreaterThan(0));
   fill(dialog, 'Name', name);
   fill(dialog, 'Price', '30000');
@@ -67,6 +68,17 @@ async function createRecipe(page: Page, name: string): Promise<void> {
   await vi.waitFor(() => expect(document.querySelector('zc-recipe-form-dialog')).toBeNull(), {
     timeout: 5000,
   });
+}
+
+/**
+ * The recipe form is usable once its ingredient choices have loaded. They come from the
+ * server in pages, so on a slow machine a select opened too early lists nothing. The
+ * submit button is disabled until they have arrived, which is what a person waits for.
+ */
+async function formReady(dialog: HTMLElement): Promise<void> {
+  await vi.waitFor(() =>
+    expect(dialog.querySelector<HTMLButtonElement>('button[type="submit"]')?.disabled).toBe(false),
+  );
 }
 
 /** Submits the form once it can be: the button is disabled while the ingredients load. */
@@ -197,6 +209,7 @@ describe('RecipesPage', () => {
       const page = await open();
       button(page.el, 'Add recipe').click();
       const dialog = await dialogReady('zc-recipe-form-dialog');
+      await formReady(dialog);
       await vi.waitFor(() => expect(dialog.querySelectorAll('mat-select').length).toBe(2));
       expect(dialog.querySelector('h2')?.textContent).toBe('Add recipe');
       await expectNoAxeViolations(dialog);
@@ -251,6 +264,7 @@ describe('RecipesPage', () => {
       const page = await open();
       button(page.el, 'Add recipe').click();
       const dialog = await dialogReady('zc-recipe-form-dialog');
+      await formReady(dialog);
       await vi.waitFor(() =>
         expect(dialog.querySelectorAll('mat-select').length).toBeGreaterThan(0),
       );
@@ -287,6 +301,7 @@ describe('RecipesPage', () => {
       await vi.waitFor(() => expect(names(page)).toEqual(['Rendang Daging']));
       button(rowOf(page, 'Rendang'), 'Edit').click();
       const dialog = await dialogReady('zc-recipe-form-dialog');
+      await formReady(dialog);
       await vi.waitFor(() =>
         expect(dialog.querySelectorAll('mat-select').length).toBeGreaterThan(2),
       );
@@ -301,6 +316,7 @@ describe('RecipesPage', () => {
       await vi.waitFor(() => expect(names(page)).toEqual(['Rendang Daging']));
       button(rowOf(page, 'Rendang'), 'Edit').click();
       const dialog = await dialogReady('zc-recipe-form-dialog');
+      await formReady(dialog);
       await vi.waitFor(() =>
         expect(dialog.querySelectorAll('mat-select').length).toBeGreaterThan(2),
       );
@@ -315,6 +331,7 @@ describe('RecipesPage', () => {
       await vi.waitFor(() => expect(names(page)).toEqual(['Rendang Daging']));
       button(rowOf(page, 'Rendang'), 'Edit').click();
       const dialog = await dialogReady('zc-recipe-form-dialog');
+      await formReady(dialog);
       await vi.waitFor(() =>
         expect(dialog.querySelectorAll('mat-select').length).toBeGreaterThan(2),
       );
