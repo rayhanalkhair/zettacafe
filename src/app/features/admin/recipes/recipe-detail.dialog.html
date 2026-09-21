@@ -1,4 +1,4 @@
-<zc-dialog-shell [heading]="recipe.name">
+<zc-dialog-shell [heading]="recipe.name" [readOnly]="true">
   <div class="flags">
     @if (recipe.status === 'PUBLISHED') {
       <zc-status-pill tone="positive" [label]="'recipes.status.published' | translate" />

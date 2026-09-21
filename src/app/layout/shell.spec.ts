@@ -8,7 +8,13 @@ import { CartStore } from '@core/cart/cart.store';
 import { TranslatedTitleStrategy } from '@core/i18n/translated-title.strategy';
 import { expectNoAxeViolations } from '../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../testing/apollo';
-import { findDish, Placeholder, renderRoute } from '../../testing/app-harness';
+import {
+  confirmation,
+  dialogReady,
+  findDish,
+  Placeholder,
+  renderRoute,
+} from '../../testing/app-harness';
 import { App } from '../app';
 import { TitleStrategy } from '@angular/router';
 
@@ -105,22 +111,28 @@ describe('app shell', () => {
     await app.whenStable();
     expect(root.querySelector('.credit')?.textContent).toContain('Rp 250,000');
 
-    button(root, 'Top up')?.click();
-    await vi.waitFor(() =>
-      expect(document.querySelector('zc-top-up-dialog h2')?.textContent).toBe('Add credit'),
-    );
+    button(root, 'Add credit')?.click();
+    const dialog = await dialogReady('zc-top-up-dialog');
+    expect(dialog.querySelector('h2')?.textContent).toBe('Add credit');
     TestBed.inject(MatDialog).closeAll();
   });
 
-  /** The buttons of the open confirmation: [0] is Cancel, [1] confirms. */
-  const confirmButtons = async (): Promise<HTMLButtonElement[]> => {
-    await vi.waitFor(() =>
-      expect(document.querySelectorAll('zc-confirm-dialog button').length).toBe(2),
-    );
-    return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
-  };
-
   // v1 rule 6: signing out asks first.
+  it('announces the sign-out confirmation as a modal dialog', async () => {
+    const { root, app } = await renderApp();
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
+    await app.whenStable();
+    button(root, 'Sign out')?.click();
+    const [cancel] = await confirmation();
+    await vi.waitFor(() =>
+      expect(document.querySelector('mat-dialog-container')?.getAttribute('aria-modal')).toBe(
+        'true',
+      ),
+    );
+    cancel?.click();
+    await vi.waitFor(() => expect(document.querySelector('zc-confirm-dialog')).toBeNull());
+  });
+
   it('asks before signing out, and cancelling changes nothing', async () => {
     const { root, app } = await renderApp();
     const session = TestBed.inject(SessionStore);
@@ -128,7 +140,7 @@ describe('app shell', () => {
     await app.whenStable();
 
     button(root, 'Sign out')?.click();
-    const [cancel] = await confirmButtons();
+    const [cancel] = await confirmation();
     expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain('Sign out?');
 
     cancel?.click();
@@ -143,7 +155,7 @@ describe('app shell', () => {
     await app.whenStable();
 
     button(root, 'Sign out')?.click();
-    const [, confirm] = await confirmButtons();
+    const [, confirm] = await confirmation();
     confirm?.click();
 
     await vi.waitFor(() => expect(TestBed.inject(SessionStore).isAuthenticated()).toBe(false));

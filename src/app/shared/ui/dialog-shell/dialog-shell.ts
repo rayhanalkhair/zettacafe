@@ -34,7 +34,13 @@ import { TranslatePipe } from '@ngx-translate/core';
         </svg>
       </button>
     </header>
-    <mat-dialog-content><ng-content /></mat-dialog-content>
+    <mat-dialog-content
+      [attr.tabindex]="readOnly() ? 0 : null"
+      [attr.role]="readOnly() ? 'region' : null"
+      [attr.aria-label]="readOnly() ? heading() : null"
+    >
+      <ng-content />
+    </mat-dialog-content>
     <mat-dialog-actions align="end"><ng-content select="[zcDialogActions]" /></mat-dialog-actions>
   `,
   styleUrl: './dialog-shell.scss',
@@ -42,4 +48,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class DialogShell {
   /** Already-translated title. */
   readonly heading = input.required<string>();
+  /**
+   * True for a dialog with nothing to interact with in its body (a detail view). Its
+   * scrolling body then takes a tab stop, and a name, so a keyboard user can scroll it
+   * (WCAG 2.1.1). A form needs no such stop: its fields are already focusable.
+   */
+  readonly readOnly = input(false);
 }

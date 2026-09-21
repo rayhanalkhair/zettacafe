@@ -65,7 +65,7 @@
     "signOut": "Sign out",
     "otherLanguage": "Bahasa Indonesia",
     "credit": "Credit",
-    "topUp": "Top up",
+    "topUp": "Add credit",
     "nav": {
       "label": "Main",
       "menu": "Menu",
@@ -380,7 +380,7 @@
     "unpublish": {
       "button": "Unpublish",
       "title": "Unpublish this recipe?",
-      "message": "{{name}} will be hidden from the menu. Orders already in a cart keep it until checkout.",
+      "message": "{{name}} will be hidden from the menu. Carts that already hold it will show it as no longer on the menu.",
       "confirm": "Unpublish"
     },
     "delete": {

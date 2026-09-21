@@ -9,6 +9,7 @@ import { ConfirmService } from '@core/feedback/confirm.service';
 import { NotificationService } from '@core/feedback/notification.service';
 import { ZcNumberPipe } from '@core/i18n/zc-formatting.pipes';
 import { SearchField } from '@shared/forms/search-field';
+import { FORM_DIALOG } from '@shared/ui/dialog-focus';
 import { PageShell } from '@shared/ui/page-shell/page-shell';
 import { Pager } from '@shared/ui/pager/pager';
 import { SectionHeading } from '@shared/ui/section-heading/section-heading';
@@ -178,6 +179,7 @@ export class IngredientsPage {
   private async openForm(data: { mode: 'create' } | { mode: 'edit'; ingredient: Ingredient }) {
     const ref = this.dialog.open<IngredientFormDialog, typeof data, boolean>(IngredientFormDialog, {
       width: 'min(28rem, calc(100vw - 2rem))',
+      ...FORM_DIALOG,
       data,
     });
     if ((await firstValueFrom(ref.afterClosed())) === true) await this.afterChange();

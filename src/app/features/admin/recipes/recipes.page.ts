@@ -9,6 +9,7 @@ import { ConfirmService } from '@core/feedback/confirm.service';
 import { NotificationService } from '@core/feedback/notification.service';
 import { ZcNumberPipe } from '@core/i18n/zc-formatting.pipes';
 import { SearchField } from '@shared/forms/search-field';
+import { FORM_DIALOG, MODAL_DIALOG } from '@shared/ui/dialog-focus';
 import { Money } from '@shared/ui/money/money';
 import { PageShell } from '@shared/ui/page-shell/page-shell';
 import { Pager } from '@shared/ui/pager/pager';
@@ -157,6 +158,7 @@ export class RecipesPage {
   protected details(recipe: AdminRecipe): void {
     this.dialog.open(RecipeDetailDialog, {
       width: 'min(36rem, calc(100vw - 2rem))',
+      ...MODAL_DIALOG,
       data: { recipe },
     });
   }
@@ -229,6 +231,7 @@ export class RecipesPage {
   private async openForm(data: RecipeFormData): Promise<void> {
     const ref = this.dialog.open<RecipeFormDialog, RecipeFormData, boolean>(RecipeFormDialog, {
       width: FORM_WIDTH,
+      ...FORM_DIALOG,
       data,
     });
     if ((await firstValueFrom(ref.afterClosed())) === true) this.result.reload();

@@ -14,8 +14,8 @@
     "EMAIL_TAKEN": "{{email}} sudah terdaftar.",
     "INVALID_RESET_CODE": "Kode salah atau sudah kedaluwarsa.",
     "EMPTY_CART": "Keranjang Anda kosong.",
-    "RECIPE_UNAVAILABLE": "Ada menu di keranjang yang sudah tidak tersedia.",
-    "INSUFFICIENT_STOCK": "Menu berikut belum bisa kami buat: {{items}}.",
+    "RECIPE_UNAVAILABLE": "Ada hidangan di keranjang yang sudah tidak tersedia.",
+    "INSUFFICIENT_STOCK": "Hidangan berikut belum bisa kami buat: {{items}}.",
     "INSUFFICIENT_CREDIT": "Saldo Anda kurang {{shortfall}}. Isi saldo lalu coba lagi.",
     "PRICE_CHANGED": "Total berubah dari {{expected}} menjadi {{actual}}. Silakan periksa keranjang.",
     "RECIPE_IN_USE": "Bahan itu masih dipakai oleh sebuah resep.",
@@ -27,7 +27,7 @@
     "retry": "Coba lagi",
     "close": "Tutup",
     "page": {
-      "label": "Halaman",
+      "label": "Navigasi halaman",
       "previous": "Halaman sebelumnya",
       "next": "Halaman berikutnya",
       "status": "Halaman {{page}} dari {{pages}}"
@@ -65,7 +65,7 @@
     "signOut": "Keluar",
     "otherLanguage": "English",
     "credit": "Saldo",
-    "topUp": "Isi saldo",
+    "topUp": "Tambah saldo",
     "nav": {
       "label": "Utama",
       "menu": "Menu",
@@ -204,7 +204,7 @@
   "cart": {
     "title": "Keranjang Anda",
     "linesHeading": "Isi keranjang",
-    "attention": "Beberapa item perlu diperhatikan sebelum Anda bisa membayar.",
+    "attention": "Beberapa item perlu diperhatikan sebelum Anda bisa memesan.",
     "note": "Catatan: {{note}}",
     "edit": "Ubah",
     "editAria": "Ubah {{name}}",
@@ -380,7 +380,7 @@
     "unpublish": {
       "button": "Tarik dari menu",
       "title": "Tarik resep ini dari menu?",
-      "message": "{{name}} akan disembunyikan dari menu. Pesanan yang sudah ada di keranjang tetap memilikinya sampai pembayaran.",
+      "message": "{{name}} akan disembunyikan dari menu. Keranjang yang sudah memuatnya akan menandainya sebagai tidak lagi ada di menu.",
       "confirm": "Tarik dari menu"
     },
     "delete": {

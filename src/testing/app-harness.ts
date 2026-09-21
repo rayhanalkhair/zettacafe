@@ -160,3 +160,35 @@ export async function asAdmin<D, V extends OperationVariables>(
   } as never);
   return (result as { data?: D | null }).data;
 }
+
+/**
+ * Waits until a dialog has finished OPENING, not merely until it exists.
+ *
+ * Material builds a dialog's DOM, then runs its opening animation and sets up focus; a
+ * click that lands in between can be lost to an element that is replaced a moment later.
+ * On a fast machine the gap is invisible, which is why specs that skipped this passed
+ * locally and failed on CI's slower runners. `mdc-dialog--open` is set when opening is
+ * done. When the dialog has fields, also wait until its first label has rendered.
+ */
+export async function dialogReady(
+  selector: string,
+  options: { fields?: boolean } = { fields: true },
+): Promise<HTMLElement> {
+  await vi.waitFor(() => {
+    expect(document.querySelector(selector)).not.toBeNull();
+    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
+    if (options.fields !== false) {
+      expect(document.querySelector(`${selector} label`)?.textContent).toBeTruthy();
+    }
+  });
+  return document.querySelector(selector) as HTMLElement;
+}
+
+/** The buttons of the open confirmation, once it has finished opening: [0] Cancel, [1] confirms. */
+export async function confirmation(): Promise<HTMLButtonElement[]> {
+  await vi.waitFor(() => {
+    expect(document.querySelectorAll('zc-confirm-dialog button').length).toBe(2);
+    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
+  });
+  return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
+}

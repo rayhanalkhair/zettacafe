@@ -4,7 +4,14 @@ import { AuthService } from '@core/auth/auth.service';
 import { adminGuard } from '@core/auth/guards';
 import { expectNoAxeViolations } from '../../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../../testing/apollo';
-import { choose, fill, Placeholder, renderRoute } from '../../../../testing/app-harness';
+import {
+  choose,
+  confirmation,
+  dialogReady,
+  fill,
+  Placeholder,
+  renderRoute,
+} from '../../../../testing/app-harness';
 import { RecipesPage } from './recipes.page';
 import { RecipesService } from './recipes.service';
 
@@ -25,23 +32,6 @@ const button = (root: ParentNode, label: string) =>
   ) as HTMLButtonElement;
 const rowOf = (page: Page, name: string) =>
   rows(page).find((r) => r.querySelector('th')?.textContent.includes(name))!;
-
-async function dialogReady(selector: string): Promise<HTMLElement> {
-  await vi.waitFor(() => {
-    expect(document.querySelector(selector)).not.toBeNull();
-    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
-    expect(document.querySelector(`${selector} label`)?.textContent).toBeTruthy();
-  });
-  return document.querySelector(selector) as HTMLElement;
-}
-
-async function confirmation(): Promise<HTMLButtonElement[]> {
-  await vi.waitFor(() => {
-    expect(document.querySelectorAll('zc-confirm-dialog button').length).toBe(2);
-    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
-  });
-  return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
-}
 
 async function open(url = '/admin/recipes'): Promise<Page> {
   const page = await renderRoute('/', routes);

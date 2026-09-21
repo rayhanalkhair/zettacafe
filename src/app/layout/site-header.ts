@@ -9,6 +9,7 @@ import { LanguageStore } from '@core/i18n/language.store';
 import { ConfirmService } from '@core/feedback/confirm.service';
 import { NotificationService } from '@core/feedback/notification.service';
 import { ZcCurrencyPipe } from '@core/i18n/zc-formatting.pipes';
+import { FORM_DIALOG } from '@shared/ui/dialog-focus';
 
 /**
  * The site header: brand, the language switch, and either sign in or the person's
@@ -46,7 +47,7 @@ export class SiteHeader {
     ]);
     this.injector
       .get(MatDialog)
-      .open(TopUpDialog, { width: 'min(28rem, calc(100vw - 2rem))', autoFocus: 'dialog' });
+      .open(TopUpDialog, { width: 'min(28rem, calc(100vw - 2rem))', ...FORM_DIALOG });
   }
 
   /** Asks first (v1 rule 6), and does nothing unless the person confirmed. */

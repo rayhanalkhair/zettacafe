@@ -15,6 +15,13 @@
 // Content available to assistive tech but not shown.
 .visually-hidden {
   position: absolute;
+
+  // Pinned to the corner of its containing block. Without offsets an absolutely
+  // positioned element stays at its static position, and inside a wide table that can
+  // be hundreds of pixels to the right: overflow clipping does not apply to it (its
+  // containing block is not the scroller), so it stretched the whole page sideways.
+  inset-block-start: 0;
+  inset-inline-start: 0;
   inline-size: 1px;
   block-size: 1px;
   margin: -1px;

@@ -5,7 +5,7 @@ import { CartStore } from '@core/cart/cart.store';
 import { LanguageStore } from '@core/i18n/language.store';
 import { expectNoAxeViolations } from '../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../testing/apollo';
-import { Placeholder, renderRoute } from '../../../testing/app-harness';
+import { confirmation, dialogReady, Placeholder, renderRoute } from '../../../testing/app-harness';
 import { HomePage } from './home.page';
 import { HomeService } from './home.service';
 
@@ -101,15 +101,11 @@ describe('HomePage', () => {
     it('asks a guest to sign in, and brings them back here', async () => {
       const page = await open();
       cards(section(page, 'featured-heading'))[0]!.querySelector('button')!.click();
-      await vi.waitFor(() =>
-        expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain(
-          'Sign in to order',
-        ),
+      const [, confirm] = await confirmation();
+      expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain(
+        'Sign in to order',
       );
-      await vi.waitFor(() =>
-        expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull(),
-      );
-      document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button')[1]!.click();
+      confirm!.click();
 
       await vi.waitFor(() => expect(page.router.url).toContain('/login'));
       expect(new URLSearchParams(page.router.url.split('?')[1]).get('returnUrl')).toBe('/');
@@ -124,14 +120,7 @@ describe('HomePage', () => {
       );
 
       cards(section(page, 'featured-heading'))[0]!.querySelector('button')!.click();
-      await vi.waitFor(() =>
-        expect(document.querySelector('zc-add-to-cart-dialog')).not.toBeNull(),
-      );
-      const dialog = document.querySelector('zc-add-to-cart-dialog') as HTMLElement;
-      await vi.waitFor(() => expect(dialog.querySelector('label')?.textContent).toBeTruthy());
-      await vi.waitFor(() =>
-        expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull(),
-      );
+      const dialog = await dialogReady('zc-add-to-cart-dialog');
       dialog.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
 
       await vi.waitFor(() => expect(cart.lineCount()).toBe(1));

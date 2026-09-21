@@ -35,6 +35,22 @@ function flatten(obj, prefix = '', out = new Set()) {
   return out;
 }
 
+function flattenValues(obj, prefix = '', out = new Map()) {
+  for (const [k, v] of Object.entries(obj)) {
+    const key = prefix ? `${prefix}.${k}` : k;
+    if (v && typeof v === 'object' && !Array.isArray(v)) flattenValues(v, key, out);
+    else out.set(key, String(v));
+  }
+  return out;
+}
+
+/** The names of the `{{placeholders}}` in a message, sorted, so two can be compared. */
+const placeholders = (text) =>
+  [...text.matchAll(/\{\{\s*(\w+)\s*\}\}/g)]
+    .map((m) => m[1])
+    .sort()
+    .join(',');
+
 function walk(dir, exts, out = []) {
   if (!existsSync(dir)) return out;
   for (const entry of readdirSync(dir)) {
@@ -71,6 +87,7 @@ function collectUsedKeys(files) {
 }
 
 const problems = [];
+const valuesByLocale = {};
 
 // --- Load locales -----------------------------------------------------------
 const keysByLocale = {};
@@ -81,7 +98,9 @@ for (const locale of LOCALES) {
     continue;
   }
   try {
-    keysByLocale[locale] = flatten(JSON.parse(readFileSync(path, 'utf8')));
+    const parsed = JSON.parse(readFileSync(path, 'utf8'));
+    keysByLocale[locale] = flatten(parsed);
+    valuesByLocale[locale] = flattenValues(parsed);
   } catch (err) {
     problems.push(`Invalid JSON in ${locale}.json: ${err.message}`);
   }
@@ -101,6 +120,20 @@ for (const locale of rest) {
   for (const k of missing)
     problems.push(`${locale}.json is missing key present in ${base}.json: ${k}`);
   for (const k of extra) problems.push(`${locale}.json has key not present in ${base}.json: ${k}`);
+}
+
+// A translation that drops or renames a {{placeholder}} shows the person a broken
+// sentence ("Welcome back, .") or the raw braces, and no test of the English catches it.
+for (const locale of rest) {
+  for (const [key, text] of valuesByLocale[base]) {
+    const other = valuesByLocale[locale].get(key);
+    if (other !== undefined && placeholders(text) !== placeholders(other)) {
+      problems.push(
+        `${locale}.json: placeholders differ from ${base}.json in ${key} ` +
+          dim(`(${base}: {${placeholders(text)}}, ${locale}: {${placeholders(other)}})`),
+      );
+    }
+  }
 }
 
 // --- 2 & 3. Cross-check against source -------------------------------------
