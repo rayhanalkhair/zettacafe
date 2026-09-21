@@ -44,16 +44,42 @@
 
 .nav {
   display: flex;
-  flex: 1;
-  gap: var(--zc-space-4);
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 0 var(--zc-space-4);
+  min-inline-size: 0;
   margin-inline-start: var(--zc-space-4);
 }
 
 .nav a {
-  padding-block: var(--zc-space-2);
+  display: inline-flex;
+  align-items: center;
+
+  // A comfortable tap target (WCAG 2.2 asks for 24px at least).
+  min-block-size: 2.75rem;
   border-block-end: 2px solid transparent;
   color: var(--zc-ink);
   text-decoration: none;
+}
+
+// On a phone the navigation takes its own row under the brand and the account
+// controls, and wraps if it must. Six links (an admin's) do not fit beside them, and
+// one that cannot wrap pushed the whole page wider than the screen.
+@media (width < 48rem) {
+  .brand {
+    order: 1;
+  }
+
+  .actions {
+    order: 2;
+    margin-inline-start: auto;
+  }
+
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+    margin-inline-start: 0;
+  }
 }
 
 .nav a:hover,
