@@ -43,6 +43,8 @@ export default defineConfig([
       'dist/**',
       '.angular/**',
       'coverage/**',
+      'e2e/.results/**',
+      'playwright-report/**',
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
@@ -63,7 +65,7 @@ export default defineConfig([
     processor: angular.processInlineTemplates,
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.spec.json'],
+        project: ['./tsconfig.app.json', './tsconfig.spec.json', './e2e/tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },

@@ -62,6 +62,25 @@ jobs:
       - name: Check bundle boundaries
         run: npm run bundle:check
 
+      # The end-to-end tests drive the production build that was just made, in a real
+      # browser, with no network access to anything but the local server.
+      - name: Install the test browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run e2e
+
+      - name: Upload the test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            e2e/.results/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Upload build output
         if: always()
         uses: actions/upload-artifact@v4
