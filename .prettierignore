@@ -10,3 +10,4 @@ src/app/core/graphql/generated/
 src/app/features/**/graphql.generated.ts
 src/server/generated/
 package-lock.json
+e2e/.results/

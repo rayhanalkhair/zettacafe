@@ -48,3 +48,8 @@ Thumbs.db
 
 # TypeScript incremental build info
 *.tsbuildinfo
+
+# Playwright output
+/e2e/.results
+/playwright-report
+/test-results
