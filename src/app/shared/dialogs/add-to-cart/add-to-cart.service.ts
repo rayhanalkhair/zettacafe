@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SessionStore } from '@core/auth/session.store';
 import { ConfirmService } from '@core/feedback/confirm.service';
+import { FORM_DIALOG } from '../../ui/dialog-focus';
 import type { MenuItem } from '../../ui/menu-item';
 import { AddToCartDialog } from './add-to-cart.dialog';
 
@@ -34,6 +35,7 @@ export class AddToCartService {
 
     this.dialog.open(AddToCartDialog, {
       width: 'min(28rem, calc(100vw - 2rem))',
+      ...FORM_DIALOG,
       data: {
         mode: 'add',
         recipeId: item.id,

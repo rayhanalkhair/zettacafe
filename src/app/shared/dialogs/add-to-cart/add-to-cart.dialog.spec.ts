@@ -7,8 +7,9 @@ import { AuthService } from '@core/auth/auth.service';
 import { CartStore } from '@core/cart/cart.store';
 import { expectNoAxeViolations } from '../../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../../testing/apollo';
-import { fill, renderRoute } from '../../../../testing/app-harness';
+import { dialogReady, fill, renderRoute } from '../../../../testing/app-harness';
 import { AddToCartDialog, type AddToCartData } from './add-to-cart.dialog';
+import { AddToCartService } from './add-to-cart.service';
 
 const RENDANG = { id: 'rec_rendang', name: 'Rendang Daging' };
 
@@ -41,8 +42,7 @@ async function openDialog(data: Partial<AddToCartData> = {}) {
       ...data,
     } satisfies AddToCartData,
   });
-  await vi.waitFor(() => expect(document.querySelector('zc-add-to-cart-dialog')).not.toBeNull());
-  const el = document.querySelector('zc-add-to-cart-dialog') as HTMLElement;
+  const el = await dialogReady('zc-add-to-cart-dialog');
   await vi.waitFor(() => expect(el.querySelector('label')?.textContent).toContain('Servings'));
   return { ref, el, recipeId, cart: TestBed.inject(CartStore) };
 }
@@ -60,6 +60,32 @@ describe('AddToCartDialog', () => {
     expect(el.querySelector('h2')?.textContent).toBe('Add to cart');
     expect(el.textContent).toContain('Up to 12 available.');
     await expectNoAxeViolations(el);
+  });
+
+  // Material reports aria-modal="false" unless told otherwise, so a screen reader may
+  // still read the page behind a dialog that has a backdrop. This goes through the
+  // service the pages use, since that is what sets it.
+  it('is announced as a modal dialog when opened for a customer', async () => {
+    await renderRoute('/', []);
+    await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
+    await TestBed.inject(AddToCartService).start({
+      id: await firstDishId(),
+      name: RENDANG.name,
+      description: '',
+      imageUrl: null,
+      priceIdr: 1000,
+      discountedPriceIdr: 1000,
+      discountPercent: 0,
+      availableServings: 5,
+      isAvailable: true,
+    });
+    await vi.waitFor(() => expect(document.querySelector('mat-dialog-container')).not.toBeNull());
+    // Material sets these a moment after the element exists.
+    await vi.waitFor(() => {
+      const container = document.querySelector('mat-dialog-container');
+      expect(container?.getAttribute('role')).toBe('dialog');
+      expect(container?.getAttribute('aria-modal')).toBe('true');
+    });
   });
 
   it('starts at one serving', async () => {

@@ -219,6 +219,43 @@ describe('menu components', () => {
     });
   });
 
+  describe('DialogShell read-only body', () => {
+    @Component({
+      imports: [DialogShell],
+      template: `
+        <zc-dialog-shell heading="Details" [readOnly]="readOnly">
+          <p>Nothing to press here.</p>
+        </zc-dialog-shell>
+      `,
+    })
+    class ReadOnlyContent {
+      readOnly = true;
+    }
+
+    const open = async (readOnly: boolean) => {
+      const ref = TestBed.inject(MatDialog).open(ReadOnlyContent);
+      ref.componentInstance.readOnly = readOnly;
+      await vi.waitFor(() => expect(document.querySelector('mat-dialog-content')).not.toBeNull());
+      return document.querySelector('mat-dialog-content') as HTMLElement;
+    };
+
+    afterEach(() => TestBed.inject(MatDialog).closeAll());
+
+    it('makes a read-only body a named, focusable region, so it can be scrolled by keyboard', async () => {
+      const body = await open(true);
+      await vi.waitFor(() => expect(body.getAttribute('tabindex')).toBe('0'));
+      expect(body.getAttribute('role')).toBe('region');
+      expect(body.getAttribute('aria-label')).toBe('Details');
+    });
+
+    it('leaves a form body alone: its fields are already tab stops', async () => {
+      const body = await open(false);
+      await vi.waitFor(() => expect(body.textContent).toContain('Nothing to press'));
+      expect(body.hasAttribute('tabindex')).toBe(false);
+      expect(body.hasAttribute('role')).toBe(false);
+    });
+  });
+
   describe('DialogShell', () => {
     @Component({
       imports: [DialogShell],

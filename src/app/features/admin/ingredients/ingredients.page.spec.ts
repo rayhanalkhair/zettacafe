@@ -4,7 +4,13 @@ import { AuthService } from '@core/auth/auth.service';
 import { adminGuard } from '@core/auth/guards';
 import { expectNoAxeViolations } from '../../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../../testing/apollo';
-import { fill, Placeholder, renderRoute } from '../../../../testing/app-harness';
+import {
+  confirmation,
+  dialogReady,
+  fill,
+  Placeholder,
+  renderRoute,
+} from '../../../../testing/app-harness';
 import { IngredientsPage } from './ingredients.page';
 
 const routes = [
@@ -23,24 +29,6 @@ const button = (root: ParentNode, label: string) =>
   Array.from(root.querySelectorAll('button')).find((b) =>
     b.textContent.includes(label),
   ) as HTMLButtonElement;
-
-/** Waits for the dialog to finish opening, so a click is not lost to a half-built element. */
-async function dialogReady(selector: string): Promise<HTMLElement> {
-  await vi.waitFor(() => {
-    expect(document.querySelector(selector)).not.toBeNull();
-    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
-    expect(document.querySelector(`${selector} label`)?.textContent).toBeTruthy();
-  });
-  return document.querySelector(selector) as HTMLElement;
-}
-
-async function confirmation(): Promise<HTMLButtonElement[]> {
-  await vi.waitFor(() => {
-    expect(document.querySelectorAll('zc-confirm-dialog button').length).toBe(2);
-    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
-  });
-  return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
-}
 
 async function open(url = '/admin/ingredients'): Promise<Page> {
   const page = await renderRoute('/', routes);

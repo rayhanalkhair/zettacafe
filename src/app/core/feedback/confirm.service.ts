@@ -1,6 +1,7 @@
 import { inject, Injectable, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
+import { MODAL_DIALOG } from '@shared/ui/dialog-focus';
 import type { ConfirmDialogData } from './confirm-dialog';
 
 export interface ConfirmOptions {
@@ -57,6 +58,7 @@ export class ConfirmService {
     const ref = this.injector
       .get(MatDialog)
       .open<InstanceType<typeof ConfirmDialog>, ConfirmDialogData, boolean>(ConfirmDialog, {
+        ...MODAL_DIALOG,
         data,
         width: 'min(28rem, calc(100vw - 2rem))',
         autoFocus: 'first-tabbable',

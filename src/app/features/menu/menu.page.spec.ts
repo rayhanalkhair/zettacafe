@@ -5,7 +5,13 @@ import { AuthService } from '@core/auth/auth.service';
 import { LanguageStore } from '@core/i18n/language.store';
 import { expectNoAxeViolations } from '../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../testing/apollo';
-import { fill, Placeholder, renderRoute } from '../../../testing/app-harness';
+import {
+  confirmation,
+  dialogReady,
+  fill,
+  Placeholder,
+  renderRoute,
+} from '../../../testing/app-harness';
 import { MenuPage } from './menu.page';
 import { MenuService } from './menu.service';
 
@@ -191,15 +197,11 @@ describe('MenuPage', () => {
     it('asks a guest to sign in, and brings them back to the same view', async () => {
       const page = await open('/menu?category=food');
       await addRendang(page);
-      await vi.waitFor(() =>
-        expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain(
-          'Sign in to order',
-        ),
+      const [, confirm] = await confirmation();
+      expect(document.querySelector('zc-confirm-dialog')?.textContent).toContain(
+        'Sign in to order',
       );
-      const buttons = Array.from(
-        document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'),
-      );
-      buttons[1]!.click();
+      confirm!.click();
 
       await vi.waitFor(() => expect(page.router.url).toContain('/login'));
       const params = new URLSearchParams(page.router.url.split('?')[1]);
@@ -210,8 +212,8 @@ describe('MenuPage', () => {
     it('leaves a guest where they are when they decline', async () => {
       const page = await open();
       await addRendang(page);
-      await vi.waitFor(() => expect(document.querySelector('zc-confirm-dialog')).not.toBeNull());
-      document.querySelector<HTMLButtonElement>('zc-confirm-dialog button')!.click();
+      const [cancel] = await confirmation();
+      cancel!.click();
       await vi.waitFor(() => expect(document.querySelector('zc-confirm-dialog')).toBeNull());
       expect(page.router.url).toContain('/menu');
     });
@@ -222,11 +224,8 @@ describe('MenuPage', () => {
       const cart = TestBed.inject(CartStore);
       await addRendang(page);
 
-      await vi.waitFor(() =>
-        expect(document.querySelector('zc-add-to-cart-dialog')).not.toBeNull(),
-      );
-      const dialog = document.querySelector('zc-add-to-cart-dialog') as HTMLElement;
-      await vi.waitFor(() => expect(dialog.querySelector('h2')?.textContent).toBe('Add to cart'));
+      const dialog = await dialogReady('zc-add-to-cart-dialog');
+      expect(dialog.querySelector('h2')?.textContent).toBe('Add to cart');
       expect(dialog.textContent).toContain('Rendang Daging');
 
       fill(dialog, 'Servings', '2');

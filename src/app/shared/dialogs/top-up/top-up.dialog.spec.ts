@@ -5,7 +5,7 @@ import { AuthService } from '@core/auth/auth.service';
 import { SessionStore } from '@core/auth/session.store';
 import { expectNoAxeViolations } from '../../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../../testing/apollo';
-import { fill, renderRoute } from '../../../../testing/app-harness';
+import { dialogReady, fill, renderRoute } from '../../../../testing/app-harness';
 import { TopUpDialog } from './top-up.dialog';
 
 const CUSTOMER_CREDIT = 250_000;
@@ -14,8 +14,7 @@ async function openDialog() {
   const page = await renderRoute('/', []);
   await TestBed.inject(AuthService).signIn(DEMO_ACCOUNTS.customer);
   const ref = TestBed.inject(MatDialog).open(TopUpDialog);
-  await vi.waitFor(() => expect(document.querySelector('zc-top-up-dialog')).not.toBeNull());
-  const el = document.querySelector('zc-top-up-dialog') as HTMLElement;
+  const el = await dialogReady('zc-top-up-dialog');
   // Everything, including the translated text, has rendered once the title has.
   await vi.waitFor(() => expect(el.querySelector('h2')?.textContent).toBe('Add credit'));
   await vi.waitFor(() => expect(el.querySelector('label')?.textContent).toContain('Amount'));

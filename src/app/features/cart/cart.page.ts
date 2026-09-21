@@ -16,6 +16,7 @@ import { PageShell } from '@shared/ui/page-shell/page-shell';
 import { SectionHeading } from '@shared/ui/section-heading/section-heading';
 import { EmptyState, LoadingPane } from '@shared/ui/states/states';
 import { StatusPill } from '@shared/ui/status-pill/status-pill';
+import { FORM_DIALOG } from '@shared/ui/dialog-focus';
 import { formatIdr } from '@shared/ui/locale';
 
 type Line = Cart['lines'][number];
@@ -73,6 +74,7 @@ export class CartPage {
     const issue = this.issueOf(line);
     this.dialog.open(AddToCartDialog, {
       width: 'min(28rem, calc(100vw - 2rem))',
+      ...FORM_DIALOG,
       data: {
         mode: 'edit',
         recipeId: line.recipe?.id ?? '',
@@ -136,7 +138,10 @@ export class CartPage {
   }
 
   protected openTopUp(): void {
-    this.dialog.open(TopUpDialog, { width: 'min(28rem, calc(100vw - 2rem))' });
+    this.dialog.open(TopUpDialog, {
+      width: 'min(28rem, calc(100vw - 2rem))',
+      ...FORM_DIALOG,
+    });
   }
 
   protected startAgain(): void {

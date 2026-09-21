@@ -7,7 +7,14 @@ import { CartStore } from '@core/cart/cart.store';
 import { AddCartLineDocument, CheckoutDocument } from '@core/graphql/generated/operations';
 import { expectNoAxeViolations } from '../../../testing/a11y';
 import { DEMO_ACCOUNTS } from '../../../testing/apollo';
-import { asAdmin, fill, findDish, Placeholder, renderRoute } from '../../../testing/app-harness';
+import {
+  asAdmin,
+  confirmation,
+  fill,
+  findDish,
+  Placeholder,
+  renderRoute,
+} from '../../../testing/app-harness';
 import { CartPage } from './cart.page';
 
 const routes = [
@@ -32,15 +39,6 @@ const button = (root: ParentNode, label: string) =>
  * dialog has finished opening (Material marks the container `mdc-dialog--open`), so a
  * click is not lost to an element that is still being set up.
  */
-async function confirmation(): Promise<HTMLButtonElement[]> {
-  await vi.waitFor(() => {
-    const dialog = document.querySelector('zc-confirm-dialog');
-    expect(dialog?.querySelectorAll('button').length).toBe(2);
-    expect(document.querySelector('.mat-mdc-dialog-container.mdc-dialog--open')).not.toBeNull();
-  });
-  return Array.from(document.querySelectorAll<HTMLButtonElement>('zc-confirm-dialog button'));
-}
-
 /**
  * Renders the cart for the signed-in customer with the given dishes already in it.
  * `[name, quantity, note]`; `'all'` means every serving that can be made.
